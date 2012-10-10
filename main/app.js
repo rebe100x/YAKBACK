@@ -83,13 +83,16 @@ app.get('/settings/profile', routes.settings_profile);
 app.get('/settings/alerts', routes.settings_alerts);
 app.get('/settings/password', routes.settings_password);
 
+app.get('/place/add', routes.place_add);
 
 
+app.post('/place',routes.place);
 app.post('/user',routes.user);
 app.post('/news',routes.news);
 app.post('/alerts',routes.alerts);
 app.post('/profile',routes.profile);
 // JSON API
+
 
 
 

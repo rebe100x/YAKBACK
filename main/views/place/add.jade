@@ -1,0 +1,17 @@
+extends ../layout
+block content
+
+	include ../mixins/menu.jade
+	include ../mixins/locationChooser.jade
+	include ../mixins/forms/loginForm.jade
+	include ../mixins/forms/placeForm.jade
+			
+	mixin menu('place')	
+	mixin locationChooser()
+				
+	div.container-fluid
+		div.row-fluid
+			div.span4
+			div.span4
+				mixin placeForm() 
+			div.span4

@@ -58,6 +58,12 @@ mixin menu(active)
 							- else
 								li
 									a(href="/news/post") Poster une info
+							- if (active == 'place')
+								li.active
+									a(href="/place/add") Ajouter une place
+							- else
+								li
+									a(href="/place/add") Ajouter une place
 							- if (active == 'login')										
 								li.active
 									a(href="/user/login") Login

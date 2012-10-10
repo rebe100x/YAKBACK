@@ -47,6 +47,91 @@ exports.news_feed = function(req, res){
 	}); 
 };
 
+/******* PLACE ******/
+exports.place_add = function(req, res){
+	res.render('place/add');
+};
+
+exports.place = function(req, res){
+
+	var formMessage = new Array();
+	delete req.session.message;
+	var Place = db.model('Place');
+	var theZone = 1;
+	var place = new Place();
+	//mongoose.set('debug', true);
+
+	//console.log(req.files);
+	// we need a title, a location and a user
+	if(req.body.placeInput && req.body.title && req.session.user){
+	
+		if(req.body.zone > 0 )
+			theZone = req.body.zone; 
+		
+			
+		var drawTool = require('../mylib/drawlib.js');
+		var size = [{"width":120,"height":90},{"width":512,"height":0}];
+		var placeThumb = drawTool.StoreImg(req.files.picture,size,conf);
+		formMessage.push(infoThumb.msg);	
+			
+
+		if(placeThumb.err == 0 ){
+			if(req.body.yakcatInput.length > 0){
+					var yakcat = eval('('+req.body.yakcatInput+')');
+					for(i=0;i<yakcat.length;i++){
+						info.yakCat.push(mongoose.Types.ObjectId(yakcat[i]._id));
+					}
+				}
+				place.title = req.body.title;
+				place.content = req.body.content;
+				
+				// NOTE : in the query below, order is important : in DB we have lat, lng but need to insert in reverse order : lng,lat  (=> bug mongoose ???)
+				// TODO : Voir avec Renaud
+				place.location = {lng:parseFloat(item.location.lng),lat:parseFloat(item.location.lat)};
+				place.address = item.title;
+				
+				
+				place.creationDate = new Date();
+				place.lastModifDate = new Date();
+				//console.log(info);
+				place.status = 1;
+				place.zone = theZone;
+				place.thumb = placeThumb.name;
+				place.licence = 'Yakwala';
+				place.freeTag = req.body.freetag.split(',');
+				
+				// security against unidentified users	
+				if(req.session.user){
+					place.user = req.session.user._id;
+					place.save(function (err) {
+						if (!err) console.log('Success!');
+						else console.log(err);
+					});
+				}
+			formMessage.push("La place a été sauvegardée !");
+			
+		}else{
+			formMessage.push("Erreur dans l'image uploadée: La place n'est pas sauvegardée.");
+		}	
+		
+	}else{
+		if(!req.session.user)
+			formMessage.push("Veuillez vous identifier pour ajouter une place");
+		if(!req.body.title)
+			formMessage.push("Erreur: définissez le titre de la place");
+		if(!req.body.placeInput)
+			formMessage.push("Erreur: définissez une géolocalisation de la place");
+	}
+	
+	req.session.message = formMessage;
+	/*for(i=0;i<req.session.type.length;i++)
+		if(theYakType==req.session.type[i]) 
+			req.session.type.splice(i, 1);
+	req.session.type.push(theYakType);*/
+	res.redirect('news/map');
+};
+
+
 /******* USER ******/
 exports.user_login = function(req, res){
 	delete req.session.message;
