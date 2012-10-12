@@ -3,8 +3,10 @@ block content
 	include ../mixins/menu.jade
 	include ../mixins/locationChooser.jade
 	include ../mixins/forms/postForm.jade
+	include ../mixins/forms/placeForm.jade
 	include ../mixins/forms/loginForm.jade
 	include ../mixins/forms/searchForm.jade
+	
 	mixin menu('map')
 	mixin locationChooser()
 
@@ -38,6 +40,9 @@ block content
 							- if(session)	
 								li(contentToLoad="newspostContent")
 									a.newsNavItem#newsPost(href="#") Poster
+							- if(session)	
+								li(contentToLoad="addplaceContent")
+									a.newsNavItem#addPlace(href="#") Ajouter une place
 							li(contentToLoad="searchContent")
 								a.newsNavItem#search(href="#") Rechercher
 							- if(session)	
@@ -48,6 +53,8 @@ block content
 						ul#newsfeed
 					span#newspostContent.tabContent
 						mixin postForm()
+					span#addplaceContent.tabContent
+						mixin placeForm()
 					span#searchContent.tabContent
 						div under construction
 						//mixin searchForm()
@@ -116,7 +123,7 @@ block content
 					$('.tabContent').hide();
 					$('#'+contentToLoad).fadeIn();	
 					
-					if(contentToLoad == "newspostContent"){
+					if(contentToLoad == "newspostContent" || contentToLoad == "addplaceContent"){
 						// INIT MARKERLOCATION
 						
 						listenerHandle = listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
@@ -319,7 +326,7 @@ block content
 						$("#yakcatInput").val(JSON.stringify(yakcatArray));
 					}
 				});
-				
+
 				
 				$('#place').typeahead({
 					minLength : 3,							
