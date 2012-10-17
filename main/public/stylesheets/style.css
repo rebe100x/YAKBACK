@@ -89,7 +89,7 @@ ul#newsfeed li.highlighted .mapHighlighter{background-color:#F0F0F0;}
 
 /*#newsPostContainer{overflow:auto;height:auto;}
 #newsPostContainer #newsPostForm{margin:0px auto;padding:10px;text-align:left;opacity:0.95;background:#FFFFFF;}*/
-#newspostContent{display:none;background:#ffffff;float:left;padding:0px 10px;margin:0px;width:95%;}
+#newspostContent, #addplaceContent{display:none;background:#ffffff;float:left;padding:0px 10px;margin:0px;width:95%;}
 span.help-inline.small{font-size:0.65em;font-style:italic;}
 
 		/*SEARCH*/

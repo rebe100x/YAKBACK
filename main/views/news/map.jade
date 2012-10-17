@@ -77,6 +77,7 @@ block content
 		var infoArray = [];
 		var markerLocation = null;
 		var yakcatArray = [];
+		var placeYakcatArray = [];
 		var placeArray = [];
 		var hashtag = [];
 		var hashtagTmp = [];
@@ -123,16 +124,33 @@ block content
 					$('.tabContent').hide();
 					$('#'+contentToLoad).fadeIn();	
 					
-					if(contentToLoad == "newspostContent" || contentToLoad == "addplaceContent"){
+					if(contentToLoad == "newspostContent"){
 						// INIT MARKERLOCATION
 						
-						listenerHandle = listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
+						listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
 							getformattedAddress(event.latLng);
 							placeMarker(event.latLng,markerLocation);
 							google.maps.event.addListener(markerLocation, 'dragend', function() {
 								var position = markerLocation.getPosition();
 								$('#latitude').val(position.lat());	
 								$('#longitude').val(position.lng());	
+								
+								getformattedAddress(position);
+								
+							});		
+						});
+					}
+					else if (contentToLoad == "addplaceContent")
+					{
+						google.maps.event.removeListener(listenerHandle);
+						markerLocation.setVisible(false);
+						listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
+							getformattedAddress(event.latLng);
+							placeMarker(event.latLng,markerLocation);
+							google.maps.event.addListener(markerLocation, 'dragend', function() {
+								var position = markerLocation.getPosition();
+								$('#placeForm #latitude').val(position.lat());	
+								$('#placeForm #longitude').val(position.lng());	
 								
 								getformattedAddress(position);
 								
@@ -309,7 +327,7 @@ block content
 					//position:center
 				});
 				
-				$('#yakcat').typeahead({
+				$('#postForm #yakcat').typeahead({
 					minLength : 3,
 					source: function (typeahead, query) {
 						$.ajax({
@@ -320,10 +338,28 @@ block content
 							})},
 					property: "title",
 					onselect: function(obj) { 
-						$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='yakcatArray.cleanArray(\""+obj._id+"\");$(\"#yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
-						$('#yakcat').val('').focus();
+						$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='yakcatArray.cleanArray(\""+obj._id+"\");$(\"#postForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
+						$('#postForm #yakcat').val('').focus();
 						yakcatArray.push(obj);
-						$("#yakcatInput").val(JSON.stringify(yakcatArray));
+						$("#postForm #yakcatInput").val(JSON.stringify(yakcatArray));
+					}
+				});
+				
+				$('#placeForm #yakcat').typeahead({
+					minLength : 3,
+					source: function (typeahead, query) {
+						$.ajax({
+								url: "/api/cats",				
+								success: function( data ) {
+									typeahead.process(data.cats);
+								}
+							})},
+					property: "title",
+					onselect: function(obj) { 
+						$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='placeYakcatArray.cleanArray(\""+obj._id+"\");$(\"#placeForm #yakcatInput\").val(JSON.stringify(placeYakcatArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
+						$('#placeForm #yakcat').val('').focus();
+						placeYakcatArray.push(obj);
+						$("#placeForm #yakcatInput").val(JSON.stringify(placeYakcatArray));
 					}
 				});
 
@@ -343,6 +379,24 @@ block content
 						$('#place').val('').focus();
 						placeArray.push(obj);
 						$("#placeInput").val(JSON.stringify(placeArray));
+					}
+				});
+				
+				$('#placeForm #place').typeahead({
+					minLength : 3,							
+					source: function (typeahead, query) {
+						$.ajax({
+								url: "/api/places",		
+								success: function( data ) {
+									typeahead.process(data.places);
+								}
+							})},
+					property: "title",
+					onselect: function(obj) { 
+						$('#placeForm #btn-place-adder').parent().before("<div><i class='icon-remove icon-pointer'  onclick='placeArray.cleanArray(\""+obj._id+"\");$(\"#placeForm #placeInput\").val(JSON.stringify(placeArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
+						$('#placeForm #place').val('').focus();
+						placeArray.push(obj);
+						$("#placeForm #placeInput").val(JSON.stringify(placeArray));
 					}
 				});
 				
@@ -373,9 +427,36 @@ block content
 								$('#place').select();
 							}
 						});
-					}
+					}		
+				});
+				
+				$('#placeForm #btn-place-adder').click(function(){
 					
-					
+					var addressString = $('#placeForm #place').val();
+					if(addressString != "Rechercher..." && addressString != "" && addressString.length > 1){
+						var addressQuery = {"address": addressString,"latLng":map.getCenter(),"bounds":map.getBounds()};
+						var geocoder = new google.maps.Geocoder();
+						geocoder.geocode( addressQuery, function(results, status) {
+							if (status == google.maps.GeocoderStatus.OK) {
+								map.setCenter(results[0].geometry.location);
+								markerLocation.setVisible(true);
+								markerLocation.setPosition(results[0].geometry.location);
+								placeMarker(results[0].geometry.location,markerLocation);
+								var placeGmap = getPlaceFromGmapResult(results[0]);
+								placeArray.push(placeGmap);
+								$("#placeForm #placeInput").val(JSON.stringify(placeArray));
+								$('#placeForm #btn-place-adder').parent().before("<div><i class='icon-remove icon-pointer' onclick='placeArray.cleanArrayByLocation("+results[0].geometry.location.Ya+","+results[0].geometry.location.Xa+");$(\"#placeForm #placeInput\").val(JSON.stringify(placeArray));$(this).parent().remove();'></i> "+results[0].formatted_address+"</div>");
+								
+							} else {
+								var salt = new Date().getTime();
+								$('#placeForm #btn-place-adder').parent().before("<div id='alert"+salt+"' class='control-label'><i class='icon-exclamation-sign'> </i>Adresse invalide ("+status+")</div>");
+								setTimeout(function() {
+									$("#alert"+salt).fadeOut();
+								}, 3000);
+								$('#placeForm #place').select();
+							}
+						});
+					}		
 				});
 			
 		});/*END READY*/

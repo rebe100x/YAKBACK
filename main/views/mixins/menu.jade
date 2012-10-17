@@ -42,39 +42,37 @@ mixin menu(active)
 						ul.nav
 							- if (active == 'map')
 								li.active
-									a(href="/news/map") La carte
+									a(href="/news/map") Dashboard
 							- else
 								li
-									a(href="/news/map") La carte
-							- if(active == 'feed')
+									a(href="/news/map") Dashboard
+							- if(active == 'places')
 								li.active
-									a(href="/news/feed") Le fil d'actu
+									a(href="/news/feed") Places
 							- else
 								li
-									a(href="/news/feed") Le fil d'actu
-							- if (active == 'post')
+									a(href="/news/feed") Places
+							- if (active == 'infos')
 								li.active
-									a(href="/news/post") Poster une info
+									a(href="/news/post") Infos
 							- else
 								li
-									a(href="/news/post") Poster une info
-							- if (active == 'place')
+									a(href="/news/post") Infos
+							- if (active == 'comments')
 								li.active
-									a(href="/place/add") Ajouter une place
+									a(href="/place/add") Comments
 							- else
 								li
-									a(href="/place/add") Ajouter une place
-							- if (active == 'login')										
+									a(href="/place/add") Comments
+							- if (active == 'yakcats')										
 								li.active
-									a(href="/user/login") Login
+									a(href="/user/login") Yakcats
 							- else
 								li
-									a(href="/user/login") Login
-							- if (active == 'logout')												
+									a(href="/user/login") Yakcats
+							- if (active == 'users')										
 								li.active
-									a(href="/user/logout") Logout
+									a(href="/user/login") Users
 							- else
 								li
-									a(href="/user/logout") Logout
-							li
-								a(href="/api/infos") L'info brute	
+									a(href="/user/login") Users

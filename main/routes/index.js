@@ -69,45 +69,50 @@ exports.place = function(req, res){
 			theZone = req.body.zone; 
 		
 			
-		var drawTool = require('../mylib/drawlib.js');
+		/*var drawTool = require('../mylib/drawlib.js');
 		var size = [{"width":120,"height":90},{"width":512,"height":0}];
 		var placeThumb = drawTool.StoreImg(req.files.picture,size,conf);
-		formMessage.push(infoThumb.msg);	
-			
+		formMessage.push(placeThumb.msg);*/
+		var placeThumb = 0;
 
-		if(placeThumb.err == 0 ){
+		if(placeThumb == 0){
 			if(req.body.yakcatInput.length > 0){
-					var yakcat = eval('('+req.body.yakcatInput+')');
-					for(i=0;i<yakcat.length;i++){
-						info.yakCat.push(mongoose.Types.ObjectId(yakcat[i]._id));
-					}
+				var yakcat = eval('('+req.body.yakcatInput+')');
+				place.yakCat = new Array();
+				for(i=0;i<yakcat.length;i++){
+					place.yakCat.push(mongoose.Types.ObjectId(yakcat[i]._id));
 				}
-				place.title = req.body.title;
-				place.content = req.body.content;
+			}
+			place.title = req.body.title;
+			place.content = req.body.content;
+			place.thumb = placeThumb.name;
 				
-				// NOTE : in the query below, order is important : in DB we have lat, lng but need to insert in reverse order : lng,lat  (=> bug mongoose ???)
-				// TODO : Voir avec Renaud
+			// NOTE : in the query below, order is important : in DB we have lat, lng but need to insert in reverse order : lng,lat  (=> bug mongoose ???)
+			var locTmp = JSON.parse(req.body.placeInput);
+			locTmp.forEach(function(item) 
+			{
 				place.location = {lng:parseFloat(item.location.lng),lat:parseFloat(item.location.lat)};
-				place.address = item.title;
+				//place.address = item.title;
+			});
 				
+			
+			place.creationDate = new Date();
+			place.lastModifDate = new Date();
+			place.status = 1;
+			place.origin = 'operator';
+			place.access = 1;
+			place.licence = req.body.licence;
+			place.freeTag = req.body.freetag.split(',');
+			//place.zone = theZone;	
 				
-				place.creationDate = new Date();
-				place.lastModifDate = new Date();
-				//console.log(info);
-				place.status = 1;
-				place.zone = theZone;
-				place.thumb = placeThumb.name;
-				place.licence = 'Yakwala';
-				place.freeTag = req.body.freetag.split(',');
-				
-				// security against unidentified users	
-				if(req.session.user){
-					place.user = req.session.user._id;
-					place.save(function (err) {
-						if (!err) console.log('Success!');
-						else console.log(err);
-					});
-				}
+			// security against unidentified users	
+			if(req.session.user){
+				place.user = req.session.user._id;
+				place.save(function (err) {
+					if (!err) console.log('Success!');
+					else console.log(err);
+				});
+			}
 			formMessage.push("La place a été sauvegardée !");
 			
 		}else{
