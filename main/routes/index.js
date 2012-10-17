@@ -78,7 +78,6 @@ exports.place = function(req, res){
 		if(placeThumb == 0){
 			if(req.body.yakcatInput.length > 0){
 				var yakcat = eval('('+req.body.yakcatInput+')');
-				place.yakCat = new Array();
 				for(i=0;i<yakcat.length;i++){
 					place.yakCat.push(mongoose.Types.ObjectId(yakcat[i]._id));
 				}

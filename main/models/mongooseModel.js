@@ -270,9 +270,11 @@ var Place = new Schema({
 ,	content	: { type: String }
 ,	thumb	: { type: String }
 ,	origin	: { type: String }
-,	access	: { type:Number }
+,	access	: { type: Number }
 ,	licence	: { type: String }
 ,	outGoingLink	: { type: String }
+, 	yakCat	: [Schema.ObjectId]	
+, 	freeTag	: [String]
 ,	creationDate	: {type: Date, required: true, default: Date.now}		
 ,	lastModifDate	: {type: Date, required: true, default: Date.now}		
 ,	location	: { type : { lat: Number, lng: Number }, index : '2d'}
@@ -290,6 +292,8 @@ var Place = new Schema({
 ,	user	: {type: Schema.ObjectId}		
 ,	zone	: {type: Schema.ObjectId}
 },{ collection: 'place' });
+
+Place.index({location : '2d'});
 
 Place.statics.findAll = function (callback) {
   return this.find({},[],{sort:{title:1}}, callback);
