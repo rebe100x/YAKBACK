@@ -65,14 +65,14 @@ exports.place = function(req, res){
 	// we need a title, a location and a user
 	if(req.body.placeInput && req.body.title && req.session.user){
 	
-		if(req.body.zone > 0 )
-			theZone = req.body.zone; 
+		//if(req.body.zone > 0 )
+		//	theZone = req.body.zone; 
 		
-			
 		/*var drawTool = require('../mylib/drawlib.js');
 		var size = [{"width":120,"height":90},{"width":512,"height":0}];
 		var placeThumb = drawTool.StoreImg(req.files.picture,size,conf);
 		formMessage.push(placeThumb.msg);*/
+		
 		var placeThumb = 0;
 
 		if(placeThumb == 0){

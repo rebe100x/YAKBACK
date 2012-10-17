@@ -29,6 +29,7 @@ mixin placeForm()
 				label(for='picture') Ajouter une photo:
 				div.controls
 					span#picturePreview
+					input.span6#picture(type="file",style="display:block",name="picture")
 			br
 			button.btn.btn-large.btn-block.btn-inverse(style='width:100%',type='submit', name='submit', id='submit', value='Envoyer') Envoyer
 	- else

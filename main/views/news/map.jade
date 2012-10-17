@@ -291,7 +291,6 @@ block content
 				
 				
 				$('#picture').live('change', function () {
-
 					if ( window.FileReader ) {
 						var fileList = this.files;
 						var file = fileList[0];
@@ -308,13 +307,27 @@ block content
 							$("#picturePreview").html(imag);
 						};
 						r.readAsDataURL(file);
-					
 					}
-					
 					//r.readAsBinaryString(file);
+				});
 
-					
-
+				$('#placeForm #picture').live('change', function () {
+					if ( window.FileReader ) {
+						var fileList = this.files;
+						var file = fileList[0];
+						var r = new FileReader();
+						r.onload = function () {
+							var binimage = r.result;
+							//console.log(binimage);
+							
+							binimage1 = binimage.replace('data:'+file.type+';base64,', '');
+							var imag = "<img class='img-rounded' " + "src='" + 
+							"data:"+file.type+";base64," + binimage1 + "' style='width:100px'/>";
+							$("#placeForm #picturePreview").html(imag);
+						};
+						r.readAsDataURL(file);
+					}
+					//r.readAsBinaryString(file);
 				});
 
 				
