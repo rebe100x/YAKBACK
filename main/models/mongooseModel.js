@@ -288,6 +288,7 @@ var Place = new Schema({
 								country: String,
 								zip: String}
 							}
+,	formatted_address	:	{type: String}
 ,	status	: {type: Number}		
 ,	user	: {type: Schema.ObjectId}		
 ,	zone	: {type: Schema.ObjectId}
