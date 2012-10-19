@@ -63,22 +63,23 @@ exports.place = function(req, res){
 
 	//console.log(req.files);
 	// we need a title, a location and a user
-	if(req.body.placeInput && req.body.title && req.session.user){
-	
+	if(req.body.placeInput && req.body.title && req.session.user)
+	{
 		//if(req.body.zone > 0 )
 		//	theZone = req.body.zone; 
 		
-		/*var drawTool = require('../mylib/drawlib.js');
+		var drawTool = require('../mylib/drawlib.js');
 		var size = [{"width":120,"height":90},{"width":512,"height":0}];
 		var placeThumb = drawTool.StoreImg(req.files.picture,size,conf);
-		formMessage.push(placeThumb.msg);*/
-		
-		var placeThumb = 0;
+		formMessage.push(placeThumb.msg);
 
-		if(placeThumb == 0){
-			if(req.body.yakcatInput.length > 0){
+		if(placeThumb.err == 0)
+		{
+			if(req.body.yakcatInput.length > 0)
+			{
 				var yakcat = eval('('+req.body.yakcatInput+')');
-				for(i=0;i<yakcat.length;i++){
+				for(i=0;i<yakcat.length;i++)
+				{
 					place.yakCat.push(mongoose.Types.ObjectId(yakcat[i]._id));
 				}
 			}
@@ -91,7 +92,7 @@ exports.place = function(req, res){
 			locTmp.forEach(function(item) 
 			{
 				place.location = {lng:parseFloat(item.location.lng),lat:parseFloat(item.location.lat)};
-				//place.address = item.title;
+				place.formatted_address = item.title;
 			});
 				
 			
@@ -105,20 +106,26 @@ exports.place = function(req, res){
 			//place.zone = theZone;	
 				
 			// security against unidentified users	
-			if(req.session.user){
+			if(req.session.user)
+			{
 				place.user = req.session.user._id;
-				place.save(function (err) {
+				place.save(function (err) 
+				{
 					if (!err) console.log('Success!');
 					else console.log(err);
 				});
 			}
 			formMessage.push("La place a été sauvegardée !");
 			
-		}else{
+		}
+		else
+		{
 			formMessage.push("Erreur dans l'image uploadée: La place n'est pas sauvegardée.");
 		}	
 		
-	}else{
+	}
+	else
+	{
 		if(!req.session.user)
 			formMessage.push("Veuillez vous identifier pour ajouter une place");
 		if(!req.body.title)
