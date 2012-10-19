@@ -78,7 +78,10 @@ Info.statics.findAll = function (callback) {
 		}
 	},
 	callback);
+}
 
+Info.statics.toValidate = function (callback) {
+	return this.count( {'status': { $in: [3, 10]}}, callback );
 }
 
 Info.statics.findAllGeo = function (x1,y1,x2,y2,heat,type,usersubs,tagsubs,callback) {
@@ -171,6 +174,9 @@ User.statics.findByIds = function (ids,callback) {
 User.statics.findById = function (id,callback) {
   return this.findOne({'_id': id}, callback);
 }
+User.statics.toValidate = function (callback) {
+	return this.count( {'status': { $in: [3, 10]}}, callback );
+}
 
 User.setters = function(password) {
 		  this._password = password;
@@ -261,6 +267,11 @@ var Yakcat = new Schema({
 Yakcat.statics.findAll = function (callback) {
   return this.find({},[],{sort:{title:1}}, callback);
 }
+
+Yakcat.statics.toValidate = function (callback) {
+	return this.count( {'status': { $in: [3, 10]}}, callback );
+}
+
 mongoose.model('Yakcat', Yakcat);
 
 
@@ -297,5 +308,8 @@ Place.index({location : '2d'});
 
 Place.statics.findAll = function (callback) {
   return this.find({},[],{sort:{title:1}}, callback);
+}
+Place.statics.toValidate = function (callback) {
+	return this.count( {'status': { $in: [3, 10]}}, callback );
 }
 mongoose.model('Place', Place);

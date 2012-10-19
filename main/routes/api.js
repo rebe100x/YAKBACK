@@ -33,6 +33,42 @@ exports.geoinfos = function (req, res) {
 };
 
 
+exports.tovalidateinfos = function (req, res) {
+	var Info = db.model('Info');
+	Info.toValidate(function (err, docs){
+	  res.json({
+		info: docs
+	  });
+	}); 
+};
+
+exports.tovalidateusers = function (req, res) {
+	var User = db.model('User');
+	User.toValidate(function (err, docs){
+	  res.json({
+		info: docs
+	  });
+	}); 
+};
+
+exports.tovalidatecats = function (req, res) {
+	var Yakcat = db.model('Yakcat');
+	Yakcat.toValidate(function (err, docs){
+	  res.json({
+		info: docs
+	  });
+	}); 
+};
+
+exports.tovalidateplaces = function (req, res) {
+	var Place = db.model('Place');
+	Place.toValidate(function (err, docs){
+	  res.json({
+		info: docs
+	  });
+	}); 
+};
+
 exports.zones = function (req, res) {
 	var Zone = db.model('Zone');
 	Zone.findNear(req.params.x,req.params.y,function (err, docs){
@@ -115,10 +151,6 @@ exports.usersearch = function (req, res) {
 	  });
 	});
 };
-
-
-
-
 
 exports.posts = function (req, res) {
   var posts = [];

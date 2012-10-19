@@ -49,30 +49,64 @@ mixin menu(active)
 							- if(active == 'places')
 								li.active
 									a(href="/news/feed") Places
+										span1#placenumber
 							- else
 								li
 									a(href="/news/feed") Places
+										span1#placenumber
 							- if (active == 'infos')
 								li.active
 									a(href="/news/post") Infos
+										span1#infonumber
 							- else
 								li
 									a(href="/news/post") Infos
+										span1#infonumber
 							- if (active == 'comments')
 								li.active
 									a(href="/place/add") Comments
+										span1#commentnumber
 							- else
 								li
 									a(href="/place/add") Comments
+										span1#commentnumber
 							- if (active == 'yakcats')										
 								li.active
 									a(href="/user/login") Yakcats
+										span1#catnumber
 							- else
 								li
 									a(href="/user/login") Yakcats
+										span1#catnumber
 							- if (active == 'users')										
 								li.active
 									a(href="/user/login") Users
+										span1#usernumber
 							- else
 								li
 									a(href="/user/login") Users
+										span1#usernumber
+
+	script
+
+		$(document).ready(function() {
+			$.getJSON('/api/validinfos', function(data) {
+				if (data.info != 0)
+					$('#infonumber').addClass('badge badge-important').html(data.info);
+			});
+
+			$.getJSON('/api/validusers', function(data) {
+				if (data.info != 0)
+					$('#usernumber').addClass('badge badge-important').html(data.info);
+			});
+
+			$.getJSON('/api/validcats', function(data) {
+				if (data.info != 0)
+					$('#catnumber').addClass('badge badge-important').html(data.info);
+			});
+
+			$.getJSON('/api/validplaces', function(data) {
+				if (data.info != 0)
+					$('#placenumber').addClass('badge badge-important').html(data.info);
+			});
+		});
