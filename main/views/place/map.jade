@@ -7,7 +7,7 @@ block content
 	include ../mixins/forms/loginForm.jade
 	include ../mixins/forms/searchForm.jade
 	
-	mixin menu('map')
+	mixin menu('place')
 	mixin locationChooser()
 
 
@@ -36,7 +36,7 @@ block content
 					span#newsNav				
 						ul.nav.nav-tabs
 							li.active(contentToLoad="newsfeedContent")
-								a.newsNavItem#newsFeed(href="#") Le fil
+								a.newsNavItem#newsFeed(href="#") Les places
 							- if(session)	
 								li(contentToLoad="addplaceContent")
 									a.newsNavItem#addPlace(href="#") Ajouter une place

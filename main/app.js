@@ -84,6 +84,7 @@ app.get('/settings/alerts', routes.settings_alerts);
 app.get('/settings/password', routes.settings_password);
 
 app.get('/place/add', routes.place_add);
+app.get('/place/map', routes.place_map);
 
 
 app.post('/place',routes.place);
