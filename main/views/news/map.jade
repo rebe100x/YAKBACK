@@ -38,9 +38,6 @@ block content
 							li.active(contentToLoad="newsfeedContent")
 								a.newsNavItem#newsFeed(href="#") Le fil
 							- if(session)	
-								li(contentToLoad="newspostContent")
-									a.newsNavItem#newsPost(href="#") Poster
-							- if(session)	
 								li(contentToLoad="addplaceContent")
 									a.newsNavItem#addPlace(href="#") Ajouter une place
 							li(contentToLoad="searchContent")
@@ -51,8 +48,6 @@ block content
 									
 					span#newsfeedContent.tabContent			
 						ul#newsfeed
-					span#newspostContent.tabContent
-						mixin postForm()
 					span#addplaceContent.tabContent
 						mixin placeForm()
 					span#searchContent.tabContent
@@ -79,6 +74,7 @@ block content
 		var yakcatArray = [];
 		var placeYakcatArray = [];
 		var placeArray = [];
+		var placeGmap = null;
 		var hashtag = [];
 		var hashtagTmp = [];
 			
@@ -124,26 +120,9 @@ block content
 					$('.tabContent').hide();
 					$('#'+contentToLoad).fadeIn();	
 					
-					if(contentToLoad == "newspostContent"){
+					if(contentToLoad == "addplaceContent"){
 						// INIT MARKERLOCATION
 						
-						listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
-							getformattedAddress(event.latLng);
-							placeMarker(event.latLng,markerLocation);
-							google.maps.event.addListener(markerLocation, 'dragend', function() {
-								var position = markerLocation.getPosition();
-								$('#latitude').val(position.lat());	
-								$('#longitude').val(position.lng());	
-								
-								getformattedAddress(position);
-								
-							});		
-						});
-					}
-					else if (contentToLoad == "addplaceContent")
-					{
-						google.maps.event.removeListener(listenerHandle);
-						markerLocation.setVisible(false);
 						listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
 							getformattedAddress(event.latLng);
 							placeMarker(event.latLng,markerLocation);
@@ -410,6 +389,8 @@ block content
 						$('#placeForm #place').val('').focus();
 						placeArray.push(obj);
 						$("#placeForm #placeInput").val(JSON.stringify(placeArray));
+						placeGmap = obj;
+						$("#placeForm #placeInput").val(placeGmap);
 					}
 				});
 				
@@ -458,6 +439,8 @@ block content
 								var placeGmap = getPlaceFromGmapResult(results[0]);
 								placeArray.push(placeGmap);
 								$("#placeForm #placeInput").val(JSON.stringify(placeArray));
+								placeGmap = obj;
+								$("#placeForm #placeInput").val(placeGmap);
 								$('#placeForm #btn-place-adder').parent().before("<div><i class='icon-remove icon-pointer' onclick='placeArray.cleanArrayByLocation("+results[0].geometry.location.Ya+","+results[0].geometry.location.Xa+");$(\"#placeForm #placeInput\").val(JSON.stringify(placeArray));$(this).parent().remove();'></i> "+results[0].formatted_address+"</div>");
 								
 							} else {
