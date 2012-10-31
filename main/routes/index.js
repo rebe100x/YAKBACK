@@ -52,6 +52,10 @@ exports.place_add = function(req, res){
 	res.render('place/add');
 };
 
+exports.place_map = function(req, res){
+	res.render('place/map');  
+};
+
 exports.place = function(req, res){
 
 	var formMessage = new Array();
@@ -91,9 +95,10 @@ exports.place = function(req, res){
 			var locTmp = JSON.parse(req.body.placeInput);
 			locTmp.forEach(function(item) 
 			{
-				place.location = {lng:parseFloat(item.location.lng),lat:parseFloat(item.location.lat)};
+				//place.location = {lng:parseFloat(item.location.lng),lat:parseFloat(item.location.lat)};
 				place.formatted_address = item.title;
 			});
+			place.location = {lng:parseFloat(req.body.longitude),lat:parseFloat(req.body.latitude)};
 				
 			
 			place.creationDate = new Date();
@@ -139,7 +144,7 @@ exports.place = function(req, res){
 		if(theYakType==req.session.type[i]) 
 			req.session.type.splice(i, 1);
 	req.session.type.push(theYakType);*/
-	res.redirect('news/map');
+	res.redirect('place/map');
 };
 
 /******* USER ******/

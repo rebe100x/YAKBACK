@@ -292,7 +292,8 @@ function getformattedAddress(position){
 				//console.log(results);
 				placeArray.push(placeGmap);
 				$("#placeInput").val(JSON.stringify(placeArray));
-				$('#btn-place-adder').parent().before("<div><i class='icon-remove' onclick='placeArray.cleanArrayByLocation("+results[0].geometry.location.Ya+","+results[0].geometry.location.Xa+");$(\"#placeInput\").val(JSON.stringify(placeArray));$(this).parent().remove();'></i> "+results[0].formatted_address+"</div>");
+				$('#placeLabel').first().remove();
+				$('#btn-place-adder').parent().before("<div id='placeLabel'><i class='icon-remove' onclick='placeArray.cleanArrayByLocation("+results[0].geometry.location.Ya+","+results[0].geometry.location.Xa+");$(\"#placeInput\").val(JSON.stringify(placeArray));$(this).parent().remove();'></i> "+results[0].formatted_address+"</div>");
 			} else {
 				var salt = new Date().getTime();
 				$('#btn-place-adder').parent().before("<div id='alert"+salt+"' class='control-label'><i class='icon-exclamation-sign'> </i>Adresse invalide ("+status+")</div>");

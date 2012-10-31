@@ -80,7 +80,7 @@ Info.statics.findAll = function (callback) {
 	callback);
 }
 
-Info.statics.toValidate = function (callback) {
+Info.statics.countUnvalidated = function (callback) {
 	return this.count( {'status': { $in: [3, 10]}}, callback );
 }
 
@@ -174,7 +174,7 @@ User.statics.findByIds = function (ids,callback) {
 User.statics.findById = function (id,callback) {
   return this.findOne({'_id': id}, callback);
 }
-User.statics.toValidate = function (callback) {
+User.statics.countUnvalidated = function (callback) {
 	return this.count( {'status': { $in: [3, 10]}}, callback );
 }
 
@@ -268,7 +268,7 @@ Yakcat.statics.findAll = function (callback) {
   return this.find({},[],{sort:{title:1}}, callback);
 }
 
-Yakcat.statics.toValidate = function (callback) {
+Yakcat.statics.countUnvalidated = function (callback) {
 	return this.count( {'status': { $in: [3, 10]}}, callback );
 }
 
@@ -310,9 +310,13 @@ Place.index({location : '2d'});
 Place.statics.findAll = function (callback) {
   return this.find({},[],{sort:{title:1}}, callback);
 }
-Place.statics.toValidate = function (callback) {
-	return this.count( {'status': { $in: [3, 10]}}, callback );
+Place.statics.countUnvalidated = function (callback) {
+	return this.count( {status: { $in: [3, 10]}}, callback );
 }
+Place.statics.unvalidatedList = function (callback) {
+	return this.find( {status: { $in: [3, 10]}},[],{sort:{title:1}}, callback );
+}
+
 Place.statics.findByTitle = function (title, callback) {
   return this.find({ title: title }, callback);
 }

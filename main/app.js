@@ -84,6 +84,7 @@ app.get('/settings/alerts', routes.settings_alerts);
 app.get('/settings/password', routes.settings_password);
 
 app.get('/place/add', routes.place_add);
+app.get('/place/map', routes.place_map);
 
 
 app.post('/place',routes.place);
@@ -97,7 +98,7 @@ app.post('/profile',routes.profile);
 
 
 app.get('/api/infos', api.infos);
-app.get('/api/validinfos', api.tovalidateinfos);
+app.get('/api/validinfos', api.countUnvalidatedInfos);
 app.get('/api/geoinfos/:x1/:y1/:x2/:y2/:heat/:type', api.geoinfos);
 app.get('/api/zones/:x/:y', api.zones);
 app.post('/api/users', api.users);
@@ -105,9 +106,10 @@ app.get('/api/cats', api.cats);
 app.get('/api/places', api.places);
 app.get('/api/usersearch/:string', api.usersearch);
 
-app.get('/api/validusers', api.tovalidateusers);
-app.get('/api/validcats', api.tovalidatecats);
-app.get('/api/validplaces', api.tovalidateplaces);
+app.get('/api/validusers', api.countUnvalidatedUsers);
+app.get('/api/validcats', api.countUnvalidatedCats);
+app.get('/api/validplaces', api.countUnvalidatedPlaces);
+app.get('/api/unvalidatedPlaceList', api.unvalidatedPlaceList)
 app.get('/api/searchPlace', api.searchPlace);
 app.post('/api/favplace', api.addfavplace);
 app.post('/api/delfavplace', api.delfavplace);

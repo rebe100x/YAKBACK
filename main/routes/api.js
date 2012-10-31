@@ -32,36 +32,36 @@ exports.geoinfos = function (req, res) {
 	}); 
 };
 
-exports.tovalidateinfos = function (req, res) {
+exports.countUnvalidatedInfos = function (req, res) {
 	var Info = db.model('Info');
-	Info.toValidate(function (err, docs){
+	Info.countUnvalidated(function (err, docs){
 	  res.json({
 		info: docs
 	  });
 	}); 
 };
 
-exports.tovalidateusers = function (req, res) {
+exports.countUnvalidatedUsers = function (req, res) {
 	var User = db.model('User');
-	User.toValidate(function (err, docs){
+	User.countUnvalidated(function (err, docs){
 	  res.json({
 		info: docs
 	  });
 	}); 
 };
 
-exports.tovalidatecats = function (req, res) {
+exports.countUnvalidatedCats = function (req, res) {
 	var Yakcat = db.model('Yakcat');
-	Yakcat.toValidate(function (err, docs){
+	Yakcat.countUnvalidated(function (err, docs){
 	  res.json({
 		info: docs
 	  });
 	}); 
 };
 
-exports.tovalidateplaces = function (req, res) {
+exports.countUnvalidatedPlaces = function (req, res) {
 	var Place = db.model('Place');
-	Place.toValidate(function (err, docs){
+	Place.countUnvalidated(function (err, docs){
 	  res.json({
 		info: docs
 	  });
@@ -105,6 +105,16 @@ exports.places = function (req, res) {
 	  });
 	});
 };
+
+exports.unvalidatedPlaceList = function (req, res) {
+	var Place = db.model('Place');
+	Place.unvalidatedList(function (err, docs){
+	  res.json({
+		place: docs
+	  });
+	});
+};
+
 
 exports.addfavplace = function (req, res) {
 	var User = db.model('User');

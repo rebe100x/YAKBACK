@@ -1,7 +1,7 @@
 exports.confs = {
 	"dev" : {
 		"backurl":"http://dev.backend.yakwala.com/BACKEND/",
-		"port":3000,
+		"port":3001,
 		"dbname":"yakwala",
 		"env":"DEV",
 		"uploadsDir":__dirname+"\\public\\uploads\\",

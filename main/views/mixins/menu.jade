@@ -6,7 +6,7 @@ mixin menu(active)
 					span.icon-bar
 					span.icon-bar
 					span.icon-bar
-					a.brand(href="/news/map") YAKWALA
+					a.brand(href="") YAKWALA
 					
 					div.btn-group.pull-right
 						- if (session)
@@ -42,49 +42,49 @@ mixin menu(active)
 						ul.nav
 							- if (active == 'map')
 								li.active
-									a(href="/news/map") Dashboard
+									a(href="") Dashboard
 							- else
 								li
-									a(href="/news/map") Dashboard
-							- if(active == 'places')
+									a(href="") Dashboard
+							- if(active == 'place')
 								li.active
-									a(href="/news/feed") Places
+									a(href="/place/map") Places
 										span1#placenumber
 							- else
 								li
-									a(href="/news/feed") Places
+									a(href="/place/map") Places
 										span1#placenumber
-							- if (active == 'infos')
+							- if (active == 'info')
 								li.active
-									a(href="/news/post") Infos
+									a(href="") Infos
 										span1#infonumber
 							- else
 								li
-									a(href="/news/post") Infos
+									a(href="") Infos
 										span1#infonumber
-							- if (active == 'comments')
+							- if (active == 'comment')
 								li.active
-									a(href="/place/add") Comments
+									a(href="") Comments
 										span1#commentnumber
 							- else
 								li
-									a(href="/place/add") Comments
+									a(href="") Comments
 										span1#commentnumber
-							- if (active == 'yakcats')										
+							- if (active == 'yakcat')										
 								li.active
-									a(href="/user/login") Yakcats
+									a(href="") Yakcats
 										span1#catnumber
 							- else
 								li
-									a(href="/user/login") Yakcats
+									a(href="") Yakcats
 										span1#catnumber
-							- if (active == 'users')										
+							- if (active == 'user')										
 								li.active
-									a(href="/user/login") Users
+									a(href="") Users
 										span1#usernumber
 							- else
 								li
-									a(href="/user/login") Users
+									a(href="") Users
 										span1#usernumber
 
 	script
