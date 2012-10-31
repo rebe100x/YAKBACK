@@ -50,15 +50,6 @@ exports.countUnvalidatedUsers = function (req, res) {
 	}); 
 };
 
-exports.countUnvalidatedCats = function (req, res) {
-	var Yakcat = db.model('Yakcat');
-	Yakcat.countUnvalidated(function (err, docs){
-	  res.json({
-		info: docs
-	  });
-	}); 
-};
-
 exports.countUnvalidatedPlaces = function (req, res) {
 	var Place = db.model('Place');
 	Place.countUnvalidated(function (err, docs){
@@ -95,6 +86,23 @@ exports.cats = function (req, res) {
 	});
 };
 
+exports.countUnvalidatedCats = function (req, res) {
+	var Yakcat = db.model('Yakcat');
+	Yakcat.countUnvalidated(function (err, docs){
+	  res.json({
+		info: docs
+	  });
+	}); 
+};
+
+exports.findCatById = function (req, res) {
+	var Yakcat = db.model('Yakcat');
+   	Yakcat.findById(req.body.id, function (err, docs){
+  	  res.json({
+  		cat: docs.title
+	  });
+	});
+};
 
 exports.places = function (req, res) {
 	var Place = db.model('Place');

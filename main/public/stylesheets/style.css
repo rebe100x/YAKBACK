@@ -17,7 +17,11 @@ a {
 .searching{background-image:url('images/loader.gif');padding-left:20px;}
 .searchInput{background-repeat:no-repeat;background-position: 0px 5px;padding-left:0px;background-image: none;}
 
-
+#placeContent dl{ padding: 20px 10px; margin: 0;}
+#placeContent dt{ padding: 0 10px 10px; margin: 0;}
+#placeContent dl:nth-child(even) {background-color: #F9F9F9;}
+#placeContent dl:nth-child(odd) {background-color: white;}
+#placeContent .origin{float: right; font-style: italic; font-weight: normal; color: #7B878C;}
 
 /* MAP
 -------------------------------------------------- */
@@ -101,10 +105,6 @@ span.help-inline.small{font-size:0.65em;font-style:italic;}
 /* MAIN MENU
 -------------------------------------------------- */
 .nav-collapse .badge-important {position: relative; top: 7px; left: 1 px;  }
-
-
-
-
 
 
 
@@ -192,3 +192,4 @@ width: 270px;
   top: auto;
   bottom: 270px;
 }
+

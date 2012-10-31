@@ -105,6 +105,7 @@ app.post('/api/users', api.users);
 app.get('/api/cats', api.cats);
 app.get('/api/places', api.places);
 app.get('/api/usersearch/:string', api.usersearch);
+app.get('/api/findCatById', api.findCatById);
 
 app.get('/api/validusers', api.countUnvalidatedUsers);
 app.get('/api/validcats', api.countUnvalidatedCats);

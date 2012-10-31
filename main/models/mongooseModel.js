@@ -276,6 +276,10 @@ Yakcat.statics.findAll = function (callback) {
   return this.find({},[],{sort:{title:1}}, callback);
 }
 
+Yakcat.statics.findById = function (id, callback) {
+  return this.findOne({'_id': id}, callback);
+}
+
 Yakcat.statics.countUnvalidated = function (callback) {
 	return this.count( {'status': { $in: [3, 10]}}, callback );
 }
