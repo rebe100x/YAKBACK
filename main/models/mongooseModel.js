@@ -4,7 +4,8 @@
  */
 
 var mongoose = require('mongoose')
-	, Schema = mongoose.Schema;
+	, Schema = mongoose.Schema
+	, Troop = require('mongoose-troop');
 
 //mongoose.set('debug', true);
 
@@ -129,7 +130,6 @@ mongoose.model('Info', Info);
 /*USERS*/
 var crypto = require('crypto');
 
-
 var User = new Schema({
 	name	: { type: String, index: true}
 	, bio	: { type: String}
@@ -138,8 +138,8 @@ var User = new Schema({
 	, tag	: { type: [String], index: true}
 	, thumb	: { type: String}
 	, type	: { type: Number, index: true}
-	, login     : { type: String, index: true}
-	, password       : { type: String , index: true}
+	, login	: { type: String, lowercase: true, required: true, index: { unique: true } }
+	, password	: { type: String }
 	, usersubs	: { type: [Schema.ObjectId], index: true}
 	, tagsubs	: { type: [String], index: true}
 	, placesubs	: { type: [Schema.ObjectId], index: true}
@@ -162,6 +162,8 @@ var User = new Schema({
   
   
 }, { collection: 'user' });
+
+//User.plugin(Troop.basicAuth, {loginPath : 'login', hashPath : 'password'});
 
 
 User.statics.findByLogin = function (login,callback) {
@@ -219,9 +221,6 @@ User.statics.search = function(string,callback){
 }
 //.or([{ 'firstName': { $regex: re }}, { 'lastName': { $regex: re }}])
 mongoose.model('User', User);
-
-
-
 
 /*ZONE*/
 var Zone = new Schema({
