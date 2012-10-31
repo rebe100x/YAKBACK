@@ -306,6 +306,7 @@ var Place = new Schema({
 },{ collection: 'place' });
 
 Place.index({location : '2d'});
+Place.index({title:1, status:1});
 
 Place.statics.findAll = function (callback) {
   return this.find({},[],{sort:{title:1}}, callback);
