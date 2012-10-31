@@ -108,9 +108,9 @@ app.get('/api/usersearch/:string', api.usersearch);
 app.get('/api/validusers', api.tovalidateusers);
 app.get('/api/validcats', api.tovalidatecats);
 app.get('/api/validplaces', api.tovalidateplaces);
+app.get('/api/searchPlace', api.searchPlace);
 app.post('/api/favplace', api.addfavplace);
 app.post('/api/delfavplace', api.delfavplace);
-
 
 app.get('/api/posts', api.posts);
 app.get('/api/post/:id', api.post);

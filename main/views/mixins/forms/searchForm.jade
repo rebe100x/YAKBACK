@@ -5,5 +5,23 @@ mixin searchForm()
 			strong=message
 	form.form-search
 		div.input-append
-			input#login(type="text",name="login", autocomplete="on", placeholder='...')
-			button.btn Chercher
+			input#searchInput(type="text",name="login", autocomplete="off", placeholder="Bois de Boulogne...", data-provide="typeahead")
+			button.btn(type='text', name='search', id='search', value='chercher') Chercher
+		div#placeList
+
+	script 
+
+		$(document).ready(function() {
+			
+			$('#searchInput').typeahead({
+					minLength : 3,
+					source: function (typeahead, query) {
+						$.ajax({
+								url: "/api/cats",				
+								success: function( data ) {
+									typeahead.process(data.cats);
+								}
+							})},
+					property: "title"
+				});
+		});

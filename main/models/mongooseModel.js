@@ -313,4 +313,8 @@ Place.statics.findAll = function (callback) {
 Place.statics.toValidate = function (callback) {
 	return this.count( {'status': { $in: [3, 10]}}, callback );
 }
+Place.statics.findByTitle = function (title, callback) {
+  return this.find({ title: title }, callback);
+}
+
 mongoose.model('Place', Place);

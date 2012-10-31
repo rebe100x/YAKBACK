@@ -142,7 +142,6 @@ exports.place = function(req, res){
 	res.redirect('news/map');
 };
 
-
 /******* USER ******/
 exports.user_login = function(req, res){
 	delete req.session.message;

@@ -32,7 +32,6 @@ exports.geoinfos = function (req, res) {
 	}); 
 };
 
-
 exports.tovalidateinfos = function (req, res) {
 	var Info = db.model('Info');
 	Info.toValidate(function (err, docs){
@@ -67,6 +66,15 @@ exports.tovalidateplaces = function (req, res) {
 		info: docs
 	  });
 	}); 
+};
+
+exports.searchPlace = function(req, res) {
+	var Place = db.model('Place');
+   	Place.findByTitle(req.body.title, function (err, docs){
+  	  res.json({
+  		info: docs.title
+		});
+	});
 };
 
 exports.zones = function (req, res) {

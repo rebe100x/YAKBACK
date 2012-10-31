@@ -414,6 +414,12 @@ block content
 				});
 				
 				
+			$('#searchContent').click(function(){
+				$.getJSON('/api/searchPlace', function(data) {
+					$(this).html(data.info);
+				});
+			});
+			
 				$('#btn-place-adder').click(function(){
 					
 					var addressString = $('#place').val();
