@@ -62,72 +62,87 @@ exports.place = function(req, res){
 	delete req.session.message;
 	var Place = db.model('Place');
 	var theZone = 1;
-	var place = new Place();
+	var place;
 	//mongoose.set('debug', true);
-
+	//var obj_id = '507e81614a53046319000000';
+	//var obj_id = '50911d37065a060000000003';
+	var obj_id = req.body.objid;
 	//console.log(req.files);
 	// we need a title, a location and a user
+	
 	if(req.body.placeInput && req.body.title && req.session.user)
 	{
 		//if(req.body.zone > 0 )
-		//	theZone = req.body.zone; 
+		//	theZone = req.body.zone;
 		
-		var drawTool = require('../mylib/drawlib.js');
-		var size = [{"width":120,"height":90},{"width":512,"height":0}];
-		var placeThumb = drawTool.StoreImg(req.files.picture,size,conf);
-		formMessage.push(placeThumb.msg);
-
-		if(placeThumb.err == 0)
+		Place.findById(obj_id, function (err, place)
 		{
-			if(req.body.yakcatInput.length > 0)
+			if (err || place == null) 
 			{
-				var yakcat = eval('('+req.body.yakcatInput+')');
-				for(i=0;i<yakcat.length;i++)
+				console.log("Place not found by id: creating a new place");
+				place = new Place();
+			}
+			else
+				console.log("Place found by id: updating");
+				
+			var drawTool = require('../mylib/drawlib.js');
+			var size = [{"width":120,"height":90},{"width":512,"height":0}];
+			var placeThumb = drawTool.StoreImg(req.files.picture,size,conf);
+			formMessage.push(placeThumb.msg);
+	
+			if(placeThumb.err == 0)
+			{
+				if(req.body.yakcatInput.length > 0)
 				{
-					place.yakCat.push(mongoose.Types.ObjectId(yakcat[i]._id));
+					var yakcat = eval('('+req.body.yakcatInput+')');
+					for(i=0;i<yakcat.length;i++)
+					{
+						place.yakCat.push(mongoose.Types.ObjectId(yakcat[i]._id));
+					}
 				}
-			}
-			place.title = req.body.title;
-			place.content = req.body.content;
-			place.thumb = placeThumb.name;
-				
-			// NOTE : in the query below, order is important : in DB we have lat, lng but need to insert in reverse order : lng,lat  (=> bug mongoose ???)
-			var locTmp = JSON.parse(req.body.placeInput);
-			locTmp.forEach(function(item) 
-			{
-				//place.location = {lng:parseFloat(item.location.lng),lat:parseFloat(item.location.lat)};
-				place.formatted_address = item.title;
-			});
-			place.location = {lng:parseFloat(req.body.longitude),lat:parseFloat(req.body.latitude)};
-				
-			
-			place.creationDate = new Date();
-			place.lastModifDate = new Date();
-			place.status = 1;
-			place.origin = 'operator';
-			place.access = 1;
-			place.licence = req.body.licence;
-			place.freeTag = req.body.freetag.split(',');
-			//place.zone = theZone;	
-				
-			// security against unidentified users	
-			if(req.session.user)
-			{
-				place.user = req.session.user._id;
-				place.save(function (err) 
+				place.title = req.body.title;
+				place.content = req.body.content;
+				place.thumb = placeThumb.name;
+					
+				// NOTE : in the query below, order is important : in DB we have lat, lng but need to insert in reverse order : lng,lat  (=> bug mongoose ???)
+				var locTmp = JSON.parse(req.body.placeInput);
+				locTmp.forEach(function(item) 
 				{
-					if (!err) console.log('Success!');
-					else console.log(err);
+					//place.location = {lng:parseFloat(item.location.lng),lat:parseFloat(item.location.lat)};
+					place.formatted_address = item.title;
 				});
+				place.location = {lng:parseFloat(req.body.longitude),lat:parseFloat(req.body.latitude)};
+					
+				
+				place.creationDate = new Date();
+				place.lastModifDate = new Date();
+				place.status = 1;
+				place.origin = 'operator';
+				place.access = 1;
+				place.licence = req.body.licence;
+				place.freeTag = req.body.freetag.split(',');
+				//place.zone = theZone;	
+					
+				// security against unidentified users	
+				if(req.session.user)
+				{
+					place.user = req.session.user._id;	
+					place.save(function (err) 
+					{
+						if (!err) console.log('Success!');
+						else console.log(err);
+					});
+				}
+				formMessage.push("La place a été sauvegardée !");
+				
 			}
-			formMessage.push("La place a été sauvegardée !");
+			else
+			{
+				formMessage.push("Erreur dans l'image uploadée: La place n'est pas sauvegardée.");
+				console.log("Erreur dans l'image uploadée: La place n'est pas sauvegardée.");
+			}	
 			
-		}
-		else
-		{
-			formMessage.push("Erreur dans l'image uploadée: La place n'est pas sauvegardée.");
-		}	
-		
+		});			
 	}
 	else
 	{
