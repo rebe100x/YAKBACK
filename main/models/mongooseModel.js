@@ -139,6 +139,7 @@ var User = new Schema({
 	, thumb	: { type: String}
 	, type	: { type: Number, index: true}
 	, login	: { type: String, lowercase: true, required: true, index: { unique: true } }
+	, hash	: { type: String }
 	, password	: { type: String }
 	, usersubs	: { type: [Schema.ObjectId], index: true}
 	, tagsubs	: { type: [String], index: true}
@@ -163,8 +164,7 @@ var User = new Schema({
   
 }, { collection: 'user' });
 
-//User.plugin(Troop.basicAuth, {loginPath : 'login', hashPath : 'password'});
-
+User.plugin(Troop.basicAuth, {loginPath: 'login'});
 
 User.statics.findByLogin = function (login,callback) {
   return this.find({login:login}, callback);
@@ -181,7 +181,7 @@ User.statics.countUnvalidated = function (callback) {
 }
 
 User.setters = function(password) {
-		  this._password = password;
+		  this._passwd = password;
 		  this.salt = this.makeSalt();
 		  this.hashed_password = this.encryptPassword(password);
 		}
@@ -220,7 +220,16 @@ User.statics.search = function(string,callback){
 	callback);
 }
 //.or([{ 'firstName': { $regex: re }}, { 'lastName': { $regex: re }}])
-mongoose.model('User', User);
+var m = mongoose.model('User', User);
+
+///////////////////////////
+m.register({
+  login: 'tintin'
+, passwd: 'tintin'
+}, function() {
+})
+//////////////////////////
+
 
 /*ZONE*/
 var Zone = new Schema({

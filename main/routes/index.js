@@ -176,12 +176,23 @@ exports.user = function(req, res){
 	var User = db.model('User');
 	
 	
-	User.Authenticate(req.body.login,req.body.password,function(err,user){
+	/*User.Authenticate(req.body.login, req.body.password, function(err,user){
 		if(!(typeof(user) == 'undefined' || user === null || user === '')){
 			req.session.user = user;
 			res.redirect(req.body.redir || '/news/map');
 		}else{
 			req.session.message = 'Wrong login or password:';
+			res.redirect('user/login?redir='+req.body.redir);
+		}
+	});*/
+	
+	User.authenticate(req.body.login, req.body.password, function(err, user){
+		if(!err){
+			req.session.user = user;
+			res.redirect(req.body.redir || '/place/map');
+		}else{
+			console.log(err);
+			req.session.message = err;
 			res.redirect('user/login?redir='+req.body.redir);
 		}
 	});
