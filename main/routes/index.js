@@ -186,6 +186,8 @@ exports.user = function(req, res){
 		}
 	});*/
 	
+	
+	// Secure authentication using BasicAuth of mongoose-troop module
 	User.authenticate(req.body.login, req.body.password, function(err, user){
 		if(!err){
 			req.session.user = user;
