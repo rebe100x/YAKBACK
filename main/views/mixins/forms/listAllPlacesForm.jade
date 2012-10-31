@@ -1,0 +1,20 @@
+mixin listAllPlacesForm()
+	form(action='/place', method='POST')
+		.form-search
+		div.input-append
+			input#searchInput(type="text",name="login", autocomplete="off", placeholder="Bois de Boulogne...", data-provide="typeahead")
+			button.btn(type='text', name='search', id='search', value='chercher') Chercher
+		
+		dl#placeContent
+		
+
+	script
+
+		$(document).ready(function() {
+			$.getJSON('/api/unvalidatedPlaceList',function(data) {
+
+				$.each(data.place, function(key,val) {
+					$('#placeContent').append("<dt>"+val.title+"</dt><dd>"+val.content+"</dd>");
+				});
+			});
+		});
