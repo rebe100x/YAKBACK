@@ -30,7 +30,19 @@ mixin listAllPlacesForm()
 						str += "<dd>Site web: <a href=" + val.contact['web'] + ">" + val.contact['web'] +  "</a></dd>";
 					}
 					str += "<dd>Lien externe: <a href='" + val.outGoingLink + "'>" + val.outGoingLink + "</a></dd>";
+					/* TODO
+					if (val.yakCat) {
+						str += "<dd>YakCat: ";
+						$.ajax({
+								url: "/api/findCatById",			
+								success: function( data ) {
+									str += data.cat;
+								}
+							});
 
+						str += "</dd>";
+					}
+					*/
 					if (val.freeTag) {
 						var length = val.freeTag.length;
 						str += "<dd>FreeTag: ";
