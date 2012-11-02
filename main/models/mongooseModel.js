@@ -4,8 +4,7 @@
  */
 
 var mongoose = require('mongoose')
-	, Schema = mongoose.Schema
-	, Troop = require('mongoose-troop');
+	, Schema = mongoose.Schema;
 
 //mongoose.set('debug', true);
 
@@ -164,7 +163,7 @@ var User = new Schema({
   
 }, { collection: 'user' });
 
-User.plugin(Troop.basicAuth, {loginPath: 'login'});
+//User.plugin(Troop.basicAuth, {loginPath: 'login'});
 
 User.statics.findByLogin = function (login,callback) {
   return this.find({login:login}, callback);
@@ -223,11 +222,11 @@ User.statics.search = function(string,callback){
 var m = mongoose.model('User', User);
 
 ///////////////////////////
-m.register({
+/*m.register({
   login: 'tintin'
 , passwd: 'tintin'
 }, function() {
-})
+})*/
 //////////////////////////
 
 
