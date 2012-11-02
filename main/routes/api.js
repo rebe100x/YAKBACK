@@ -123,6 +123,15 @@ exports.unvalidatedPlaceList = function (req, res) {
 	});
 };
 
+exports.getFilteredPlaceList = function (req, res) {
+	var Place = db.model('Place');
+
+	Place.getFilteredList(req.params.validated, function (err, docs){
+	  res.json({
+		place: docs
+	  });
+	});
+};
 
 exports.addfavplace = function (req, res) {
 	var User = db.model('User');

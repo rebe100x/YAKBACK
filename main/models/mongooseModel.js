@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose')
 	, Schema = mongoose.Schema;
+//	, Troop = require('mongoose-troop');
 
 //mongoose.set('debug', true);
 
@@ -295,7 +296,7 @@ var Place = new Schema({
 ,	access	: { type: Number }
 ,	licence	: { type: String }
 ,	outGoingLink	: { type: String }
-, 	yakCat	: [Schema.ObjectId]	
+, yakCat	: {type: [Yakcat]}		
 , 	freeTag	: [String]
 ,	creationDate	: {type: Date, required: true, default: Date.now}		
 ,	lastModifDate	: {type: Date, required: true, default: Date.now}		
@@ -322,11 +323,29 @@ Place.index({title:1, status:1});
 Place.statics.findAll = function (callback) {
   return this.find({},[],{sort:{title:1}}, callback);
 }
+
 Place.statics.countUnvalidated = function (callback) {
 	return this.count( {status: { $in: [3, 10]}}, callback );
 }
+
 Place.statics.unvalidatedList = function (callback) {
 	return this.find( {status: { $in: [3, 10]}},[],{sort:{title:1}}, callback );
+}
+
+Place.statics.getFilteredList = function (validated, callback) {
+
+	cond = {};
+	if (validated === 'true') {
+		cond["status"] = {$in: [3, 10]};
+	}
+	else if (validated === 'false') {
+		cond["status"] = {$in: [1]};
+	}
+	else {
+		cond["status"] = {$in: [1, 3, 10]};
+	}
+	
+	return this.find(cond,[],{sort:{title:1}},callback);
 }
 
 Place.statics.findByTitle = function (title, callback) {

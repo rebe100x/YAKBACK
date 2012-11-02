@@ -15,7 +15,7 @@ var app = express();
 
 // Configuration
 
-//	
+	
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -110,7 +110,10 @@ app.get('/api/findCatById', api.findCatById);
 app.get('/api/validusers', api.countUnvalidatedUsers);
 app.get('/api/validcats', api.countUnvalidatedCats);
 app.get('/api/validplaces', api.countUnvalidatedPlaces);
-app.get('/api/unvalidatedPlaceList', api.unvalidatedPlaceList)
+app.get('/api/unvalidatedPlaceList', api.unvalidatedPlaceList);
+
+app.get('/api/places/:validated', api.getFilteredPlaceList);
+
 app.get('/api/searchPlace', api.searchPlace);
 app.post('/api/favplace', api.addfavplace);
 app.post('/api/delfavplace', api.delfavplace);
