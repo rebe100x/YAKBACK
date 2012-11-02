@@ -180,7 +180,7 @@ User.statics.countUnvalidated = function (callback) {
 	return this.count( {'status': { $in: [3, 10]}}, callback );
 }
 
-/*User.setters = function(password) {
+User.setters = function(password) {
 		  this._passwd = password;
 		  this.salt = this.makeSalt();
 		  this.hashed_password = this.encryptPassword(password);
@@ -195,7 +195,7 @@ User.statics.Authenticate = function(lg,pwd,callback) {
     }
 User.makeSalt =  function() {
       return Math.round((new Date().valueOf() * Math.random())) + '';
-    }*/
+    }
 	
 User.statics.findAll = function (callback) {
   return this.find({},[],{sort:{name:1}}, callback);
