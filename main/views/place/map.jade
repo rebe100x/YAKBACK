@@ -91,7 +91,6 @@ block content
 		
 		/*READY FUNCTIONS*/
 		$(document).ready(function() {
-		
 			/*init*/
 			if(user.length){
 				user = JSON.parse(JSON.stringify(!{user}));
@@ -107,6 +106,8 @@ block content
 				$('ul#favplacelist').append("<li lat='43.610787' lng='3.876715' class='zoneLoc'><i class='icon-map-marker'></i><span> Montpellier, France</span></li>");
 				$('ul#favplacelist').append("<li lat='50.583346' lng='4.900031' class='zoneLoc'><i class='icon-map-marker'></i><span> Eghézée, Belgique</span></li>");
 			}
+			
+			
 			
 			/*news nav*/
 			$('#newsNav li').click(function(){
@@ -265,29 +266,6 @@ block content
 						}
 					}
 				});
-				
-				
-				
-				$('#picture').live('change', function () {
-					if ( window.FileReader ) {
-						var fileList = this.files;
-						var file = fileList[0];
-						//console.log(file.type);
-						//if ( window.FileReader ) {
-						var r = new FileReader();
-						r.onload = function () {
-							var binimage = r.result;
-							//console.log(binimage);
-							
-							binimage1 = binimage.replace('data:'+file.type+';base64,', '');
-							var imag = "<img class='img-rounded' " + "src='" + 
-							"data:"+file.type+";base64," + binimage1 + "' style='width:100px'/>";
-							$("#picturePreview").html(imag);
-						};
-						r.readAsDataURL(file);
-					}
-					//r.readAsBinaryString(file);
-				});
 
 				$('#placeForm #picture').live('change', function () {
 					if ( window.FileReader ) {
@@ -316,24 +294,6 @@ block content
 					draggable:true,
 					icon:'/images/beachflag.png',
 					//position:center
-				});
-				
-				$('#postForm #yakcat').typeahead({
-					minLength : 3,
-					source: function (typeahead, query) {
-						$.ajax({
-								url: "/api/cats",				
-								success: function( data ) {
-									typeahead.process(data.cats);
-								}
-							})},
-					property: "title",
-					onselect: function(obj) { 
-						$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='yakcatArray.cleanArray(\""+obj._id+"\");$(\"#postForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
-						$('#postForm #yakcat').val('').focus();
-						yakcatArray.push(obj);
-						$("#postForm #yakcatInput").val(JSON.stringify(yakcatArray));
-					}
 				});
 				
 				$('#placeForm #yakcat').typeahead({
