@@ -296,7 +296,7 @@ var Place = new Schema({
 ,	access	: { type: Number }
 ,	licence	: { type: String }
 ,	outGoingLink	: { type: String }
-, yakCat	: {type: [Yakcat]}		
+, yakCat	: [Schema.ObjectId]		
 , 	freeTag	: [String]
 ,	creationDate	: {type: Date, required: true, default: Date.now}		
 ,	lastModifDate	: {type: Date, required: true, default: Date.now}		
