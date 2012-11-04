@@ -1,7 +1,7 @@
 mixin placeForm()
 	- if(session)
 		form#placeForm(action='/place', method='POST', enctype='multipart/form-data')
-			input#yakcatInput(type='hidden', name='yakcatInput', value='')
+			input#yakcatInput(type='hidden', name='yakcatInput', value='') 
 			input#placeInput(type='hidden', name='placeInput', value='')
 			input#latitude(type="hidden",data-provide="typeahead", name="latitude")
 			input#longitude(type="hidden",data-provide="typeahead", name="longitude")
@@ -10,10 +10,21 @@ mixin placeForm()
 			legend Ajouter une place
 			div.control-group
 				div.controls
-					input.span12.hashtagMaker(type='text', name='licence', id='licence', placeholder='Licence...')
-					input.span12.hashtagMaker(type='text', name='origine', id='origine', placeholder='Origine...')
-					input.span12.hashtagMaker(type='text', name='title', id='title', placeholder='Titre: vous pouvez utiliser des hashtags dans votre texte ( #Halloween )')
-					textarea#content.span12.hashtagMaker(name='content', placeholder='Texte: vous pouvez utiliser des hashtags dans votre texte ( #Halloween )',rows='3')
+					input.span6.hashtagMaker(type='text', name='licence', id='licence', placeholder='Licence...') 
+					input.span6.hashtagMaker(type='text', name='origine', id='origine', placeholder='Origine...')
+					input.span6.hashtagMaker(type='text', name='title', id='title', placeholder='Titre: vous pouvez utiliser des hashtags dans votre texte ( #Halloween )')
+					textarea#content.span6.hashtagMaker(name='content', placeholder='Texte: vous pouvez utiliser des hashtags dans votre texte ( #Halloween )',rows='3')
+			div.control-group
+				label(for='zone') Choisir la zone:
+				div.controls
+					label.radio.inline Paris
+						input#option1(type="radio", name="zone", value="1" , checked) 
+					label.radio.inline Montpellier
+						input#option4(type="radio", name="zone", value="2")
+					label.radio.inline Eghezée
+						input#option2(type="radio", name="zone", value="3")
+					label.radio.inline Autre
+						input#options3(type="radio", name="zone", value="4")
 			div.control-group
 				label(for='Place') Cliquer sur la carte ou entrer une adresse:<br>
 				div.controls
@@ -24,9 +35,9 @@ mixin placeForm()
 			div.control-group
 				label(for='category') Choisir un ou plusieurs thèmes:
 				div.controls
-					input#yakcat.span12(type="text",data-provide="typeahead", name="yakcat", autocomplete="off", placeholder='Rechercher...')
+					input#yakcat.span6(type="text",data-provide="typeahead", name="yakcat", autocomplete="off", placeholder='Rechercher...')
 				div.controls	
-					input#freetag.span12(type="text",data-provide="typeahead", name="freetag",placeholder='free tags séparés par des virgules')
+					input#freetag.span6(type="text",data-provide="typeahead", name="freetag",placeholder='Free tags séparés par des virgules')
 			div.control-group
 				label(for='picture') Ajouter une photo:
 				div.controls
