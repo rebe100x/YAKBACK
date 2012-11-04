@@ -362,8 +362,13 @@ block content
 						});
 					}		
 				});
+
+			$.getJSON('/api/unvalidatedPlaceList', function(data) {
+				renderData(data);
+			});
 			
 		});/*END READY*/
+
 		function drawNewsFeed(){	
 			var newsfeedContainerHeight = window.innerHeight-$('#newsfeedContainer').offset().top-50+'px';
 			$('#newsfeedContainer').css('height',newsfeedContainerHeight);
