@@ -17,11 +17,17 @@ a {
 .searching{background-image:url('images/loader.gif');padding-left:20px;}
 .searchInput{background-repeat:no-repeat;background-position: 0px 5px;padding-left:0px;background-image: none;}
 
+/* Place */
 #placeContent dl{ padding: 20px 10px; margin: 0;}
 #placeContent dt{ padding: 0 10px 10px; margin: 0;}
+#placeContent dd{ padding-left: 20px;}
 #placeContent dl:nth-child(even) {background-color: #F9F9F9;}
 #placeContent dl:nth-child(odd) {background-color: white;}
 #placeContent .origin{float: right; font-style: italic; font-weight: normal; color: #7B878C;}
+#placeContent .text-field{color: #B94A48; font-variant: small-caps; display: inline-block; width: 80px; padding: 1px 20px;}
+#placeControle {text-align: left;}
+#placeControle .label-important { padding: 5px; margin: 0 10px 10px 0;}
+#placeControle select {margin-top: 10px;}
 
 /* MAP
 -------------------------------------------------- */
@@ -52,7 +58,7 @@ a {
 
 
 	/*MAP TAB CONTENT*/
-#newsfeedContainer{overflow:auto;height:auto;background-color:#FFF;opacity:1;}
+#newsfeedContainer{height:auto;background-color:#FFF;opacity:1;}
 .tabContent{
 width:100%;
 display: none;

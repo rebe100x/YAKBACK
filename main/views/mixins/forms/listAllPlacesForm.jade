@@ -1,15 +1,4 @@
 mixin listAllPlacesForm()
-	form(action='/place', method='POST')
-		.form-search
-		div.input-append
-			input#searchInput(type="text",name="login", autocomplete="off", placeholder="Bois de Boulogne...", data-provide="typeahead")
-			button.btn(type='text', name='search', id='search', value='chercher') Chercher
-
-		select#validation
-			option(value='true') Unvalidated
-			option(value='false') Validated
-			option(value='both') Both
-
 		div#placeContent
 		
 
@@ -21,27 +10,36 @@ mixin listAllPlacesForm()
 			var str;
 			var date;
 			$.each(data.place, function(key,val) {
+				//console.log(val);
 				date = new Date(val.creationDate);
 				
 				str = "<dl><span class='origin'>Par " + val.origin;
 				str += " - " + date.toLocaleDateString() + "</span>";
 
-				address = "Adresse: " +val.address['street'] + ", " + val.address['zip'] + " " + val.address['city'] + " - " + val.address['state'];
+				address = "<span class='text-field'>Adresse</span> " +val.address['street'] + ", " + val.address['zip'] + " " + val.address['city'] + " - " + val.address['state'];
 				
-				str += "<dt>"+val.title+"</dt><dd>"+ val.content.slice(0, 110) +"...</dd><dd>"+address+"</dd>";
-				if (val.contact) {
-					str += "<dd>Transport: " + val.contact['transportation'] + "</dd>";
-					str += "<dd>Tel: " + val.contact['tel'] + "</dd>";
-					str += "<dd>Site web: <a href=" + val.contact['web'] + ">" + val.contact['web'] +  "</a></dd>";
+				str += "<dt>"+val.title+"</dt>";
+				if (val.content) {
+					str += "<dd>" + val.content.slice(0, 110) +"...</dd>";
 				}
-				str += "<dd>Lien externe: <a href='" + val.outGoingLink + "'>" + val.outGoingLink + "</a></dd>";
-				str += "<dd>YakCat : ";
+				str += "<dd>"+address+"</dd>";
+				if (val.contact) {
+					if (val.contact['transportation'])
+						str += "<dd><span class='text-field'>Transport</span> " + val.contact['transportation'] + "</dd>";
+					if (val.contact['tel'])
+						str += "<dd><span class='text-field'>Tel</span> " + val.contact['tel'] + "</dd>";
+					if (val.contact['web'])
+						str += "<dd><span class='text-field'>Site web</span> <a href=" + val.contact['web'] + ">" + val.contact['web'] +  "</a></dd>";
+				}
+				if (val.outGoingLink)
+					str += "<dd><span class='text-field'>Lien externe</span> <a href='" + val.outGoingLink + "'>" + val.outGoingLink + "</a></dd>";
+				
+				str += "<dd><span class='text-field'>YakCat</span>";
 
-
-
+				//console.log(val.yakcat);
 				if (val.freeTag) {
 					var length = val.freeTag.length;
-					str += "<dd>FreeTag: ";
+					str += "<dd><span class='text-field'>FreeTag</span> ";
 					for (var i = length - 1; i >= 0; i--)	{
 						str += val.freeTag[i];
 						if (i != 0 )

@@ -7,6 +7,7 @@ block content
 	include ../mixins/forms/loginForm.jade
 	include ../mixins/forms/searchForm.jade
 	include ../mixins/forms/listAllPlacesForm.jade
+	include ../mixins/forms/placeControle.jade
 	
 	mixin menu('place')
 	mixin locationChooser()
@@ -18,22 +19,8 @@ block content
 				div#mymap
 			div.span8
 				div#newsfeedContainer
-					span#newsfeedMenu
-						span.btn.active(title="Actu", type=1) 
-							img(src="/images/markers/type1.png")
-						span.btn(title="Discussion", type=4) 
-							img(src="/images/markers/type4.png")
-						span.btn(title="Agenda", type=2) 
-							img(src="/images/markers/type2.png")
-						span.btn(title="Infos Pratiques", type=3) 
-							img(src="/images/markers/type3.png")
-						span.btn(title="Mes alertes", type=5)
-							img(src="/images/markers/type5.png")
-						//span.btn.btn-link(title="testfeed", type=10)
-						//	i.icon-fire
-						div#heatModule
-							div#dayPrinter Depuis 3 jours	
-							div#heatSelector
+					div#newsfeedMenu
+						mixin placeControle()
 					span#newsNav				
 						ul.nav.nav-tabs
 							li.active(contentToLoad="newsfeedContent")
@@ -52,7 +39,7 @@ block content
 					span#addplaceContent.tabContent
 						mixin placeForm()
 					span#searchContent.tabContent
-						mixin searchForm()
+							mixin searchForm()
 					span#mypostsContent.tabContent
 						div under construction
 				
