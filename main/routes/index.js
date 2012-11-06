@@ -10,7 +10,7 @@ exports.db = function(conf){
 };
 	
 exports.index = function(req, res){
-  res.render('news/map');
+  res.render('place/map');
 };
 
 exports.partials = function (req, res) {
@@ -61,29 +61,31 @@ exports.place = function(req, res){
 	var formMessage = new Array();
 	delete req.session.message;
 	var Place = db.model('Place');
-	var theZone = 1;
+	var theZone = req.body.zone;
 	var place;
 	//mongoose.set('debug', true);
 	//var obj_id = '507e81614a53046319000000';
 	//var obj_id = '50911d37065a060000000003';
 	var obj_id = req.body.objid;
+	var edit = false;
 	//console.log(req.files);
-	// we need a title, a location and a user
 	
+	// we need a title, a location and a user	
 	if(req.body.placeInput && req.body.title && req.session.user)
-	{
-		//if(req.body.zone > 0 )
-		//	theZone = req.body.zone;
-		
+	{	
 		Place.findById(obj_id, function (err, place)
 		{
 			if (err || place == null) 
 			{
 				console.log("Place not found by id: creating a new place");
+				edit = false;
 				place = new Place();
 			}
 			else
+			{
 				console.log("Place found by id: updating");
+				edit = true;
+			}
 				
 			var drawTool = require('../mylib/drawlib.js');
 			var size = [{"width":120,"height":90},{"width":512,"height":0}];
@@ -114,14 +116,24 @@ exports.place = function(req, res){
 				place.location = {lng:parseFloat(req.body.longitude),lat:parseFloat(req.body.latitude)};
 					
 				
-				place.creationDate = new Date();
+				if (!edit)
+					place.creationDate = new Date();
 				place.lastModifDate = new Date();
 				place.status = 1;
 				place.origin = 'operator';
 				place.access = 1;
 				place.licence = req.body.licence;
 				place.freeTag = req.body.freetag.split(',');
-				//place.zone = theZone;	
+
+				// On spécifie la zone en utilisant les id des zones en base
+				/*if (theZone == 1)
+					place.zone = mongoose.Types.ObjectId("");
+				else if (theZone == 2)
+					place.zone = mongoose.Types.ObjectId("");
+				else if (theZone == 3)
+					place.zone = mongoose.Types.ObjectId("");
+				else if (theZone == 4)
+					place.zone = mongoose.Types.ObjectId("");*/	
 					
 				// security against unidentified users	
 				if(req.session.user)
@@ -129,12 +141,18 @@ exports.place = function(req, res){
 					place.user = req.session.user._id;	
 					place.save(function (err) 
 					{
-						if (!err) console.log('Success!');
-						else console.log(err);
+						if (!err) 
+						{
+							formMessage.push("La place a été sauvegardée !");
+							console.log('Success!');
+						}
+						else
+						{
+							formMessage.push("Une erreur est survenue lors de l'ajout de la place (Doublon...etc)."); 
+							console.log(err);
+						}
 					});
-				}
-				formMessage.push("La place a été sauvegardée !");
-				
+				}	 
 			}
 			else
 			{
@@ -169,7 +187,7 @@ exports.user_login = function(req, res){
 };
 exports.user_logout = function(req, res){
 	delete req.session.user;
-	res.redirect('/news/map');
+	res.redirect('/place/map');
 };
 exports.user = function(req, res){
 
@@ -179,7 +197,7 @@ exports.user = function(req, res){
 	User.Authenticate(req.body.login, req.body.password, function(err,user){
 		if(!(typeof(user) == 'undefined' || user === null || user === '')){
 			req.session.user = user;
-			res.redirect(req.body.redir || '/news/map');
+			res.redirect(req.body.redir || '/place/map');
 		}else{
 			req.session.message = 'Wrong login or password:';
 			res.redirect('user/login?redir='+req.body.redir);

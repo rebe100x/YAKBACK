@@ -289,14 +289,14 @@ mongoose.model('Yakcat', Yakcat);
 
 /***************PLACE*/
 var Place = new Schema({
-	title	: { type: String, index:true}
+	title	: { type: String, required: true, index: { unique: true} }
 ,	content	: { type: String }
 ,	thumb	: { type: String }
 ,	origin	: { type: String }
 ,	access	: { type: Number }
 ,	licence	: { type: String }
 ,	outGoingLink	: { type: String }
-, yakCat	: [Schema.ObjectId]		
+, 	yakCat	: [Schema.ObjectId]		
 , 	freeTag	: [String]
 ,	creationDate	: {type: Date, required: true, default: Date.now}		
 ,	lastModifDate	: {type: Date, required: true, default: Date.now}		
@@ -318,7 +318,6 @@ var Place = new Schema({
 },{ collection: 'place' });
 
 Place.index({location : '2d'});
-Place.index({title:1, status:1});
 
 Place.statics.findAll = function (callback) {
   return this.find({},[],{sort:{title:1}}, callback);
