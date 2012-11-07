@@ -16,13 +16,24 @@ mixin listAllPlacesForm()
 				str = "<dl><span class='origin'>Par " + val.origin;
 				str += " - " + date.toLocaleDateString() + "</span>";
 
-				address = "<span class='text-field'>Adresse</span> " +val.address['street'] + ", " + val.address['zip'] + " " + val.address['city'] + " - " + val.address['state'];
-				
+				address = "<span class='text-field'>Adresse</span>";
+				if (val.formatted_address)
+					address += val.formatted_address;
+				else {
+					if (val.address['street'])
+						address += val.address['street'] + ", ";
+					if (val.address['zip'] || val.address['city'])
+						address += val.address['zip'] + " " + val.address['city'];
+					if (val.address['state'])
+						address += ", " + val.address['state'];
+				}
+
 				str += "<dt>"+val.title+"</dt>";
 				if (val.content) {
-					str += "<dd>" + val.content.slice(0, 110) +"...</dd>";
+					str += "<dd>" + val.content.slice(0, 100) +"...</dd>";
 				}
 				str += "<dd>"+address+"</dd>";
+
 				if (val.contact) {
 					if (val.contact['transportation'])
 						str += "<dd><span class='text-field'>Transport</span> " + val.contact['transportation'] + "</dd>";
