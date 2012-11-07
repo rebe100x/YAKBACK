@@ -25,6 +25,51 @@ block content
 							div.alert.fade.in
 								button.close(type="button",data-dismiss="alert") x
 								strong=message
+					
+					table#MyGrid.table.table-bordered.datagrid
+						thead
+							tr
+								th
+									span.datagrid-header-title Geographic Data Sample
+									.datagrid-header-left
+									.datagrid-header-right
+										.input-append.search
+											input.input-medium(type='text', placeholder='Search')
+											button.btn
+												i.icon-search
+						tfoot
+							tr
+								th
+									.datagrid-footer-left(style='display: none;')
+										.grid-controls
+										span
+											span.grid-start
+											| -
+											span.grid-end
+											| of
+											span.grid-count
+										select.grid-pagesize
+											option 10
+											option 20
+											option 50
+											option 100
+										span Per Page
+									.datagrid-footer-right(style='display: none;')
+										.grid-pager
+											button.btn.grid-prevpage
+												i.icon-chevron-left
+											span Page
+											.input-append.dropdown.combobox
+												input.span1(type='text')
+												button.btn(data-toggle='dropdown')
+													i.caret
+												ul.dropdown-menu
+											span
+												| of
+												span.grid-pages
+											button.btn.grid-nextpage
+												i.icon-chevron-right
+
 					div#newsfeedContainer
 						span#newsNav				
 							ul.nav.nav-tabs
@@ -49,6 +94,87 @@ block content
 							div under construction
 				
 	script
+
+		var ApiDataSource = function (options) {
+			this._formatter = options.formatter;
+			this._columns = options.columns;
+		};
+
+		ApiDataSource.prototype = {
+
+			columns: function () {
+				return this._columns;
+			},
+
+			data: function (options, callback) {
+
+				var url = '/api';
+				var self = this;
+
+				if (options.search) {
+
+					// Search active.  Add URL parameters for Flickr API.
+					url += '/' + (options.pageIndex + 1);
+					url += '/' + options.pageSize;
+					url += '/' + options.search;
+
+					$.ajax(url, {
+
+						type: 'GET'
+
+					}).done(function (response) {
+
+						// Prepare data to return to Datagrid
+						var data = response.places;
+
+//						var count = response.photos.total;
+//						var startIndex = (response.photos.page - 1) * response.photos.perpage;
+//						var endIndex = startIndex + response.photos.perpage;
+//						var end = (endIndex > count) ? count : endIndex;
+//						var pages = response.photos.pages;
+//						var page = response.photos.page;
+//						var start = startIndex + 1;
+
+						// Allow client code to format the data
+						if (self._formatter) self._formatter(data);
+
+						// Return data to Datagrid
+						//callback({ data: data, start: start, end: end, count: count, pages: pages, page: page });
+						callback({ data: data, start: 1, end: 10, count: 10, pages: 1, page: 1 });
+
+					});
+
+				} else {
+
+					// No search. Return zero results to Datagrid
+					callback({ data: [], start: 0, end: 0, count: 0, pages: 0, page: 0 });
+
+				}
+			}
+		};
+
+		$('#MyGrid').datagrid({
+			dataSource: new ApiDataSource({
+
+				// Column definitions for Datagrid
+				columns: [{
+					property: 'title',
+					label: 'Title',
+					sortable: false
+				},{
+					property: 'content',
+					label: 'Content',
+					sortable: false
+				}],
+
+				// Create IMG tag for each returned image
+				formatter: function (items) {
+					$.each(items, function (index, item) {
+						item.image = '<img src="' + flickrUrl(item) + '"></a>';
+					});
+				}
+			})
+		});
 			
 		$("#validation").change(function() {			
 			$.getJSON('/api/places/'+ $(this).val(),function(data) {
