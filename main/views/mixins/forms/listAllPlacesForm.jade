@@ -12,8 +12,8 @@ mixin listAllPlacesForm()
 			$.each(data.place, function(key,val) {
 				//console.log(val);
 				date = new Date(val.creationDate);
-				
-				str = "<dl><span class='origin'>Par " + val.origin;
+					
+				str = "<dl><span class='origin'>Par " + val.user;
 				str += " - " + date.toLocaleDateString() + "</span>";
 
 				address = "<span class='text-field'>Adresse</span>";
