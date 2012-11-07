@@ -61,7 +61,7 @@ exports.place = function(req, res){
 	var formMessage = new Array();
 	delete req.session.message;
 	var Place = db.model('Place');
-	var theZone = req.body.zone;
+	var Zone = db.model('Zone');
 	var place;
 	//mongoose.set('debug', true);
 	//var obj_id = '507e81614a53046319000000';
@@ -99,7 +99,7 @@ exports.place = function(req, res){
 					var yakcat = eval('('+req.body.yakcatInput+')');
 					for(i=0;i<yakcat.length;i++)
 					{
-						place.yakCat.push(mongoose.Types.ObjectId(yakcat[i]._id));
+						place.yakCat.push(yakcat[i]._id);
 					}
 				}
 				place.title = req.body.title;
@@ -124,16 +124,18 @@ exports.place = function(req, res){
 				place.access = 1;
 				place.licence = req.body.licence;
 				place.freeTag = req.body.freetag.split(',');
-
-				// On spécifie la zone en utilisant les id des zones en base
-				/*if (theZone == 1)
-					place.zone = mongoose.Types.ObjectId("");
-				else if (theZone == 2)
-					place.zone = mongoose.Types.ObjectId("");
-				else if (theZone == 3)
-					place.zone = mongoose.Types.ObjectId("");
-				else if (theZone == 4)
-					place.zone = mongoose.Types.ObjectId("");*/	
+				
+				Zone.findNear(place.location.lat, place.location.lng, function(err, zone)
+				{
+					if (!err)
+					{
+						place.zone = zone[0]._id;
+					}
+					else
+					{
+						console.log(err);
+					}
+				});
 					
 				// security against unidentified users	
 				if(req.session.user)

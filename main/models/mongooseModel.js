@@ -247,8 +247,6 @@ Zone.statics.findNear = function (x,y,callback) {
   //return this.find( { "location" : { "$within" : {,"$box": [[x-1, y-1], [x+1, y+1]]}}},callback );
 }
 
-
-
 Zone.statics.findAll = function (callback) {
   return this.find({}, callback);
 }
