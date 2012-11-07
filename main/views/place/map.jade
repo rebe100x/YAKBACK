@@ -18,33 +18,41 @@ block content
 			div.span4
 				div#mymap
 			div.span8
-				div#newsfeedContainer
-					div#newsfeedMenu
+				div
+					div
 						mixin placeControle()
-					span#newsNav				
-						ul.nav.nav-tabs
-							li.active(contentToLoad="newsfeedContent")
-								a.newsNavItem#newsFeed(href="#") Les places
-							- if(session)	
-								li(contentToLoad="addplaceContent")
-									a.newsNavItem#addPlace(href="#") Ajouter une place
-							li(contentToLoad="searchContent")
-								a.newsNavItem#search(href="#") Rechercher
-							- if(session)	
-								li(contentToLoad="mypostsContent")
-									a.newsNavItem#myPosts(href="#") Mes Posts
-									
-					span#newsfeedContent.tabContent			
-						mixin listAllPlacesForm()
-					span#addplaceContent.tabContent
-						mixin placeForm()
-					span#searchContent.tabContent
-							mixin searchForm()
-					span#mypostsContent.tabContent
-						div under construction
+					div#newsfeedContainer
+						span#newsNav				
+							ul.nav.nav-tabs
+								li.active(contentToLoad="newsfeedContent")
+									a.newsNavItem#newsFeed(href="#") Les places
+								- if(session)	
+									li(contentToLoad="addplaceContent")
+										a.newsNavItem#addPlace(href="#") Ajouter une place
+								li(contentToLoad="searchContent")
+									a.newsNavItem#search(href="#") Rechercher
+								- if(session)	
+									li(contentToLoad="mypostsContent")
+										a.newsNavItem#myPosts(href="#") Mes Posts
+										
+						span#newsfeedContent.tabContent			
+							mixin listAllPlacesForm()
+						span#addplaceContent.tabContent
+							mixin placeForm()
+						span#searchContent.tabContent
+								mixin searchForm()
+						span#mypostsContent.tabContent
+							div under construction
 				
 	script
-		
+			
+		$("#validation").change(function() {			
+			$.getJSON('/api/places/'+ $(this).val(),function(data) {
+				$('div#placeContent').html("");
+				renderData(data);
+			});
+		});
+
 		/*INIT*/
 		var conf = !{conf};
 		var user = [!{user}];
@@ -175,38 +183,6 @@ block content
 				}
 			});
 		
-			/*init type selector*/
-			$('#newsfeedMenu span.btn').removeClass('active');
-			
-			
-			$.each(type,function(key,val){
-						$("#newsfeedMenu span.btn[type=\""+val+"\"]").addClass('active');
-			});
-
-			$('#newsfeedMenu span.btn[type="5"]').removeClass('active');
-			/*type selector*/
-			$('#newsfeedMenu span.btn').click(function(){
-				var curtype = $(this).attr('type');
-				if(curtype == 5){
-					$('#newsfeedMenu span.btn').removeClass('active');
-					$(this).addClass('active');
-					type = [5];
-					
-				}else{
-					$('#newsfeedMenu span.btn[type="5"]').removeClass('active');
-					if($(this).hasClass('active')){
-						$(this).removeClass('active');
-						type.cleanArrayByName(curtype);	
-					}
-					else{
-						$(this).addClass('active');
-						type.push(curtype);
-					}
-				}
-				
-				getAndPrintInfo();
-			});
-			
 			// init news feed
 			drawNewsFeed();
 

@@ -36,7 +36,8 @@ mixin listAllPlacesForm()
 				
 				str += "<dd><span class='text-field'>YakCat</span>";
 
-				//console.log(val.yakcat);
+				console.log(val);
+
 				if (val.freeTag) {
 					var length = val.freeTag.length;
 					str += "<dd><span class='text-field'>FreeTag</span> ";
@@ -51,10 +52,3 @@ mixin listAllPlacesForm()
 				$('#placeContent').append(str);
 			});
 		}
-
-		$("#validation").change(function() {
-			$.getJSON('/api/places/'+ $(this).val(),function(data) {
-				$('div#placeContent').html("");
-				renderData(data);
-			});
-		});
