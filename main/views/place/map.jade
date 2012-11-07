@@ -96,7 +96,7 @@ block content
 	script
 
 		var ApiDataSource = function (options) {
-			this._formatter = options.formatter;
+			this._formatter = null;
 			this._columns = options.columns;
 		};
 
@@ -127,14 +127,6 @@ block content
 						// Prepare data to return to Datagrid
 						var data = response.places;
 
-//						var count = response.photos.total;
-//						var startIndex = (response.photos.page - 1) * response.photos.perpage;
-//						var endIndex = startIndex + response.photos.perpage;
-//						var end = (endIndex > count) ? count : endIndex;
-//						var pages = response.photos.pages;
-//						var page = response.photos.page;
-//						var start = startIndex + 1;
-
 						// Allow client code to format the data
 						if (self._formatter) self._formatter(data);
 
@@ -155,8 +147,6 @@ block content
 
 		$('#MyGrid').datagrid({
 			dataSource: new ApiDataSource({
-
-				// Column definitions for Datagrid
 				columns: [{
 					property: 'title',
 					label: 'Title',
@@ -165,14 +155,8 @@ block content
 					property: 'content',
 					label: 'Content',
 					sortable: false
-				}],
+				}]
 
-				// Create IMG tag for each returned image
-				formatter: function (items) {
-					$.each(items, function (index, item) {
-						item.image = '<img src="' + flickrUrl(item) + '"></a>';
-					});
-				}
 			})
 		});
 			
