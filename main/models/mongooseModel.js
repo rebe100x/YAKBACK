@@ -321,6 +321,11 @@ Place.statics.findAll = function (callback) {
   return this.find({},[],{sort:{title:1}}, callback);
 }
 
+Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, callback) {
+	//TODO FIX
+	return null
+}
+
 Place.statics.countUnvalidated = function (callback) {
 	return this.count( {status: { $in: [3, 10]}}, callback );
 }
