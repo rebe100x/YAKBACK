@@ -108,7 +108,7 @@ block content
 
 			data: function (options, callback) {
 
-				var url = '/api';
+				var url = '/api/places';
 				var self = this;
 
 				if (options.search) {
@@ -125,7 +125,8 @@ block content
 					}).done(function (response) {
 
 						// Prepare data to return to Datagrid
-						var data = response.places;
+						console.log(response);
+						var data = response.place;
 
 						// Allow client code to format the data
 						if (self._formatter) self._formatter(data);
