@@ -15,17 +15,6 @@ mixin placeForm()
 					input.span6.hashtagMaker(type='text', name='title', id='title', placeholder='Titre: vous pouvez utiliser des hashtags dans votre texte ( #Halloween )')
 					textarea#content.span6.hashtagMaker(name='content', placeholder='Texte: vous pouvez utiliser des hashtags dans votre texte ( #Halloween )',rows='3')
 			div.control-group
-				label(for='zone') Choisir la zone:
-				div.controls
-					label.radio.inline Paris
-						input#option1(type="radio", name="zone", value="1" , checked) 
-					label.radio.inline Montpellier
-						input#option4(type="radio", name="zone", value="2")
-					label.radio.inline Eghezée
-						input#option2(type="radio", name="zone", value="3")
-					label.radio.inline Autre
-						input#options3(type="radio", name="zone", value="4")
-			div.control-group
 				label(for='Place') Cliquer sur la carte ou entrer une adresse:<br>
 				div.controls
 					div.input-append
