@@ -323,7 +323,10 @@ Place.statics.findAll = function (callback) {
 
 Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, callback) {
 	//TODO Le(s) SearchTerm(s)
-	return this.find({}, 'title content', {skip: (pageIndex -1)*pageSize, limit: pageSize}, callback);
+	var res;
+	var search = new RegExp(searchTerm, 'i');
+	return this.find({title : search}, 'title content', {skip: (pageIndex -1)*pageSize, limit: pageSize}, callback);
+
 }
 
 Place.statics.countUnvalidated = function (callback) {
