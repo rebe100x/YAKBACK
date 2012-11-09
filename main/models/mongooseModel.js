@@ -317,6 +317,10 @@ var Place = new Schema({
 
 Place.index({location : '2d'});
 
+Place.statics.findById = function (id, callback) {
+  return this.findOne({'_id': id}, callback);
+}
+
 Place.statics.findAll = function (callback) {
   return this.find({},[],{sort:{title:1}}, callback);
 }
@@ -324,7 +328,12 @@ Place.statics.findAll = function (callback) {
 Place.statics.countSearch = function (searchTerm, callback) {
 	var search = new RegExp(searchTerm, 'i');
 
-	return this.count({title : search}, callback);
+	return this.count(
+		{	
+			"title" : search, 
+			"status" : 
+				{ $in: [1, 3, 10]} 
+		}, callback);
 }
 
 Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy, sortDirection, callback) {
@@ -336,7 +345,9 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy
 
 	return this.find(
 		{
-			title : search
+			"title" : search,
+			"status" : 
+				{ $in: [1, 3, 10]}
 		}, 
 		'title content outGoingLink address user', 
 		{
@@ -344,7 +355,8 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy
 				(pageIndex -1)*pageSize, 
 			limit: 
 				pageSize,
-			sort: [[sortBy, desc]]
+			sort: 
+				[[sortBy, desc]]
 		}, 
 		callback);
 }

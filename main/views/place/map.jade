@@ -27,6 +27,8 @@ block content
 										th
 											span.datagrid-header-title Liste des places
 											.datagrid-header-left
+												button.btn#btnAdd
+													i.icon-plus
 											.datagrid-header-right
 												.input-append.search
 													input.input-medium(type='text', placeholder='Search')
@@ -64,6 +66,8 @@ block content
 														span.grid-pages
 													button.btn.grid-nextpage
 														i.icon-chevron-right
+							div
+								mixin placeForm()
 
 				
 	script
@@ -157,6 +161,8 @@ block content
 		
 		function fillContent(item) {
 			var res;
+
+			res = '<a class="editPlace" id="' + item._id + '" href="#">';
 			var size = 90;
 			res = '<div class="text-info">' + item.title + '</div><small>';
 			if (item.content.length > size)
@@ -165,9 +171,45 @@ block content
 				res += '<em>' + item.content + '</em>';
 			if (item.outGoingLink)
 				res += '<br><a href=\''+ item.outGoingLink + '\'>' + item.outGoingLink + '</a>';
-			res += '</small>';
+			res += '</small></a>';
 			return res;
 		}
+
+		$(".editPlace").live('click', function() {
+			$("#MyGrid").hide();
+			$("#placeForm").show();
+			$("#btnBack").show();
+			event.preventDefault();
+			listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
+				getformattedAddress(event.latLng);
+				placeMarker(event.latLng,markerLocation);
+				google.maps.event.addListener(markerLocation, 'dragend', function() {
+					var position = markerLocation.getPosition();
+					$('#placeForm #latitude').val(position.lat());	
+					$('#placeForm #longitude').val(position.lng());	
+					
+					getformattedAddress(position);
+					
+				});		
+			});
+			
+			$("#placeForm #objid").val(this.id);
+			
+			var url = '/api/findPlaceById/'+this.id;
+			
+			$.ajax(url, {type: 'GET'}).done(function (response) {
+				var place = response.place;
+				$("#placeForm #latitude").val(place.location.lat);
+				$("#placeForm #longitude").val(place.location.lng);
+				$("#placeForm #licence").val(place.licence);		
+				$("#placeForm #origine").val(place.origin);
+				$("#placeForm #title").val(place.title);		
+				$("#placeForm #content").val(place.content);
+				$("#placeForm #freetag").val(place.freeTag);
+				$("#placeForm #place").val(place.formatted_address);
+				$("#placeForm #btn-place-adder").click();
+			});	
+		});
 
 		function formatUser(item) {
 			var res;
@@ -187,6 +229,34 @@ block content
 				renderData(data);
 			});
 		});
+		
+		$("#btnAdd").click(function() {			
+			$("#MyGrid").hide();
+			$("#placeForm").show();
+			$("#btnBack").show();
+			event.preventDefault();
+			listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
+				getformattedAddress(event.latLng);
+				placeMarker(event.latLng,markerLocation);
+				google.maps.event.addListener(markerLocation, 'dragend', function() {
+					var position = markerLocation.getPosition();
+					$('#placeForm #latitude').val(position.lat());	
+					$('#placeForm #longitude').val(position.lng());	
+					
+					getformattedAddress(position);
+					
+				});		
+			});
+		});
+		
+		$("#btnBack").click(function() {
+			$("#MyGrid").show();
+			$("#placeForm").hide();
+			$("#btnBack").hide();
+			google.maps.event.removeListener(listenerHandle);
+			markerLocation.setVisible(false);
+		});
+
 
 		/*INIT*/
 		var conf = !{conf};
@@ -236,43 +306,6 @@ block content
 				$('ul#favplacelist').append("<li lat='43.610787' lng='3.876715' class='zoneLoc'><i class='icon-map-marker'></i><span> Montpellier, France</span></li>");
 				$('ul#favplacelist').append("<li lat='50.583346' lng='4.900031' class='zoneLoc'><i class='icon-map-marker'></i><span> Eghézée, Belgique</span></li>");
 			}
-			
-			
-			
-			/*news nav*/
-			$('#newsNav li').click(function(){
-				event.preventDefault();
-				if(!$(this).hasClass('active')){
-					$('#newsNav li').removeClass('active');	
-					$(this).addClass('active');
-					var contentToLoad = $(this).attr('contentToLoad');
-					
-					$('.tabContent').hide();
-					$('#'+contentToLoad).fadeIn();	
-					
-					if(contentToLoad == "addplaceContent"){
-						// INIT MARKERLOCATION
-						
-						listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
-							getformattedAddress(event.latLng);
-							placeMarker(event.latLng,markerLocation);
-							google.maps.event.addListener(markerLocation, 'dragend', function() {
-								var position = markerLocation.getPosition();
-								$('#placeForm #latitude').val(position.lat());	
-								$('#placeForm #longitude').val(position.lng());	
-								
-								getformattedAddress(position);
-								
-							});		
-						});
-					}
-					else{
-						google.maps.event.removeListener(listenerHandle);
-						markerLocation.setVisible(false);
-					}
-				}
-					
-			});
 				
 			/*endroits favoris*/
 			$('ul#favplacelist').delegate("li.zoneLoc span",'click', function () {
