@@ -1,40 +1,38 @@
 mixin placeForm()
-	- if(session)
-		form#placeForm(action='/place', method='POST', enctype='multipart/form-data', style='display:none')
-			input#yakcatInput(type='hidden', name='yakcatInput', value='') 
-			input#placeInput(type='hidden', name='placeInput', value='')
-			input#latitude(type="hidden",data-provide="typeahead", name="latitude")
-			input#longitude(type="hidden",data-provide="typeahead", name="longitude")
-			input#update(type="hidden",data-provide="typeahead", name="update", value='0')
-			input#objid(type="hidden",data-provide="typeahead", name="objid", value='0')
-			button.btn#btnBack
-				i.icon-chevron-left
-			legend Ajouter une place
-			div.control-group
-				div.controls
-					input.span6.hashtagMaker(type='text', name='licence', id='licence', placeholder='Licence...') 
-					input.span6.hashtagMaker(type='text', name='origine', id='origine', placeholder='Origine...')
-					input.span6.hashtagMaker(type='text', name='title', id='title', placeholder='Titre: vous pouvez utiliser des hashtags dans votre texte ( #Halloween )')
-					textarea#content.span6.hashtagMaker(name='content', placeholder='Texte: vous pouvez utiliser des hashtags dans votre texte ( #Halloween )',rows='3')
-			div.control-group
-				label(for='Place') Cliquer sur la carte ou entrer une adresse:<br>
-				div.controls
-					div.input-append
-						input#place(type="text",data-provide="typeahead", name="place", autocomplete="off", placeholder='Rechercher...') 
-						button.btn#btn-place-adder(type="button") Ajouter
-			br
-			div.control-group
-				label(for='category') Choisir un ou plusieurs thèmes:
-				div.controls
-					input#yakcat.span6(type="text",data-provide="typeahead", name="yakcat", autocomplete="off", placeholder='Rechercher...')
-				div.controls	
-					input#freetag.span6(type="text",data-provide="typeahead", name="freetag",placeholder='Free tags séparés par des virgules')
-			div.control-group
-				label(for='picture') Ajouter une photo:
-				div.controls
-					span#picturePreview
-					input.span6#picture(type="file",style="display:block",name="picture")
-			br
-			button.btn.btn-large.btn-block.btn-inverse(style='width:100%',type='submit', name='submit', id='submit', value='Envoyer') Envoyer
-	- else
-		mixin loginForm()
+	button.btn#btnBack
+		i.icon-chevron-left
+	form#placeForm(action='/place', method='POST', enctype='multipart/form-data', style='display:none')
+		input#yakcatInput(type='hidden', name='yakcatInput', value='') 
+		input#placeInput(type='hidden', name='placeInput', value='')
+		input#latitude(type="hidden",data-provide="typeahead", name="latitude")
+		input#longitude(type="hidden",data-provide="typeahead", name="longitude")
+		input#update(type="hidden",data-provide="typeahead", name="update", value='0')
+		input#objid(type="hidden",data-provide="typeahead", name="objid", value='0')
+
+		legend Ajouter une place
+		div.control-group
+			div.controls
+				input.span6.hashtagMaker(type='text', name='licence', id='licence', placeholder='Licence...') 
+				input.span6.hashtagMaker(type='text', name='origine', id='origine', placeholder='Origine...')
+				input.span6.hashtagMaker(type='text', name='title', id='title', placeholder='Titre: vous pouvez utiliser des hashtags dans votre texte ( #Halloween )')
+				textarea#content.span6.hashtagMaker(name='content', placeholder='Texte: vous pouvez utiliser des hashtags dans votre texte ( #Halloween )',rows='3')
+		div.control-group
+			label(for='Place') Cliquer sur la carte ou entrer une adresse:<br>
+			div.controls
+				div.input-append
+					input#place(type="text",data-provide="typeahead", name="place", autocomplete="off", placeholder='Rechercher...') 
+					button.btn#btn-place-adder(type="button") Ajouter
+		br
+		div.control-group
+			label(for='category') Choisir un ou plusieurs thèmes:
+			div.controls
+				input#yakcat.span6(type="text",data-provide="typeahead", name="yakcat", autocomplete="off", placeholder='Rechercher...')
+			div.controls	
+				input#freetag.span6(type="text",data-provide="typeahead", name="freetag",placeholder='Free tags séparés par des virgules')
+		div.control-group
+			label(for='picture') Ajouter une photo:
+			div.controls
+				span#picturePreview
+				input.span6#picture(type="file",style="display:block",name="picture")
+		br
+		button.btn.btn-large.btn-block.btn-inverse(style='width:100%',type='submit', name='submit', id='submit', value='Envoyer') Envoyer
