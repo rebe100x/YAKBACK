@@ -129,10 +129,22 @@ block content
 					property: 'title',
 					label: 'Title',
 					sortable: true
+				},
+				{
+					property: 'user',
+					label: 'User',
+					sortable: true
+				},
+				{
+					property: 'address',
+					label: 'Ville',
+					sortable: true
 				}],
 				formatter: function (items) {
 					$.each(items, function (index, item) {
-						item.title = fillContent(item);
+							item.title = fillContent(item);
+							item.address = item.address['city'];
+							item.user = formatUser(item);
 					});
 				}
 			})
@@ -146,9 +158,16 @@ block content
 			else
 				res += '<em>' + item.content + '</em>';
 			if (item.outGoingLink)
-				res += '<br><a href=\''+ item.outGoingLink + '>' + item.outGoingLink + '</a>';
+				res += '<br><a href=\''+ item.outGoingLink + '\'>' + item.outGoingLink + '</a>';
 			res += '</small>';
 			return res;
+		}
+
+		function formatUser(item) {
+			if (item.user)
+				return item.user.title;
+			else
+				return "Yakwala";
 		}
 
 		$("#validation").change(function() {			
