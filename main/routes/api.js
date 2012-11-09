@@ -209,6 +209,15 @@ exports.usersearch = function (req, res) {
 	});
 };
 
+exports.userById = function (req, res) {
+	var User = db.model('User');
+	User.findById(req.params.id,function (err, docs){
+	  res.json({
+		user: docs
+	  });
+	});
+};
+
 exports.posts = function (req, res) {
   var posts = [];
   data.posts.forEach(function (post, i) {

@@ -107,6 +107,7 @@ app.get('/api/places', api.places);
 app.get('/api/places/:pageIndex/:pageSize/:searchTerm/:sortBy/:sortDirection', api.gridPlaces);
 app.get('/api/usersearch/:string', api.usersearch);
 app.get('/api/findCatById', api.findCatById);
+app.get('/api/user/:id', api.userById);
 
 app.get('/api/validusers', api.countUnvalidatedUsers);
 app.get('/api/validcats', api.countUnvalidatedCats);
