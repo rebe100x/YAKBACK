@@ -90,63 +90,35 @@ block content
 				var url = '/api/places';
 				var self = this;
 
-				if (options.search) {
+				if (!options.search) {
 
-					// Search active.  Add URL parameters for Flickr API.
-					url += '/' + (options.pageIndex + 1);
-					url += '/' + options.pageSize;
-					url += '/' + options.search;
-
-					$.ajax(url, {
-
-						type: 'GET'
-
-					}).done(function (response) {
-
-						// Prepare data to return to Datagrid
-						console.log(response);
-						var data = response.place;
-						var count = data.length;
-						
-						// Allow client code to format the data
-						if (self._formatter) self._formatter(data);
-
-						// Return data to Datagrid
-						//callback({ data: data, start: start, end: end, count: count, pages: pages, page: page });
-						callback({ data: data, start: 1, end: 10, count: count, pages: 1, page: 1 });
-
-					});
-
-				} else {
 					options.search = "^";
-
-					url += '/' + (options.pageIndex + 1);
-					url += '/' + options.pageSize;
-					url += '/' + options.search;
-
-					$.ajax(url, {
-
-						type: 'GET'
-
-					}).done(function (response) {
-
-						console.log(response);
-						// Prepare data to return to Datagrid
-						var data = response.place;
-						var pagination = response.pagination;
-						console.log(response);
-						var count = data.length;
-						var startIndex = (response.pageIndex - 1) * response.pageSize;
-						var endIndex = startIndex + response.pageSize;
-						var end = (endIndex > count) ? count : endIndex;
-						var page = response.pageIndex;
-						var pages = response.count / response.pageSize;
-						var start = startIndex + 1;
-
-						callback({ data: data, start: start, end: end, count: count, pages: pages, page: page });
-
-					});
 				}
+
+				url += '/' + (options.pageIndex + 1);
+				url += '/' + options.pageSize;
+				url += '/' + options.search;
+
+				$.ajax(url, {
+
+					type: 'GET'
+
+				}).done(function (response) {
+
+					// Prepare data to return to Datagrid
+					var data = response.place;
+					var pagination = response.pagination;
+					var count = response.count;
+					var startIndex = (response.pageIndex - 1) * response.pageSize;
+					var endIndex = parseInt(startIndex) + parseInt(response.pageSize);
+					var end = (endIndex > count) ? count : endIndex;
+					var page = response.pageIndex;
+					var pages = Math.ceil(response.count / response.pageSize);
+					var start = startIndex + 1;
+
+					callback({ data: data, start: start, end: end, count: count, pages: pages, page: page });
+
+				});
 			}
 		};
 
