@@ -135,7 +135,7 @@ block content
 						var data = response.place;
 						var pagination = response.pagination;
 						console.log(response);
-						var count = data.length;
+						var count = response.count;
 						var startIndex = (response.pageIndex - 1) * response.pageSize;
 						var endIndex = startIndex + response.pageSize;
 						var end = (endIndex > count) ? count : endIndex;
