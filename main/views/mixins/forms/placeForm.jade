@@ -1,12 +1,14 @@
 mixin placeForm()
 	- if(session)
-		form#placeForm(action='/place', method='POST', enctype='multipart/form-data')
+		form#placeForm(action='/place', method='POST', enctype='multipart/form-data', style='display:none')
 			input#yakcatInput(type='hidden', name='yakcatInput', value='') 
 			input#placeInput(type='hidden', name='placeInput', value='')
 			input#latitude(type="hidden",data-provide="typeahead", name="latitude")
 			input#longitude(type="hidden",data-provide="typeahead", name="longitude")
 			input#update(type="hidden",data-provide="typeahead", name="update", value='0')
 			input#objid(type="hidden",data-provide="typeahead", name="objid", value='0')
+			button.btn#btnBack
+				i.icon-chevron-left
 			legend Ajouter une place
 			div.control-group
 				div.controls

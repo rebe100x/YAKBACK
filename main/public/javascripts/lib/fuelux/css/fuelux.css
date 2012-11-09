@@ -2121,6 +2121,11 @@ textarea.span1,
   background-color: #dff0d8;
 }
 
+.fuelux .table tbody small {
+  display: block;
+  padding-left: 20px;
+}
+
 .fuelux .table tbody tr.error td {
   background-color: #f2dede;
 }

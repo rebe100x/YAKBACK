@@ -338,7 +338,7 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy
 		{
 			title : search
 		}, 
-		'title content outGoingLink user', 
+		'title content outGoingLink address user', 
 		{
 			skip: 
 				(pageIndex -1)*pageSize, 
