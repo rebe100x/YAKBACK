@@ -171,16 +171,37 @@ block content
 		$(".editPlace").live('click', function() {
 			$("#MyGrid").hide();
 			$("#placeForm").show();
+			$("#btnBack").show();
+			event.preventDefault();
+			listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
+				getformattedAddress(event.latLng);
+				placeMarker(event.latLng,markerLocation);
+				google.maps.event.addListener(markerLocation, 'dragend', function() {
+					var position = markerLocation.getPosition();
+					$('#placeForm #latitude').val(position.lat());	
+					$('#placeForm #longitude').val(position.lng());	
+					
+					getformattedAddress(position);
+					
+				});		
+			});
+			
 			$("#placeForm #objid").val(this.id);
-			var Place = db.model('Place');
-			var place = Place.findById(this.id);
-			$("#placeForm #latitude").val(place.location.lat);
-			$("#placeForm #longitude").val(place.location.lng);
-			$("#placeForm #licence").val(place.licence);		
-			$("#placeForm #origine").val(place.origin);
-			$("#placeForm #title").val(place.title);		
-			$("#placeForm #content").val(place.content);
-			$("#placeForm #freetag").val(place.freeTag);
+			
+			var url = '/api/findPlaceById/'+this.id;
+			
+			$.ajax(url, {type: 'GET'}).done(function (response) {
+				var place = response.place;
+				$("#placeForm #latitude").val(place.location.lat);
+				$("#placeForm #longitude").val(place.location.lng);
+				$("#placeForm #licence").val(place.licence);		
+				$("#placeForm #origine").val(place.origin);
+				$("#placeForm #title").val(place.title);		
+				$("#placeForm #content").val(place.content);
+				$("#placeForm #freetag").val(place.freeTag);
+				$("#placeForm #place").val(place.formatted_address);
+				$("#placeForm #btn-place-adder").click();
+			});	
 		});
 
 		function formatUser(item) {
@@ -202,33 +223,26 @@ block content
 			$("#placeForm").show();
 			$("#btnBack").show();
 			event.preventDefault();
-			if(!$(this).hasClass('active')){
-				$('#newsNav li').removeClass('active');	
-				$(this).addClass('active');
-				var contentToLoad = $(this).attr('contentToLoad');
-				
-				$('.tabContent').hide();
-				$('#'+contentToLoad).fadeIn();	
-				
-				listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
-					getformattedAddress(event.latLng);
-					placeMarker(event.latLng,markerLocation);
-					google.maps.event.addListener(markerLocation, 'dragend', function() {
-						var position = markerLocation.getPosition();
-						$('#placeForm #latitude').val(position.lat());	
-						$('#placeForm #longitude').val(position.lng());	
-						
-						getformattedAddress(position);
-						
-					});		
-				});
-			}
+			listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
+				getformattedAddress(event.latLng);
+				placeMarker(event.latLng,markerLocation);
+				google.maps.event.addListener(markerLocation, 'dragend', function() {
+					var position = markerLocation.getPosition();
+					$('#placeForm #latitude').val(position.lat());	
+					$('#placeForm #longitude').val(position.lng());	
+					
+					getformattedAddress(position);
+					
+				});		
+			});
 		});
 		
 		$("#btnBack").click(function() {
 			$("#MyGrid").show();
 			$("#placeForm").hide();
 			$("#btnBack").hide();
+			google.maps.event.removeListener(listenerHandle);
+			markerLocation.setVisible(false);
 		});
 
 

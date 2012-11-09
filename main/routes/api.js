@@ -114,6 +114,15 @@ exports.places = function (req, res) {
 	});
 };
 
+exports.findPlaceById = function (req, res) {
+	var Place = db.model('Place');
+   	Place.findById(req.params.id, function (err, docs){
+  	  res.json({
+  		place: docs
+	  });
+	});
+};
+
 exports.gridPlaces = function (req, res) {
 	var Place = db.model('Place');
 	
