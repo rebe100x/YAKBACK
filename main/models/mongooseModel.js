@@ -344,7 +344,8 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy
 				(pageIndex -1)*pageSize, 
 			limit: 
 				pageSize,
-			sort: [[sortBy, desc]]
+			sort: 
+				[[sortBy, desc]]
 		}, 
 		callback);
 }

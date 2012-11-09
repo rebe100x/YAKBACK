@@ -132,7 +132,7 @@ block content
 				}],
 				formatter: function (items) {
 					$.each(items, function (index, item) {
-						item.title = fillContent(item);
+						item.title = '<a class="editPlace" id="' + item._id + '" href="#">' + fillContent(item) + '</a>';
 					});
 				}
 			})
@@ -150,6 +150,10 @@ block content
 			res += '</small>';
 			return res;
 		}
+
+		$(".editPlace").live('click', function() {
+			alert(this.id);
+		});
 
 		$("#validation").change(function() {			
 			$.getJSON('/api/places/'+ $(this).val(),function(data) {
