@@ -127,7 +127,7 @@ exports.gridPlaces = function (req, res) {
 		data['pageSize'] = req.params.pageSize;
 
 
-		Place.countAll(function (err, docs){
+		Place.countSearch(req.params.searchTerm, function (err, docs){
 			data['count'] = docs;
 			res.json(data);
 

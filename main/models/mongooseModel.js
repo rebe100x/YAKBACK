@@ -321,8 +321,10 @@ Place.statics.findAll = function (callback) {
   return this.find({},[],{sort:{title:1}}, callback);
 }
 
-Place.statics.countAll = function (callback) {
-	return this.count({}, callback);
+Place.statics.countSearch = function (searchTerm, callback) {
+	var search = new RegExp(searchTerm, 'i');
+
+	return this.count({title : search}, callback);
 }
 
 Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy, sortDirection, callback) {

@@ -111,7 +111,7 @@ block content
 					var startIndex = (response.pageIndex - 1) * response.pageSize;
 					var endIndex = parseInt(startIndex) + parseInt(response.pageSize);
 					var end = (endIndex > count) ? count : endIndex;
-					var page = response.pageIndex;
+					var page = parseInt(response.pageIndex);
 					var pages = Math.ceil(response.count / response.pageSize);
 					var start = startIndex + 1;
 
