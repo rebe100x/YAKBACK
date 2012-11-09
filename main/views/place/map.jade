@@ -85,13 +85,20 @@ block content
 				var self = this;
 
 				if (!options.search) {
-
 					options.search = "^";
 				}
 
 				url += '/' + (options.pageIndex + 1);
 				url += '/' + options.pageSize;
 				url += '/' + options.search;
+				
+				if (options.sortProperty) {
+					url += '/' + options.sortProperty;
+					url += '/' + options.sortDirection;
+				}
+				else {
+					url += '/title/asc';
+				}
 
 				$.ajax(url, {
 
@@ -121,9 +128,8 @@ block content
 				columns: [{
 					property: 'title',
 					label: 'Title',
-					sortable: false
+					sortable: true
 				}],
-
 				formatter: function (items) {
 					$.each(items, function (index, item) {
 						item.title = fillContent(item);
