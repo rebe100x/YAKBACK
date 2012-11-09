@@ -19,12 +19,6 @@ block content
 				div#mymap
 			div.span8
 				div
-					div
-						mixin placeControle()
-						- if (message)
-							div.alert.fade.in
-								button.close(type="button",data-dismiss="alert") x
-								strong=message
 					.fuelux
 						div#newsfeedContainer
 							table#MyGrid.table.table-bordered.datagrid
@@ -75,7 +69,7 @@ block content
 	script
 
 		var ApiDataSource = function (options) {
-			this._formatter = null;
+			this._formatter = options.formatter;
 			this._columns = options.columns;
 		};
 
@@ -114,6 +108,8 @@ block content
 					var pages = Math.ceil(response.count / response.pageSize);
 					var start = startIndex + 1;
 
+					if (self._formatter) self._formatter(data);
+
 					callback({ data: data, start: start, end: end, count: count, pages: pages, page: page });
 
 				});
@@ -126,15 +122,29 @@ block content
 					property: 'title',
 					label: 'Title',
 					sortable: false
-				},{
-					property: 'content',
-					label: 'Content',
-					sortable: false
-				}]
+				}],
 
+				formatter: function (items) {
+					$.each(items, function (index, item) {
+						item.title = fillContent(item);
+					});
+				}
 			})
 		});
 		
+		function fillContent(item) {
+			var res;
+			res = '<div class="text-info">' + item.title + '</div><small>';
+			if (item.content.length > 120)
+				res += '<em>' + item.content.slice(0, 120) + '...</em>';
+			else
+				res += '<em>' + item.content + '</em>';
+			if (item.outGoingLink)
+				res += '<br><a href=\''+ item.outGoingLink + '>' + item.outGoingLink + '</a>';
+			res += '</small>';
+			return res;
+		}
+
 		$("#validation").change(function() {			
 			$.getJSON('/api/places/'+ $(this).val(),function(data) {
 				$('div#placeContent').html("");
