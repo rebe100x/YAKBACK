@@ -119,7 +119,7 @@ block content
 
 				} else {
 					options.search = "^";
-					// Search active.  Add URL parameters for Flickr API.
+
 					url += '/' + (options.pageIndex + 1);
 					url += '/' + options.pageSize;
 					url += '/' + options.search;
@@ -130,14 +130,20 @@ block content
 
 					}).done(function (response) {
 
+						console.log(response);
 						// Prepare data to return to Datagrid
 						var data = response.place;
 						var pagination = response.pagination;
 						console.log(response);
 						var count = data.length;
-						
-						// No search. Return zero results to Datagrid
-						callback({ data: data, start: 0, end: 0, count: count, pages: 0, page: 0 });
+						var startIndex = (response.pageIndex - 1) * response.pageSize;
+						var endIndex = startIndex + response.pageSize;
+						var end = (endIndex > count) ? count : endIndex;
+						var page = response.pageIndex;
+						var pages = response.count / response.pageSize;
+						var start = startIndex + 1;
+
+						callback({ data: data, start: start, end: end, count: count, pages: pages, page: page });
 
 					});
 				}

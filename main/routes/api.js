@@ -117,10 +117,26 @@ exports.places = function (req, res) {
 exports.gridPlaces = function (req, res) {
 	var Place = db.model('Place');
 	
-	Place.findGridPlaces(req.params.pageIndex, req.params.pageSize, req.params.searchTerm, function (err, docs){
-	  res.json({
-		place: docs
-	  });
+	Place.findGridPlaces(req.params.pageIndex,req.params.pageSize,req.params.searchTerm,function (err, docs){
+
+		var data = {};
+/*
+		data.push({place: docs});
+		data.push({pageIndex: req.params.pageIndex});
+		data.push({pageSize: req.params.pageSize});
+*/
+		data['place'] = docs;
+		data['pageIndex'] = req.params.pageIndex;
+		data['pageSize'] = req.params.pageSize;
+
+
+		Place.countAll(function (err, docs){
+			data['count'] = docs;
+			//data.push({count: docs});
+			res.json(data);
+
+			console.log(data);
+		});
 	}); 
 };
 
