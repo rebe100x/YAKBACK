@@ -174,8 +174,13 @@ block content
 			$("#placeForm #objid").val(this.id);
 			var Place = db.model('Place');
 			var place = Place.findById(this.id);
+			$("#placeForm #latitude").val(place.location.lat);
+			$("#placeForm #longitude").val(place.location.lng);
 			$("#placeForm #licence").val(place.licence);		
-			$("#placeForm #title").val(place.title);
+			$("#placeForm #origine").val(place.origin);
+			$("#placeForm #title").val(place.title);		
+			$("#placeForm #content").val(place.content);
+			$("#placeForm #freetag").val(place.freeTag);
 		});
 
 		function formatUser(item) {
@@ -195,6 +200,7 @@ block content
 		$("#btnAdd").click(function() {			
 			$("#MyGrid").hide();
 			$("#placeForm").show();
+			$("#btnBack").show();
 			event.preventDefault();
 			if(!$(this).hasClass('active')){
 				$('#newsNav li').removeClass('active');	
@@ -222,6 +228,7 @@ block content
 		$("#btnBack").click(function() {
 			$("#MyGrid").show();
 			$("#placeForm").hide();
+			$("#btnBack").hide();
 		});
 
 
