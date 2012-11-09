@@ -117,7 +117,7 @@ exports.places = function (req, res) {
 exports.gridPlaces = function (req, res) {
 	var Place = db.model('Place');
 	
-	Place.findGridPlaces(req.params.pageIndex,req.params.pageSize,req.params.searchTerm,function (err, docs){
+	Place.findGridPlaces(req.params.pageIndex, req.params.pageSize, req.params.searchTerm, function (err, docs){
 	  res.json({
 		place: docs
 	  });

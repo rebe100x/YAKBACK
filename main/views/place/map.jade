@@ -25,50 +25,51 @@ block content
 							div.alert.fade.in
 								button.close(type="button",data-dismiss="alert") x
 								strong=message
-					div#newsfeedContainer
-						table#MyGrid.table.table-bordered.datagrid
-							thead
-								tr
-									th
-										span.datagrid-header-title Geographic Data Sample
-										.datagrid-header-left
-										.datagrid-header-right
-											.input-append.search
-												input.input-medium(type='text', placeholder='Search')
-												button.btn
-													i.icon-search
-							tfoot
-								tr
-									th
-										.datagrid-footer-left(style='display: none;')
-											.grid-controls
-											span
-												span.grid-start
-												| -
-												span.grid-end
-												| of
-												span.grid-count
-											select.grid-pagesize
-												option 10
-												option 20
-												option 50
-												option 100
-											span Per Page
-										.datagrid-footer-right(style='display: none;')
-											.grid-pager
-												button.btn.grid-prevpage
-													i.icon-chevron-left
-												span Page
-												.input-append.dropdown.combobox
-													input.span1(type='text')
-													button.btn(data-toggle='dropdown')
-														i.caret
-													ul.dropdown-menu
-												span
-													| of
-													span.grid-pages
-												button.btn.grid-nextpage
-													i.icon-chevron-right
+					.fuelux
+						div#newsfeedContainer
+							table#MyGrid.table.table-bordered.datagrid
+								thead
+									tr
+										th
+											span.datagrid-header-title Liste des places
+											.datagrid-header-left
+											.datagrid-header-right
+												.input-append.search
+													input.input-medium(type='text', placeholder='Search')
+													button.btn
+														i.icon-search
+								tfoot
+									tr
+										th
+											.datagrid-footer-left(style='display: none;')
+												.grid-controls
+													span
+														span.grid-start
+														| -
+														span.grid-end
+														| of
+														span.grid-count
+													select.grid-pagesize
+														option 10
+														option 20
+														option 50
+														option 100
+													span Per Page
+											.datagrid-footer-right(style='display: none;')
+												.grid-pager
+													button.btn.grid-prevpage
+														i.icon-chevron-left
+													span Page
+													.input-append.dropdown.combobox
+														input.span1(type='text')
+														button.btn(data-toggle='dropdown')
+															i.caret
+														ul.dropdown-menu
+													span
+														| of
+														span.grid-pages
+													button.btn.grid-nextpage
+														i.icon-chevron-right
 
 				
 	script
@@ -103,7 +104,7 @@ block content
 					}).done(function (response) {
 
 						// Prepare data to return to Datagrid
-						console.log(response.place.length);
+						console.log(response);
 						var data = response.place;
 						var count = data.length;
 						
@@ -112,7 +113,7 @@ block content
 
 						// Return data to Datagrid
 						//callback({ data: data, start: start, end: end, count: count, pages: pages, page: page });
-						callback({ data: data, start: 1, end: end, count: count, pages: 1, page: 1 });
+						callback({ data: data, start: 1, end: 10, count: count, pages: 1, page: 1 });
 
 					});
 
@@ -130,8 +131,9 @@ block content
 					}).done(function (response) {
 
 						// Prepare data to return to Datagrid
-						console.log(options);
 						var data = response.place;
+						var pagination = response.pagination;
+						console.log(response);
 						var count = data.length;
 						
 						// No search. Return zero results to Datagrid
@@ -156,7 +158,7 @@ block content
 
 			})
 		});
-			
+		
 		$("#validation").change(function() {			
 			$.getJSON('/api/places/'+ $(this).val(),function(data) {
 				$('div#placeContent').html("");
