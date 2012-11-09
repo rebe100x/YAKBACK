@@ -169,7 +169,13 @@ block content
 		}
 
 		$(".editPlace").live('click', function() {
-			alert(this.id);
+			$("#MyGrid").hide();
+			$("#placeForm").show();
+			$("#placeForm #objid").val(this.id);
+			var Place = db.model('Place');
+			var place = Place.findById(this.id);
+			$("#placeForm #licence").val(place.licence);		
+			$("#placeForm #title").val(place.title);
 		});
 
 		function formatUser(item) {
