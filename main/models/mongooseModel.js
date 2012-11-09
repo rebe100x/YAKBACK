@@ -317,6 +317,10 @@ var Place = new Schema({
 
 Place.index({location : '2d'});
 
+Place.statics.findById = function (id, callback) {
+  return this.findOne({'_id': id}, callback);
+}
+
 Place.statics.findAll = function (callback) {
   return this.find({},[],{sort:{title:1}}, callback);
 }
