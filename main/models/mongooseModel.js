@@ -325,10 +325,26 @@ Place.statics.countAll = function (callback) {
 	return this.count({}, callback);
 }
 
-Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, callback) {
-	//TODO Le(s) SearchTerm(s)
+Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy, sortDirection, callback) {
 	var search = new RegExp(searchTerm, 'i');
-	return this.find({title : search}, 'title content', {skip: (pageIndex -1)*pageSize, limit: pageSize}, callback);
+
+	var desc = 1;
+	if (sortDirection == 'desc')
+		desc = -1;
+
+	return this.find(
+		{
+			title : search
+		}, 
+		'title content', 
+		{
+			skip: 
+				(pageIndex -1)*pageSize, 
+			limit: 
+				pageSize,
+			sort: [[sortBy, desc]]
+		}, 
+		callback);
 }
 
 Place.statics.countUnvalidated = function (callback) {

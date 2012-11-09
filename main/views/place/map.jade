@@ -91,13 +91,20 @@ block content
 				var self = this;
 
 				if (!options.search) {
-
 					options.search = "^";
 				}
 
 				url += '/' + (options.pageIndex + 1);
 				url += '/' + options.pageSize;
 				url += '/' + options.search;
+				
+				if (options.sortProperty) {
+					url += '/' + options.sortProperty;
+					url += '/' + options.sortDirection;
+				}
+				else {
+					url += '/title/asc';
+				}
 
 				$.ajax(url, {
 
@@ -107,7 +114,6 @@ block content
 
 					// Prepare data to return to Datagrid
 					var data = response.place;
-					var pagination = response.pagination;
 					var count = response.count;
 					var startIndex = (response.pageIndex - 1) * response.pageSize;
 					var endIndex = parseInt(startIndex) + parseInt(response.pageSize);
@@ -127,11 +133,11 @@ block content
 				columns: [{
 					property: 'title',
 					label: 'Title',
-					sortable: false
+					sortable: true
 				},{
 					property: 'content',
 					label: 'Content',
-					sortable: false
+					sortable: true
 				}]
 
 			})

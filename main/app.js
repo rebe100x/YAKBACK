@@ -104,7 +104,7 @@ app.get('/api/zones/:x/:y', api.zones);
 app.post('/api/users', api.users);
 app.get('/api/cats', api.cats);
 app.get('/api/places', api.places);
-app.get('/api/places/:pageIndex/:pageSize/:searchTerm', api.gridPlaces);
+app.get('/api/places/:pageIndex/:pageSize/:searchTerm/:sortBy/:sortDirection', api.gridPlaces);
 app.get('/api/usersearch/:string', api.usersearch);
 app.get('/api/findCatById', api.findCatById);
 
