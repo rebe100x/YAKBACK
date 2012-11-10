@@ -64,8 +64,6 @@ exports.place = function(req, res){
 	var Zone = db.model('Zone');
 	var place;
 	//mongoose.set('debug', true);
-	//var obj_id = '507e81614a53046319000000';
-	//var obj_id = '50911d37065a060000000003';
 	var obj_id = req.body.objid;
 	var edit = false;
 	//console.log(req.files);
@@ -100,6 +98,7 @@ exports.place = function(req, res){
 					for(i=0;i<yakcat.length;i++)
 					{
 						place.yakCat.push(yakcat[i]._id);
+						place.yackatName.push(yakcat[i].title);
 					}
 				}
 				place.title = req.body.title;
@@ -119,8 +118,14 @@ exports.place = function(req, res){
 				if (!edit)
 					place.creationDate = new Date();
 				place.lastModifDate = new Date();
-				place.status = 1;
 				place.origin = 'operator';
+				
+				// We check the state of the checkbox to know if the place's status should be 1 or (3,10)
+				if (req.body.validate == "on")
+					place.status = 1;
+				else
+					place.status = 3;
+					
 				place.access = 1;
 				place.licence = req.body.licence;
 				place.freeTag = req.body.freetag.split(',');

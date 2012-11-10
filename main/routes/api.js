@@ -140,7 +140,7 @@ exports.gridPlaces = function (req, res) {
 			data['count'] = docs;
 			res.json(data);
 
-			console.log(data);
+			//console.log(data);
 		});
 	}); 
 };
