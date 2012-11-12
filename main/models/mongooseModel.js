@@ -291,10 +291,12 @@ var Place = new Schema({
 ,	content	: { type: String }
 ,	thumb	: { type: String }
 ,	origin	: { type: String }
+,	originLink	:	{ type: String }
 ,	access	: { type: Number }
 ,	licence	: { type: String }
 ,	outGoingLink	: { type: String }
-, 	yakCat	: [Schema.ObjectId]		
+, 	yakCat	: [Schema.ObjectId]	
+,	yackatName	: [String]	
 , 	freeTag	: [String]
 ,	creationDate	: {type: Date, required: true, default: Date.now}		
 ,	lastModifDate	: {type: Date, required: true, default: Date.now}		

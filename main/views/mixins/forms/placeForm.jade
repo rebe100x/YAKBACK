@@ -12,11 +12,15 @@ mixin placeForm()
 		legend Ajouter une place
 		div.control-group
 			div.controls
-				input.span6.hashtagMaker(type='text', name='licence', id='licence', placeholder='Licence...') 
-				input.span6.hashtagMaker(type='text', name='origine', id='origine', placeholder='Origine...')
+				label Titre 
 				input.span6.hashtagMaker(type='text', name='title', id='title', placeholder='Titre: vous pouvez utiliser des hashtags dans votre texte ( #Halloween )')
-				textarea#content.span6.hashtagMaker(name='content', placeholder='Texte: vous pouvez utiliser des hashtags dans votre texte ( #Halloween )',rows='3')
-		div.control-group
+				label Texte
+				textarea#content.span9.hashtagMaker(name='content', placeholder='Texte: vous pouvez utiliser des hashtags dans votre texte ( #Halloween )',rows='3')
+				label Licence
+				input.span6.hashtagMaker(type='text', name='licence', id='licence', placeholder='Licence...') 
+				label Origine
+				input.span6.hashtagMaker(type='text', name='origine', id='origine', placeholder='Origine...')
+				div.control-group
 			label(for='Place') Cliquer sur la carte ou entrer une adresse:<br>
 			div.controls
 				div.input-append
@@ -26,13 +30,18 @@ mixin placeForm()
 		div.control-group
 			label(for='category') Choisir un ou plusieurs thèmes:
 			div.controls
-				input#yakcat.span6(type="text",data-provide="typeahead", name="yakcat", autocomplete="off", placeholder='Rechercher...')
+				input#yakcat.span6(type="text", data-provide="typeahead", name="yakcat", autocomplete="off", placeholder='Rechercher...')
 			div.controls	
-				input#freetag.span6(type="text",data-provide="typeahead", name="freetag",placeholder='Free tags séparés par des virgules')
+				input#freetag.span6(type="text", data-provide="typeahead", name="freetag",placeholder='Free tags séparés par des virgules')
 		div.control-group
 			label(for='picture') Ajouter une photo:
 			div.controls
 				span#picturePreview
 				input.span6#picture(type="file",style="display:block",name="picture")
+		div.control-group
+			div.controls
+				label.checkbox 
+					input#validate(type="checkbox", name="validate", checked="true") 
+					| Valider la place
 		br
 		button.btn.btn-large.btn-block.btn-inverse(style='width:100%',type='submit', name='submit', id='submit', value='Envoyer') Envoyer
