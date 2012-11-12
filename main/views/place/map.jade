@@ -41,7 +41,13 @@ block content
 														i.icon-search
 									tr
 										td(colspan=4)
-											button.btn.btn-danger.validerPlaces Valider
+											.btn-group
+												button.btn.btn-danger.validerPlaces Valider
+												button.btn.btn-danger.dropdown-toggle(data-toggle='dropdown')
+													span.caret
+												ul.dropdown-menu
+													li
+														a.supprimerPlaces Supprimer
 								tfoot
 									tr
 										th
@@ -142,12 +148,12 @@ block content
 				},
 				{
 					property: 'title',
-					label: 'Title',
+					label: 'Titre',
 					sortable: true
 				},
 				{
 					property: 'user',
-					label: 'User',
+					label: 'Utilisateur',
 					sortable: true
 				},
 				{
@@ -208,6 +214,7 @@ block content
 				});		
 			});
 			
+			$("#placeForm legend").html("Editer une place");
 			$("#placeForm #objid").val(this.id);
 			
 			var url = '/api/findPlaceById/'+this.id;
@@ -268,6 +275,8 @@ block content
 			});
 		});
 		
+		$("#placeForm legend").html("Ajouter une place");
+
 		// Function to go back from adding/editing form to the grid
 		$("#btnBack").click(function() {
 			$("#MyGrid").fadeIn();
@@ -309,16 +318,52 @@ block content
 					alert('Error');
 				else {
 					alert('Validation de ' + data.result + ' place(s)');
-
-					// Temporary refresh method for datagrid
-					var $gridsearch = jQuery('#MyGrid').find('.search');
-					var search = $gridsearch.find('input').val();
-					$gridsearch.trigger('searched', search);
+					refreshDatagridAndMenu();
 				}
 			});
 
 			return vals;
 		});
+
+		$(".supprimerPlaces").live('click', function() {
+			var vals = [];
+			var i = 0;
+
+			$(".selectYakPlace").each(function(){	
+				if ($(this).prop('checked') == true)
+					vals[i++] = jQuery(this).val();
+			});
+
+			if (vals.length == 0) {
+				alert('Aucune place selectionnee.');
+				return;
+			}
+
+			var url = '/api/places/delete/'+vals.toString();
+
+			$.get(url, function(data) {
+				if (data.result == -1)
+					alert('Error');
+				else {
+					alert('Suppression de ' + data.result + ' place(s)');
+					refreshDatagridAndMenu();
+				}
+			});
+
+			return vals;
+		});
+
+		function refreshDatagridAndMenu () {
+			// Temporary refresh method for datagrid
+			var $gridsearch = jQuery('#MyGrid').find('.search');
+			var search = $gridsearch.find('input').val();
+			$gridsearch.trigger('searched', search);
+			$.getJSON('/api/validplaces', function(data) {
+				$('#placenumber').removeClass('badge badge-important');
+				if (data.info != 0)
+					$('#placenumber').addClass('badge badge-important').html(data.info);
+			});
+		}
 
 		/*INIT*/
 		var conf = !{conf};
