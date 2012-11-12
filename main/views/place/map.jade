@@ -2,12 +2,8 @@ extends ../layout
 block content
 	include ../mixins/menu.jade
 	include ../mixins/locationChooser.jade
-	include ../mixins/forms/postForm.jade
 	include ../mixins/forms/placeForm.jade
 	include ../mixins/forms/loginForm.jade
-	include ../mixins/forms/searchForm.jade
-	include ../mixins/forms/listAllPlacesForm.jade
-	include ../mixins/forms/placeControle.jade
 	
 	mixin menu('place')
 	mixin locationChooser()
@@ -76,6 +72,36 @@ block content
 
 				
 	script
+	
+		/*INIT*/
+		var conf = !{conf};
+		var user = [!{user}];
+		var logged = 0;
+		//var user = JSON.parse(JSON.stringify({!{user}}));
+		
+		var curPos = {'x':0,'y':0,'z':0};
+		var geolocalized = 0;
+		var infowindow = null;
+		var bounds = new Array();
+		var markers = [];
+		var infoArray = [];
+		var markerLocation = null;
+		var yakcatArray = [];
+		var placeArray = [];
+		var hashtag = [];
+		var hashtagTmp = [];
+			
+		var markerClustererOptions = {gridSize:30,maxZoom: 17};
+		var markerCluster = null;
+		var heat = 3;
+		//var type = [1];
+		var type = [!{type}];
+		
+		var infoContent = '';
+		var rule = new RegExp('#([^\\s]*)','g');
+		var rule2 = new RegExp('[#]','g');
+		var postFlag = 0;
+		var listenerHandle = null;
 
 		var ApiDataSource = function (options) {
 			this._formatter = options.formatter;
@@ -196,18 +222,26 @@ block content
 			
 			var url = '/api/findPlaceById/'+this.id;
 			
+			// We search for the place in mongo and we fill the form with the place's values
 			$.ajax(url, {type: 'GET'}).done(function (response) 
 			{
 				var place = response.place;
 				$("#placeForm #latitude").val(place.location.lat);
 				$("#placeForm #longitude").val(place.location.lng);
+				$("#placeForm #btn-place-adder").click();
 				$("#placeForm #licence").val(place.licence);		
 				$("#placeForm #origine").val(place.origin);
 				$("#placeForm #title").val(place.title);		
 				$("#placeForm #content").val(place.content);
 				$("#placeForm #freetag").val(place.freeTag);
 				$("#placeForm #place").val(place.formatted_address);
-				$("#placeForm #btn-place-adder").click();
+				
+				for (var i = 0; i < place.yakCat.length; i++)
+				{
+					$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='yakcatArray.cleanArray(\""+obj._id+"\");$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+place.yakCat[i]+"</div>");
+				}
+				
+				$("#placeForm #freetag").val(place.freeTag.join(","));
 				if (place.status == 1)
 					$("#placeForm #validate").check();
 				else
@@ -226,12 +260,14 @@ block content
 				return "Yakwala";
 		}
 
+		/*
 		$("#validation").change(function() {			
 			$.getJSON('/api/places/'+ $(this).val(),function(data) {
 				$('div#placeContent').html("");
 				renderData(data);
 			});
 		});
+		*/
 		
 		// Add Place function
 		$("#btnAdd").click(function() {			
@@ -263,36 +299,6 @@ block content
 			markerLocation.setVisible(false);
 		});
 
-
-		/*INIT*/
-		var conf = !{conf};
-		var user = [!{user}];
-		var logged = 0;
-		//var user = JSON.parse(JSON.stringify({!{user}}));
-		
-		var curPos = {'x':0,'y':0,'z':0};
-		var geolocalized = 0;
-		var infowindow = null;
-		var bounds = new Array();
-		var markers = [];
-		var infoArray = [];
-		var markerLocation = null;
-		var yakcatArray = [];
-		var placeArray = [];
-		var hashtag = [];
-		var hashtagTmp = [];
-			
-		var markerClustererOptions = {gridSize:30,maxZoom: 17};
-		var markerCluster = null;
-		var heat = 3;
-		//var type = [1];
-		var type = [!{type}];
-		
-		var infoContent = '';
-		var rule = new RegExp('#([^\\s]*)','g');
-		var rule2 = new RegExp('[#]','g');
-		var postFlag = 0;
-		var listenerHandle = null;
 		
 		/*READY FUNCTIONS*/
 		$(document).ready(function() {
@@ -380,7 +386,7 @@ block content
 			});
 
 			$('#placeForm #picture').live('change', function () {
-				if ( window.FileReader ) {
+				if (window.FileReader) {
 					var fileList = this.files;
 					var file = fileList[0];
 					var r = new FileReader();
@@ -412,7 +418,7 @@ block content
 				source: function (typeahead, query) {
 					$.ajax({
 						url: "/api/cats",				
-						success: function( data ) {
+						success: function(data) {
 							typeahead.process(data.cats);
 						}
 					})},
@@ -430,7 +436,7 @@ block content
 				source: function (typeahead, query) {
 					$.ajax({
 						url: "/api/places",		
-						success: function( data ) {
+						success: function(data) {
 							typeahead.process(data.places);
 						}
 					})},
@@ -474,9 +480,11 @@ block content
 				}		
 			});
 
+			/*
 			$.getJSON('/api/unvalidatedPlaceList', function(data) {
 				renderData(data);
 			});
+			*/
 			
 		});/*END READY*/
 
