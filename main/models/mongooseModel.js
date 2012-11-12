@@ -347,6 +347,13 @@ Place.statics.validatePlaces = function (ids, callback) {
 	this.update(conditions, update, options, callback);
 }
 
+Place.statics.deletePlaces = function (ids, callback) {
+
+	var conditions = { _id: { $in: ids} };
+
+	this.remove(conditions, callback);
+}
+
 Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy, sortDirection, callback) {
 	var search = new RegExp(searchTerm, 'i');
 
