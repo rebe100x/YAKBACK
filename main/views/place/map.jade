@@ -160,10 +160,8 @@ block content
 						item.checked = makeCheckBox(item);
 						item.title = fillContent(item);
 						item.address = item.address['city'];
-						if (item.user) {
-							console.log(item.user);
+						if (item.user)
 							item.user = formatUser(item);
-						}
 						else
 							item.user = "Yakwala";
 					});
@@ -179,8 +177,8 @@ block content
 			var res;
 
 			res = '<a class="editPlace" id="' + item._id + '" href="#">';
-			var size = 90;
-			res = '<div class="text-info">' + item.title + '</div><small>';
+			var size = 80;
+			res += '<div class="text-info">' + item.title + '</div><small>';
 			if (item.content.length > size)
 				res += '<em>' + item.content.slice(0, size) + '...</em>';
 			else

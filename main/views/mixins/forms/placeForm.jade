@@ -13,9 +13,9 @@ mixin placeForm()
 		div.control-group
 			div.controls
 				label Titre 
-				input.big.hashtagMaker(type='text', name='title', id='title', placeholder='Opéra Bastille, Restaurant du Coin #BonneBouffe2012' )')
+				input.big.hashtagMaker(type='text', name='title', id='title', placeholder='Opéra Bastille, Restaurant du Coin #BonneBouffe2012' )
 				label Description
-				textarea#content.span8.hashtagMaker(name='content', placeholder='Quelques détails sur la place à ajouter, avec la possibilité d'ajouter des #hashtags.',rows='3')	
+				textarea#content.span8.hashtagMaker(name='content', placeholder='Quelques détails sur la place, avec la possibilité d\'ajouter des #hashtags.', rows='3')	
 				label Licence
 				input.hashtagMaker(type='text', name='licence', id='licence', placeholder='Open Source') 
 				.col2
@@ -33,7 +33,7 @@ mixin placeForm()
 			
 				label(for='picture') Photo
 				span#picturePreview
-				input#picture(type="file",style="display:block",name="picture")
+				input#picture(type="file", name="picture")
 			div.control-group
 				div.controls
 					label.checkbox 

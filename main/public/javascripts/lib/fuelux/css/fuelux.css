@@ -6022,6 +6022,11 @@ textarea.span1,
   top: 7px;
 }
 
+.fuelux .datagrid a.editPlace:hover, .fuelux .datagrid a.editPlace {
+  text-decoration: none;
+  color: black;
+}
+
 .fuelux .pillbox {
   padding: 3px;
 }
