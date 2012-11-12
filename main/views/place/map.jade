@@ -415,36 +415,6 @@ block content
 			});
 		}
 
-		/*INIT*/
-		var conf = !{conf};
-		var user = [!{user}];
-		var logged = 0;
-		//var user = JSON.parse(JSON.stringify({!{user}}));
-		
-		var curPos = {'x':0,'y':0,'z':0};
-		var geolocalized = 0;
-		var infowindow = null;
-		var bounds = new Array();
-		var markers = [];
-		var infoArray = [];
-		var markerLocation = null;
-		var yakcatArray = [];
-		var placeArray = [];
-		var hashtag = [];
-		var hashtagTmp = [];
-			
-		var markerClustererOptions = {gridSize:30,maxZoom: 17};
-		var markerCluster = null;
-		var heat = 3;
-		//var type = [1];
-		var type = [!{type}];
-		
-		var infoContent = '';
-		var rule = new RegExp('#([^\\s]*)','g');
-		var rule2 = new RegExp('[#]','g');
-		var postFlag = 0;
-		var listenerHandle = null;
-
 		
 		/*READY FUNCTIONS*/
 		$(document).ready(function() {
