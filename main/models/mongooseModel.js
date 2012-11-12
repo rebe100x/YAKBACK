@@ -291,10 +291,12 @@ var Place = new Schema({
 ,	content	: { type: String }
 ,	thumb	: { type: String }
 ,	origin	: { type: String }
+,	originLink	:	{ type: String }
 ,	access	: { type: Number }
 ,	licence	: { type: String }
 ,	outGoingLink	: { type: String }
-, 	yakCat	: [Schema.ObjectId]		
+, 	yakCat	: [Schema.ObjectId]	
+,	yackatName	: [String]	
 , 	freeTag	: [String]
 ,	creationDate	: {type: Date, required: true, default: Date.now}		
 ,	lastModifDate	: {type: Date, required: true, default: Date.now}		
@@ -332,7 +334,7 @@ Place.statics.countSearch = function (searchTerm, callback) {
 		{	
 			"title" : search, 
 			"status" : 
-				{ $in: [3, 10]} 
+				{ $in: [1, 3, 10]} 
 		}, callback);
 }
 
@@ -347,7 +349,7 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy
 		{
 			"title" : search,
 			"status" : 
-				{ $in: [3, 10]}
+				{ $in: [1, 3, 10]}
 		}, 
 		'title content outGoingLink address user', 
 		{
