@@ -40,7 +40,7 @@ block content
 													button.btn
 														i.icon-search
 									tr
-										td
+										td(colspan=4)
 											button.btn.btn-danger.validerPlaces Valider
 								tfoot
 									tr
@@ -311,6 +311,8 @@ block content
 					alert('Error');
 				else {
 					alert('Validation de ' + data.result + ' place(s)');
+
+					// Temporary refresh method for datagrid
 					var $gridsearch = jQuery('#MyGrid').find('.search');
 					var search = $gridsearch.find('input').val();
 					$gridsearch.trigger('searched', search);

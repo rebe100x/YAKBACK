@@ -13,9 +13,9 @@ mixin placeForm()
 		div.control-group
 			div.controls
 				label Titre 
-				input.big.hashtagMaker(type='text', name='title', id='title', placeholder='Opéra Bastille, Restaurant du Coin #BonneBouffe2012' )')
+				input.big.hashtagMaker(type='text', name='title', id='title', placeholder='Opéra Bastille, Restaurant du Coin #BonneBouffe2012' )
 				label Description
-				textarea#content.span8.hashtagMaker(name='content', placeholder='Quelques détails sur la place à ajouter, avec la possibilité d'ajouter des #hashtags.',rows='3')	
+				textarea#content.span8.hashtagMaker(name='content', placeholder="Quelques détails sur la place à ajouter, avec la possibilité d'ajouter des #hashtags.",rows='3')	
 				label Licence
 				input.hashtagMaker(type='text', name='licence', id='licence', placeholder='Open Source') 
 				.col2
@@ -23,7 +23,7 @@ mixin placeForm()
 					input.hashtagMaker(type='text', name='origine', id='origine', placeholder='Yakwala')
 				label(for='Place') Adresse
 				.input-append
-					input.big#place(type="text",data-provide="typeahead", name="place", autocomplete="off", placeholder='Cliquez sur la carte ou entrer l\'adresse') 
+					input.big#place(type="text",data-provide="typeahead", name="place", autocomplete="off", placeholder="Cliquez sur la carte ou entrer l'adresse") 
 					button.btn#btn-place-adder(type="button") Ajouter
 				label(for='category') Thèmes
 				input#yakcat(type="text", data-provide="typeahead", name="yakcat", autocomplete="off", placeholder='Un ou plusieurs thème')
