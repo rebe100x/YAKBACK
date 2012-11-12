@@ -25,9 +25,10 @@ a {
 #placeContent dl:nth-child(odd) {background-color: white;}
 #placeContent .origin{float: right; font-style: italic; font-weight: normal; color: #7B878C;}
 #placeContent .text-field{color: #B94A48; font-variant: small-caps; display: inline-block; width: 80px; padding: 1px 20px;}
-#placeControle {text-align: left;}
-#placeControle .label-important { padding: 5px; margin: 0 10px 10px 0;}
-#placeControle select {margin-top: 10px;}
+#placeForm label { font-size: smaller; font-weight: bold; color: #666666; margin-top: 0px;}
+#placeForm .col2 { display: block; float: right; margin-top: -25px; }
+#placeForm input[type=text] { width: 280px; }
+#placeForm input[type=text].big { width: 75%; }
 
 /* MAP
 -------------------------------------------------- */

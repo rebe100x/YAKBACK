@@ -108,13 +108,14 @@ app.get('/api/places/:pageIndex/:pageSize/:searchTerm/:sortBy/:sortDirection', a
 app.get('/api/findPlaceById/:id', api.findPlaceById);
 app.get('/api/usersearch/:string', api.usersearch);
 app.get('/api/findCatById', api.findCatById);
+app.get('/api/user/:id', api.userById);
 
 app.get('/api/validusers', api.countUnvalidatedUsers);
 app.get('/api/validcats', api.countUnvalidatedCats);
 app.get('/api/validplaces', api.countUnvalidatedPlaces);
 app.get('/api/unvalidatedPlaceList', api.unvalidatedPlaceList);
 
-app.get('/api/places/:validated', api.getFilteredPlaceList);
+app.get('/api/places/validate/:ids', api.validatePlaces);
 
 app.get('/api/searchPlace', api.searchPlace);
 app.post('/api/favplace', api.addfavplace);

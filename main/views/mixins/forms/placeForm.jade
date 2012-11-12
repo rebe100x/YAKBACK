@@ -1,7 +1,7 @@
 mixin placeForm()
 	button.btn#btnBack(style='display:none')
 		i.icon-chevron-left
-	form#placeForm(action='/place', method='POST', enctype='multipart/form-data', style='display:none')
+	form#placeForm.span8(action='/place', method='POST', enctype='multipart/form-data', style='display:none')
 		input#yakcatInput(type='hidden', name='yakcatInput', value='') 
 		input#placeInput(type='hidden', name='placeInput', value='')
 		input#latitude(type="hidden",data-provide="typeahead", name="latitude")
@@ -13,35 +13,32 @@ mixin placeForm()
 		div.control-group
 			div.controls
 				label Titre 
-				input.span6.hashtagMaker(type='text', name='title', id='title', placeholder='Titre: vous pouvez utiliser des hashtags dans votre texte ( #Halloween )')
-				label Texte
-				textarea#content.span9.hashtagMaker(name='content', placeholder='Texte: vous pouvez utiliser des hashtags dans votre texte ( #Halloween )',rows='3')
+				input.big.hashtagMaker(type='text', name='title', id='title', placeholder='Opéra Bastille, Restaurant du Coin #BonneBouffe2012' )')
+				label Description
+				textarea#content.span8.hashtagMaker(name='content', placeholder='Quelques détails sur la place à ajouter, avec la possibilité d'ajouter des #hashtags.',rows='3')	
 				label Licence
-				input.span6.hashtagMaker(type='text', name='licence', id='licence', placeholder='Licence...') 
-				label Origine
-				input.span6.hashtagMaker(type='text', name='origine', id='origine', placeholder='Origine...')
-				div.control-group
-			label(for='Place') Cliquer sur la carte ou entrer une adresse:<br>
-			div.controls
-				div.input-append
-					input#place(type="text",data-provide="typeahead", name="place", autocomplete="off", placeholder='Rechercher...') 
+				input.hashtagMaker(type='text', name='licence', id='licence', placeholder='Open Source') 
+				.col2
+					label Origine
+					input.hashtagMaker(type='text', name='origine', id='origine', placeholder='Yakwala')
+				label(for='Place') Adresse
+				.input-append
+					input.big#place(type="text",data-provide="typeahead", name="place", autocomplete="off", placeholder='Cliquez sur la carte ou entrer l\'adresse') 
 					button.btn#btn-place-adder(type="button") Ajouter
-		br
-		div.control-group
-			label(for='category') Choisir un ou plusieurs thèmes:
-			div.controls
-				input#yakcat.span6(type="text", data-provide="typeahead", name="yakcat", autocomplete="off", placeholder='Rechercher...')
-			div.controls	
-				input#freetag.span6(type="text", data-provide="typeahead", name="freetag",placeholder='Free tags séparés par des virgules')
-		div.control-group
-			label(for='picture') Ajouter une photo:
-			div.controls
+				label(for='category') Thèmes
+				input#yakcat(type="text", data-provide="typeahead", name="yakcat", autocomplete="off", placeholder='Un ou plusieurs thème')
+				.col2
+					label Free Tags
+					input#freetag(type="text", data-provide="typeahead", name="freetag",placeholder='Free tags séparés par des virgules')
+			
+				label(for='picture') Photo
 				span#picturePreview
-				input.span6#picture(type="file",style="display:block",name="picture")
-		div.control-group
-			div.controls
-				label.checkbox 
-					input#validate(type="checkbox", name="validate", checked="true") 
-					| Valider la place
-		br
-		button.btn.btn-large.btn-block.btn-inverse(style='width:100%',type='submit', name='submit', id='submit', value='Envoyer') Envoyer
+				input#picture(type="file",style="display:block",name="picture")
+			div.control-group
+				div.controls
+					label.checkbox 
+						input#validate(type="checkbox", name="validate", checked="true") 
+						| Valider la place
+			div.control-group
+				div.controls
+					button.btn.btn-large.btn-inverse(type='submit', name='submit', id='submit', value='Envoyer') Envoyer
