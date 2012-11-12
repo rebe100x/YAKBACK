@@ -40,7 +40,7 @@ block content
 													button.btn
 														i.icon-search
 									tr
-										td
+										td(colspan=4)
 											button.btn.btn-danger.validerPlaces Valider
 								tfoot
 									tr
@@ -175,9 +175,9 @@ block content
 
 		function fillContent(item) {
 			var res;
-
-			res = '<a class="editPlace" id="' + item._id + '" href="#">';
 			var size = 80;
+			
+			res = '<a class="editPlace" id="' + item._id + '" href="#">';
 			res += '<div class="text-info">' + item.title + '</div><small>';
 			if (item.content.length > size)
 				res += '<em>' + item.content.slice(0, size) + '...</em>';
@@ -297,12 +297,25 @@ block content
 					vals[i++] = jQuery(this).val();
 			});
 
+			if (vals.length == 0) {
+				alert('Aucune place selectionnee.');
+				return;
+			}
+
 			var url = '/api/places/validate/'+vals.toString();
 
-			$.ajax(url, {type: 'GET'}).done(function (response) 
-			{
-				alert(response);
-			});	
+			$.get(url, function(data) {
+				if (data.result == -1)
+					alert('Error');
+				else {
+					alert('Validation de ' + data.result + ' place(s)');
+
+					// Temporary refresh method for datagrid
+					var $gridsearch = jQuery('#MyGrid').find('.search');
+					var search = $gridsearch.find('input').val();
+					$gridsearch.trigger('searched', search);
+				}
+			});
 
 			return vals;
 		});

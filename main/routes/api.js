@@ -128,9 +128,9 @@ exports.validatePlaces = function (req, res) {
 	var ids = [];
 	ids = req.params.ids.split(',');
 
-	Place.validatePlaces(ids, function (err, docs){
+	Place.validatePlaces(ids, function (err, numAffected){
   	  res.json({
-  		result: docs
+  		result: numAffected
 	  });
 	});
 };
@@ -215,15 +215,6 @@ exports.usersearch = function (req, res) {
 	User.search(req.params.string,function (err, docs){
 	  res.json({
 		users: docs
-	  });
-	});
-};
-
-exports.userById = function (req, res) {
-	var User = db.model('User');
-	User.findById(req.params.id,function (err, docs){
-	  res.json({
-		user: docs
 	  });
 	});
 };
