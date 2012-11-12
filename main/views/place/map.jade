@@ -64,7 +64,7 @@ block content
 													button.btn.grid-prevpage
 														i.icon-chevron-left
 													span Page
-													.input-append.dropdown.combobox
+													.input-append.dropdown.combobox.dropup
 														input.span1(type='text')
 														button.btn(data-toggle='dropdown')
 															i.caret
@@ -160,7 +160,12 @@ block content
 						item.checked = makeCheckBox(item);
 						item.title = fillContent(item);
 						item.address = item.address['city'];
-						item.user = formatUser(item);
+						if (item.user) {
+							console.log(item.user);
+							item.user = formatUser(item);
+						}
+						else
+							item.user = "Yakwala";
 					});
 				}
 			})
@@ -172,10 +177,12 @@ block content
 
 		function fillContent(item) {
 			var res;
+
 			res = '<a class="editPlace" id="' + item._id + '" href="#">';
-			res += '<div class="text-info">' + item.title + '</div><small>';
-			if (item.content.length > 120)
-				res += '<em>' + item.content.slice(0, 120) + '...</em>';
+			var size = 90;
+			res = '<div class="text-info">' + item.title + '</div><small>';
+			if (item.content.length > size)
+				res += '<em>' + item.content.slice(0, size) + '...</em>';
 			else
 				res += '<em>' + item.content + '</em>';
 			if (item.outGoingLink)
@@ -231,10 +238,15 @@ block content
 		});
 
 		function formatUser(item) {
-			if (item.user)
-				return item.user.title;
-			else
-				return "Yakwala";
+			var res;
+			$.ajax({
+				url: '/api/user/'+ item.user,
+				dataType: 'json',
+				async: false,
+				success: function(data) {
+					return data.user.name;
+				}
+			});
 		}
 		
 		// Add Place function

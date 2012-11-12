@@ -108,6 +108,7 @@ app.get('/api/places/:pageIndex/:pageSize/:searchTerm/:sortBy/:sortDirection', a
 app.get('/api/findPlaceById/:id', api.findPlaceById);
 app.get('/api/usersearch/:string', api.usersearch);
 app.get('/api/findCatById', api.findCatById);
+app.get('/api/user/:id', api.userById);
 
 app.get('/api/validusers', api.countUnvalidatedUsers);
 app.get('/api/validcats', api.countUnvalidatedCats);
