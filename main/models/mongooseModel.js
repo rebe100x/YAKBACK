@@ -334,36 +334,17 @@ Place.statics.countSearch = function (searchTerm, callback) {
 		{	
 			"title" : search, 
 			"status" : 
-				{ $in: [1, 3, 10]} 
+				{ $in: [3, 10]} 
 		}, callback);
 }
 
 Place.statics.validatePlaces = function (ids, callback) {
-	var totalAffected = 0;
 
-	for (var i=0; i<ids.length; i++) {
+	var conditions = { _id: { $in: ids} }
+	, update = { status: 1 }
+	, options = { multi: true };
 
-		this.findById(ids[i], function(err, p) {
-			if (!p)
-				console.log('not found')
-			else {
-				console.log('status ' + p.status);
-
-				p.status = 15;
-
-				p.save(function(err) {
-					if (err)
-						console.log(err)
-					else {
-						console.log('success');
-						totalAffected++;
-					}
-				});
-			}
-		});
-		
-		console.log(totalAffected);
-	}
+	this.update(conditions, update, options, callback);
 }
 
 Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy, sortDirection, callback) {
@@ -377,7 +358,7 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy
 		{
 			"title" : search,
 			"status" : 
-				{ $in: [1, 3, 10]}
+				{ $in: [3, 10]}
 		}, 
 		'title content outGoingLink address user', 
 		{
