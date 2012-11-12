@@ -216,6 +216,7 @@ block content
 				});		
 			});
 			
+			$("#placeForm legend").html("Editer une place");
 			$("#placeForm #objid").val(this.id);
 			
 			var url = '/api/findPlaceById/'+this.id;
@@ -276,6 +277,8 @@ block content
 			});
 		});
 		
+		$("#placeForm legend").html("Ajouter une place");
+
 		// Function to go back from adding/editing form to the grid
 		$("#btnBack").click(function() {
 			$("#MyGrid").fadeIn();
