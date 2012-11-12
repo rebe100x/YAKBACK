@@ -33,7 +33,7 @@ mongoose.model('Point', Point);
  * Schema definition
  */
 var Info = new Schema({
-    title     : { type: String}
+	title     : { type: String}
   , content	: {type: String}		
   , thumb	: {type: String}		
   , origin	: {type: String}		
@@ -133,7 +133,7 @@ var crypto = require('crypto');
 var User = new Schema({
 	name	: { type: String, index: true}
 	, bio	: { type: String}
-    , mail	: { type: String, index: true}
+	, mail	: { type: String, index: true}
 	, web	: { type: String}
 	, tag	: { type: [String], index: true}
 	, thumb	: { type: String}
@@ -191,11 +191,11 @@ User.methods.encryptPassword = function(password) {
 	}
 	
 User.statics.Authenticate = function(lg,pwd,callback) {
-      return this.findOne({login:lg,password:pwd},callback);
-    }
+	  return this.findOne({login:lg,password:pwd},callback);
+	}
 User.makeSalt =  function() {
-      return Math.round((new Date().valueOf() * Math.random())) + '';
-    }
+	  return Math.round((new Date().valueOf() * Math.random())) + '';
+	}
 	
 User.statics.findAll = function (callback) {
   return this.find({},[],{sort:{name:1}}, callback);
@@ -233,7 +233,7 @@ var m = mongoose.model('User', User);
 
 /*ZONE*/
 var Zone = new Schema({
-    name     : { type: String}
+	name     : { type: String}
   , location       : { lat: {type: Number},lng:{type:Number} }
 }, { collection: 'zone' });
 
@@ -258,7 +258,7 @@ mongoose.model('Zone', Zone);
 
 /*YAKCAT*/
 var Yakcat = new Schema({
-    title     : { type: String, index:true}
+	title     : { type: String, index:true}
   , path       : { type:String }
   , pathN       : { type:String, uppercase: true, index:true }
   , tag       : { type:[String] }
@@ -338,6 +338,34 @@ Place.statics.countSearch = function (searchTerm, callback) {
 		}, callback);
 }
 
+Place.statics.validatePlaces = function (ids, callback) {
+	var totalAffected = 0;
+
+	for (var i=0; i<ids.length; i++) {
+
+		this.findById(ids[i], function(err, p) {
+			if (!p)
+				console.log('not found')
+			else {
+				console.log('status ' + p.status);
+
+				p.status = 15;
+
+				p.save(function(err) {
+					if (err)
+						console.log(err)
+					else {
+						console.log('success');
+						totalAffected++;
+					}
+				});
+			}
+		});
+		
+		console.log(totalAffected);
+	}
+}
+
 Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy, sortDirection, callback) {
 	var search = new RegExp(searchTerm, 'i');
 
@@ -369,22 +397,6 @@ Place.statics.countUnvalidated = function (callback) {
 
 Place.statics.unvalidatedList = function (callback) {
 	return this.find( {status: { $in: [3, 10]}},[],{sort:{title:1}}, callback );
-}
-
-Place.statics.getFilteredList = function (validated, callback) {
-
-	cond = {};
-	if (validated === 'true') {
-		cond["status"] = {$in: [3, 10]};
-	}
-	else if (validated === 'false') {
-		cond["status"] = {$in: [1]};
-	}
-	else {
-		cond["status"] = {$in: [1, 3, 10]};
-	}
-	
-	return this.find(cond,[],{sort:{title:1}},callback);
 }
 
 Place.statics.findByTitle = function (title, callback) {

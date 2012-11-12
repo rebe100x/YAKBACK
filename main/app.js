@@ -114,7 +114,7 @@ app.get('/api/validcats', api.countUnvalidatedCats);
 app.get('/api/validplaces', api.countUnvalidatedPlaces);
 app.get('/api/unvalidatedPlaceList', api.unvalidatedPlaceList);
 
-app.get('/api/places/:validated', api.getFilteredPlaceList);
+app.get('/api/places/validate/:ids', api.validatePlaces);
 
 app.get('/api/searchPlace', api.searchPlace);
 app.post('/api/favplace', api.addfavplace);

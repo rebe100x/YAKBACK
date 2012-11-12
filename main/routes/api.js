@@ -123,6 +123,18 @@ exports.findPlaceById = function (req, res) {
 	});
 };
 
+exports.validatePlaces = function (req, res) {
+	var Place = db.model('Place');
+	var ids = [];
+	ids = req.params.ids.split(',');
+
+	Place.validatePlaces(ids, function (err, docs){
+  	  res.json({
+  		result: docs
+	  });
+	});
+};
+
 exports.gridPlaces = function (req, res) {
 	var Place = db.model('Place');
 	
@@ -147,16 +159,6 @@ exports.gridPlaces = function (req, res) {
 exports.unvalidatedPlaceList = function (req, res) {
 	var Place = db.model('Place');
 	Place.unvalidatedList(function (err, docs){
-	  res.json({
-		place: docs
-	  });
-	});
-};
-
-exports.getFilteredPlaceList = function (req, res) {
-	var Place = db.model('Place');
-
-	Place.getFilteredList(req.params.validated, function (err, docs){
 	  res.json({
 		place: docs
 	  });

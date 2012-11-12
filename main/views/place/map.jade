@@ -39,6 +39,9 @@ block content
 													input.input-medium(type='text', placeholder='Search')
 													button.btn
 														i.icon-search
+									tr
+										td
+											button.btn.btn-danger.validerPlaces Valider
 								tfoot
 									tr
 										th
@@ -110,9 +113,7 @@ block content
 				}
 
 				$.ajax(url, {
-
 					type: 'GET'
-
 				}).done(function (response) {
 					// Prepare data to return to Datagrid
 					var data = response.place;
@@ -135,6 +136,11 @@ block content
 		$('#MyGrid').datagrid({
 			dataSource: new ApiDataSource({
 				columns: [{
+					property: 'checked',
+					label: '<input id="selectAllPlaces" type="checkbox" />',
+					sortable: false
+				},
+				{
 					property: 'title',
 					label: 'Title',
 					sortable: true
@@ -151,6 +157,7 @@ block content
 				}],
 				formatter: function (items) {
 					$.each(items, function (index, item) {
+						item.checked = makeCheckBox(item);
 						item.title = fillContent(item);
 						item.address = item.address['city'];
 						item.user = formatUser(item);
@@ -158,7 +165,11 @@ block content
 				}
 			})
 		});
-		
+
+		function makeCheckBox(item) {
+			return '<input type="checkbox" class="selectYakPlace" value="' + item._id + '"/>';
+		}
+
 		function fillContent(item) {
 			var res;
 			res = '<a class="editPlace" id="' + item._id + '" href="#">';
@@ -225,13 +236,6 @@ block content
 			else
 				return "Yakwala";
 		}
-
-		$("#validation").change(function() {			
-			$.getJSON('/api/places/'+ $(this).val(),function(data) {
-				$('div#placeContent').html("");
-				renderData(data);
-			});
-		});
 		
 		// Add Place function
 		$("#btnAdd").click(function() {			
@@ -263,6 +267,35 @@ block content
 			markerLocation.setVisible(false);
 		});
 
+
+		// Datagrid checkbox
+		$(".selectYakPlace").live('change', function() {
+			if ($(this).prop('checked') == false)
+				$("#selectAllPlaces").prop('checked', false);
+		});
+
+		$("#selectAllPlaces").change(function() {
+			$(".selectYakPlace").prop('checked', $(this).prop('checked'));
+		});
+
+		$(".validerPlaces").live('click', function() {
+			var vals = [];
+			var i = 0;
+
+			$(".selectYakPlace").each(function(){	
+				if ($(this).prop('checked') == true)
+					vals[i++] = jQuery(this).val();
+			});
+
+			var url = '/api/places/validate/'+vals.toString();
+
+			$.ajax(url, {type: 'GET'}).done(function (response) 
+			{
+				alert(response);
+			});	
+
+			return vals;
+		});
 
 		/*INIT*/
 		var conf = !{conf};
