@@ -21,6 +21,11 @@ block content
 				div
 					.fuelux
 						div#newsfeedContainer
+							- if (message)
+								each msg in message
+									div.alert.fade.in
+										button.close(type="button",data-dismiss="alert") x
+										strong= msg
 							table#MyGrid.table.table-bordered.datagrid
 								thead
 									tr
@@ -404,7 +409,6 @@ block content
 			});
 				
 			$('#placeForm #yakcat').typeahead({
-				minLength : 3,
 				source: function (typeahead, query) {
 					$.ajax({
 						url: "/api/cats",				
