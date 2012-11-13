@@ -226,6 +226,12 @@ block content
 		// Edit Place function
 		$(".editPlace").live('click', function() {
 			$("#MyGrid").hide();
+			// We remove the error class when we open a form for editing a place
+			$('#placeForm #titleGroup').removeClass("error");
+			$('#placeForm #contentGroup').removeClass("error");
+			$('#placeForm #licenceGroup').removeClass("error");
+			$('#placeForm #origineGroup').removeClass("error");
+			$('#placeForm #adresseGroup').removeClass("error");
 			$("#placeForm").fadeIn();
 			$("#btnBack").fadeIn();
 			event.preventDefault();
@@ -303,6 +309,13 @@ block content
 		$("#btnAdd").click(function() {			
 			$("#MyGrid").hide();
 			$("#placeForm")[0].reset();
+			// We remove the error class when we open a form for creating a new place
+			$('#placeForm #titleGroup').removeClass("error");
+			$('#placeForm #contentGroup').removeClass("error");
+			$('#placeForm #licenceGroup').removeClass("error");
+			$('#placeForm #origineGroup').removeClass("error");
+			$('#placeForm #adresseGroup').removeClass("error");
+			$('#placeForm #content').val("");
 			$("#placeForm").fadeIn();
 			$("#btnBack").fadeIn();
 			event.preventDefault();
@@ -321,6 +334,7 @@ block content
 		});
 		
 		$("#placeForm legend").html("Ajouter une place");
+
 
 		// Function to go back from adding/editing form to the grid
 		$("#btnBack").click(function() {
@@ -514,8 +528,51 @@ block content
 				}
 				//r.readAsBinaryString(file);
 			});
-
 			
+			// We validate the form before submitting it
+			$('#placeForm').submit(function()
+			{
+				var err = false;
+				if ($('#placeForm #title').val() == "")
+				{
+					$('#placeForm #titleGroup').addClass("error");
+					err = true;
+				}
+				else
+					$('#placeForm #titleGroup').removeClass("error");
+				if ($('#placeForm #content').val() == "")
+				{
+					$('#placeForm #contentGroup').addClass("error");
+					err = true;
+				}
+				else
+					$('#placeForm #contentGroup').removeClass("error");
+				if ($('#placeForm #licence').val() == "")
+				{
+					$('#placeForm #licenceGroup').addClass("error");
+					err = true;
+				}
+				else
+					$('#placeForm #licenceGroup').removeClass("error");
+				if ($('#placeForm #origine').val() == "")
+				{
+					$('#placeForm #origineGroup').addClass("error");
+					err = true;
+				}
+				else
+					$('#placeForm #origineGroup').removeClass("error");
+				if (placeArray.length == 0)
+				{
+					$('#placeForm #adresseGroup').addClass("error");
+					err = true;
+				}
+				else
+					$('#placeForm #adresseGroup').removeClass("error");
+				
+				if (err) 
+					return false;
+				return true;
+			});
 			
 			markerLocation = new google.maps.Marker({
 				visible:false,

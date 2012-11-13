@@ -10,26 +10,37 @@ mixin placeForm()
 		input#objid(type="hidden",data-provide="typeahead", name="objid", value='0')
 
 		legend Ajouter une place
-		div.control-group
+		div.control-group#titleGroup
 			div.controls
 				label Titre 
-				input.big.hashtagMaker(type='text', name='title', id='title', placeholder='Opéra Bastille, Restaurant du Coin #BonneBouffe2012' )
+				input.big.hashtagMaker(type='text', name='title', id='title', placeholder='Opéra Bastille, Restaurant du Coin #BonneBouffe2012')
+		div.control-group#contentGroup
+			div.controls
 				label Description
-				textarea#content.span8.hashtagMaker(name='content', placeholder="Quelques détails sur la place à ajouter, avec la possibilité d'ajouter des #hashtags.",rows='3')	
+				textarea.span8.hashtagMaker(type='text', id='content', name='content', placeholder="Quelques détails sur la place à ajouter, avec la possibilité d'ajouter des #hashtags.", rows='3')	
+		div.control-group#licenceGroup
+			div.controls
 				label Licence
-				input.hashtagMaker(type='text', name='licence', id='licence', placeholder='Open Source') 
-				.col2
+				input.hashtagMaker(type='text', name='licence', id='licence', placeholder='Open Source', autocomplete="on") 
+		div.control-group#origineGroup
+				div.controls
 					label Origine
 					input.hashtagMaker(type='text', name='origine', id='origine', placeholder='Yakwala')
+		div.control-group#adresseGroup
+			div.controls
 				label(for='Place') Adresse
 				.input-append
-					input.big#place(type="text",data-provide="typeahead", name="place", autocomplete="off", placeholder="Cliquez sur la carte ou entrer l'adresse") 
+					input.big#place(type="text",data-provide="typeahead", name="place", autocomplete="off", placeholder="Cliquer sur la carte ou entrer l'adresse") 
 					button.btn#btn-place-adder(type="button") Ajouter
+		div.control-group#yakcatGroup
+			div.controls
 				label(for='category') Thèmes
-				input#yakcat(type="text", data-provide="typeahead", name="yakcat", autocomplete="off", placeholder='Un ou plusieurs thème')
-				.col2
-					label Free Tags
-					input#freetag(type="text", data-provide="typeahead", name="freetag",placeholder='Free tags séparés par des virgules')
+				input#yakcat(type="text", data-provide="typeahead", name="yakcat", autocomplete="off", placeholder='Un ou plusieurs thèmes')
+
+		div.control-group
+			div.controls
+				label Free Tags
+				input#freetag(type="text", data-provide="typeahead", name="freetag",placeholder='Free tags séparés par des virgules')
 			
 				label(for='picture') Photo
 				span#picturePreview
