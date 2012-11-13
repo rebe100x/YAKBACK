@@ -296,7 +296,7 @@ var Place = new Schema({
 ,	licence	: { type: String }
 ,	outGoingLink	: { type: String }
 , 	yakCat	: [Schema.ObjectId]	
-,	yackatName	: [String]	
+,	yakcatName	: [String]	
 , 	freeTag	: [String]
 ,	creationDate	: {type: Date, required: true, default: Date.now}		
 ,	lastModifDate	: {type: Date, required: true, default: Date.now}		
@@ -349,9 +349,15 @@ Place.statics.validatePlaces = function (ids, callback) {
 
 Place.statics.deletePlaces = function (ids, callback) {
 
-	var conditions = { _id: { $in: ids} };
+	/*var conditions = { _id: { $in: ids} };
 
-	this.remove(conditions, callback);
+	this.remove(conditions, callback);*/
+	
+	var conditions = { _id: { $in: ids} }
+	, update = { status: 3 }
+	, options = { multi: true };
+
+	this.update(conditions, update, options, callback);
 }
 
 Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy, sortDirection, callback) {
