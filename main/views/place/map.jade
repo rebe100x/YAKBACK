@@ -253,7 +253,7 @@ block content
 			$("#placeForm legend").html("Editer une place");
 			$("#placeForm #objid").val(this.id);
 			
-			var url = '/api/findPlaceById/'+this.id;
+			var url = '/api/places/'+this.id;
 			
 			// We search for the place in mongo and we fill the form with the place's values
 			$.ajax(url, {type: 'GET'}).done(function (response) 
