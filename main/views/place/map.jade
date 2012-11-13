@@ -313,11 +313,11 @@ block content
 			$('#placeForm #origineGroup').removeClass("error");
 			$('#placeForm #adresseGroup').removeClass("error");
 			$('#placeForm #content').val("");
+			$('#placeLabel').first().remove();
 			$("#placeForm").fadeIn();
 			$("#btnBack").fadeIn();
+			$("#placeForm legend").html("Ajouter une place");
 		});
-		
-		$("#placeForm legend").html("Ajouter une place");
 
 
 		// Function to go back from adding/editing form to the grid
