@@ -224,16 +224,8 @@ block content
 		}
 
 		// Edit Place function
-		$(".editPlace").live('click', function() {
-			$("#MyGrid").hide();
-			// We remove the error class when we open a form for editing a place
-			$('#placeForm #titleGroup').removeClass("error");
-			$('#placeForm #contentGroup').removeClass("error");
-			$('#placeForm #licenceGroup').removeClass("error");
-			$('#placeForm #origineGroup').removeClass("error");
-			$('#placeForm #adresseGroup').removeClass("error");
-			$("#placeForm").fadeIn();
-			$("#btnBack").fadeIn();
+		$(".editPlace").live('click', function() 
+		{
 			event.preventDefault();
 			listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
 				getformattedAddress(event.latLng);
@@ -247,6 +239,16 @@ block content
 					
 				});		
 			});
+			
+			$("#MyGrid").hide();
+			// We remove the error class when we open a form for editing a place
+			$('#placeForm #titleGroup').removeClass("error");
+			$('#placeForm #contentGroup').removeClass("error");
+			$('#placeForm #licenceGroup').removeClass("error");
+			$('#placeForm #origineGroup').removeClass("error");
+			$('#placeForm #adresseGroup').removeClass("error");
+			$("#placeForm").fadeIn();
+			$("#btnBack").fadeIn();
 			
 			$("#placeForm legend").html("Editer une place");
 			$("#placeForm #objid").val(this.id);
@@ -283,6 +285,47 @@ block content
 				$("#placeForm #picturePreview").html(imag);
 			});	
 		});
+		
+		// Add Place function
+		$("#btnAdd").click(function() 
+		{
+			event.preventDefault();
+			listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
+				getformattedAddress(event.latLng);
+				placeMarker(event.latLng,markerLocation);
+				google.maps.event.addListener(markerLocation, 'dragend', function() {
+					var position = markerLocation.getPosition();
+					$('#placeForm #latitude').val(position.lat());	
+					$('#placeForm #longitude').val(position.lng());	
+					
+					getformattedAddress(position);
+					
+				});		
+			});			
+			$("#MyGrid").hide();
+			$("#placeForm")[0].reset();
+			// We remove the error class when we open a form for creating a new place
+			$('#placeForm #titleGroup').removeClass("error");
+			$('#placeForm #contentGroup').removeClass("error");
+			$('#placeForm #licenceGroup').removeClass("error");
+			$('#placeForm #origineGroup').removeClass("error");
+			$('#placeForm #adresseGroup').removeClass("error");
+			$('#placeForm #content').val("");
+			$("#placeForm").fadeIn();
+			$("#btnBack").fadeIn();
+		});
+		
+		$("#placeForm legend").html("Ajouter une place");
+
+
+		// Function to go back from adding/editing form to the grid
+		$("#btnBack").click(function() {
+			$("#MyGrid").fadeIn();
+			$("#placeForm").hide();
+			$("#btnBack").hide();
+			google.maps.event.removeListener(listenerHandle);
+			markerLocation.setVisible(false);
+		});
 
 		function formatUser(item) {
 			var res;
@@ -304,46 +347,6 @@ block content
 			});
 		});
 		*/
-		
-		// Add Place function
-		$("#btnAdd").click(function() {			
-			$("#MyGrid").hide();
-			$("#placeForm")[0].reset();
-			// We remove the error class when we open a form for creating a new place
-			$('#placeForm #titleGroup').removeClass("error");
-			$('#placeForm #contentGroup').removeClass("error");
-			$('#placeForm #licenceGroup').removeClass("error");
-			$('#placeForm #origineGroup').removeClass("error");
-			$('#placeForm #adresseGroup').removeClass("error");
-			$('#placeForm #content').val("");
-			$("#placeForm").fadeIn();
-			$("#btnBack").fadeIn();
-			event.preventDefault();
-			listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
-				getformattedAddress(event.latLng);
-				placeMarker(event.latLng,markerLocation);
-				google.maps.event.addListener(markerLocation, 'dragend', function() {
-					var position = markerLocation.getPosition();
-					$('#placeForm #latitude').val(position.lat());	
-					$('#placeForm #longitude').val(position.lng());	
-					
-					getformattedAddress(position);
-					
-				});		
-			});
-		});
-		
-		$("#placeForm legend").html("Ajouter une place");
-
-
-		// Function to go back from adding/editing form to the grid
-		$("#btnBack").click(function() {
-			$("#MyGrid").fadeIn();
-			$("#placeForm").hide();
-			$("#btnBack").hide();
-			google.maps.event.removeListener(listenerHandle);
-			markerLocation.setVisible(false);
-		});
 
 		// Datagrid checkbox
 		$(".selectYakPlace").live('change', function() {
