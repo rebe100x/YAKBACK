@@ -98,6 +98,7 @@ ul#newsfeed li.highlighted .mapHighlighter{background-color:#F0F0F0;}
 .infowindow img {float: left;margin: 0 5px 0px 0;}
 		/*POST*/
 
+
 /*#newsPostContainer{overflow:auto;height:auto;}
 #newsPostContainer #newsPostForm{margin:0px auto;padding:10px;text-align:left;opacity:0.95;background:#FFFFFF;}*/
 #newspostContent, #addplaceContent{display:none;background:#ffffff;float:left;padding:0px 10px;margin:0px;width:95%;}
