@@ -7,7 +7,6 @@ block content
 	include ../mixins/forms/loginForm.jade
 	include ../mixins/forms/searchForm.jade
 	include ../mixins/forms/listAllPlacesForm.jade
-	include ../mixins/forms/placeControle.jade
 	
 	mixin menu('place')
 	mixin locationChooser()
@@ -48,6 +47,10 @@ block content
 												ul.dropdown-menu
 													li
 														a.supprimerPlaces Supprimer
+												select#sortPlaces
+													option(value="creationDate") Date de creation
+													option(value="pubDate") Date de publication
+													option(value="lastModifDate") Date de modification
 								tfoot
 									tr
 										th
@@ -115,7 +118,8 @@ block content
 					url += '/' + options.sortDirection;
 				}
 				else {
-					url += '/title/asc';
+					var sort = $('#sortPlaces :selected').val();
+					url += '/' + sort + '/asc';
 				}
 
 				$.ajax(url, {
@@ -196,6 +200,11 @@ block content
 			res += '</small></a>';
 			return res;
 		}
+
+		// Refresh on sort selection
+		$('#sortPlaces').live('change', function() {
+			refreshDatagridAndMenu();
+		});
 
 		// Edit Place function
 		$(".editPlace").live('click', function() {

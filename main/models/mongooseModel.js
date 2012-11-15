@@ -334,7 +334,7 @@ Place.statics.countSearch = function (searchTerm, callback) {
 		{	
 			"title" : search, 
 			"status" : 
-				{ $in: [3, 10]} 
+				{ $in: [3, 10] } 
 		}, callback);
 }
 
@@ -347,9 +347,18 @@ Place.statics.validatePlaces = function (ids, callback) {
 	this.update(conditions, update, options, callback);
 }
 
+Place.statics.rejectPlaces = function (ids, callback) {
+
+	var conditions = { _id: { $in: ids } }
+	, update = { status: 3 }
+	, options = { multi: true };
+
+	this.update(conditions, update, options, callback);
+}
+
 Place.statics.deletePlaces = function (ids, callback) {
 
-	var conditions = { _id: { $in: ids} };
+	var conditions = { _id: { $in: ids } };
 
 	this.remove(conditions, callback);
 }
