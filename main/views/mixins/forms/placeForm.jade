@@ -22,7 +22,7 @@ mixin placeForm()
 			div.controls
 				label Licence
 				input.hashtagMaker(type='text', name='licence', id='licence', placeholder='Open Source', autocomplete="on") 
-		div.control-group#origineGroup
+		div.control-group#origineGroup.col2
 				div.controls
 					label Origine
 					input.hashtagMaker(type='text', name='origine', id='origine', placeholder='Yakwala', autocomplete="on")
@@ -39,8 +39,9 @@ mixin placeForm()
 
 		div.control-group
 			div.controls
-				label Free Tags
-				input#freetag(type="text", data-provide="typeahead", name="freetag",placeholder='Free tags séparés par des virgules')
+				.col2
+					label Free Tags
+					input#freetag(type="text", data-provide="typeahead", name="freetag",placeholder='Free tags séparés par des virgules')
 			
 				label(for='picture') Photo
 				span#picturePreview
