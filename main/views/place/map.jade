@@ -166,27 +166,6 @@ block content
 				}
 				else
 					$('#placeForm #titleGroup').removeClass("error");
-				if ($('#placeForm #content').val() == "")
-				{
-					$('#placeForm #contentGroup').addClass("error");
-					err = true;
-				}
-				else
-					$('#placeForm #contentGroup').removeClass("error");
-				if ($('#placeForm #licence').val() == "")
-				{
-					$('#placeForm #licenceGroup').addClass("error");
-					err = true;
-				}
-				else
-					$('#placeForm #licenceGroup').removeClass("error");
-				if ($('#placeForm #origine').val() == "")
-				{
-					$('#placeForm #origineGroup').addClass("error");
-					err = true;
-				}
-				else
-					$('#placeForm #origineGroup').removeClass("error");
 				if (placeArray.length == 0)
 				{
 					$('#placeForm #adresseGroup').addClass("error");
@@ -196,7 +175,10 @@ block content
 					$('#placeForm #adresseGroup').removeClass("error");
 				
 				if (err) 
+				{
+					$('#err').show();
 					return false;
+				}
 				return true;
 			});
 			

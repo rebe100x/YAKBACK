@@ -10,6 +10,9 @@ mixin placeForm()
 		input#objid(type="hidden",data-provide="typeahead", name="objid", value='0')
 
 		legend Ajouter une place
+		div.control-group.error
+				div.controls
+					label#err(type="text", id="err", name="err", style='display:none') Les champs marqués en rouge sont obligatoires
 		div.control-group#titleGroup
 			div.controls
 				label Titre 
