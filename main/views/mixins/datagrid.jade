@@ -479,9 +479,8 @@ mixin datagrid()
 					}
 				})
 			},
-			//property: "title",
-			onselect: function(obj) {
-				$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='yakcatArray.cleanArray(\""+obj._id+"\");$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
+			updater: function(obj) {
+				$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='yakcatArray.cleanArray(\""+obj+"\");$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj+"</div>");
 				$('#placeForm #yakcat').val('').focus();
 				yakcatArray.push(obj);
 				$("#placeForm #yakcatInput").val(JSON.stringify(yakcatArray));
