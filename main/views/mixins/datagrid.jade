@@ -480,7 +480,7 @@ mixin datagrid()
 				})
 			},
 			updater: function(obj) {
-				$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='yakcatArray.cleanArray(\""+obj+"\");$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj+"</div>");
+				$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+obj+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj+"</div>");
 				$('#placeForm #yakcat').val('').focus();
 				yakcatArray.push(obj);
 				$("#placeForm #yakcatInput").val(JSON.stringify(yakcatArray));

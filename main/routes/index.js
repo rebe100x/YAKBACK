@@ -62,6 +62,7 @@ exports.place = function(req, res){
 	delete req.session.message;
 	var Place = db.model('Place');
 	var Zone = db.model('Zone');
+	var Yakcat = db.model('Yakcat');
 	var place;
 	//mongoose.set('debug', true);
 	var obj_id = req.body.objid;
@@ -94,11 +95,21 @@ exports.place = function(req, res){
 			{
 				if(req.body.yakcatInput.length > 0)
 				{
-					var yakcat = eval('('+req.body.yakcatInput+')');
-					for(i=0;i<yakcat.length;i++)
+					var yak = eval('('+req.body.yakcatInput+')');
+					for(i=0;i<yak.length;i++)
 					{
-						place.yakCat.push(yakcat[i]._id);
-						place.yackatName.push(yakcat[i].title);
+						Yakcat.findByTitle(yak[i], function(err, yakcat)
+						{
+							if (!err)
+							{
+								place.yakCat.push(yakcat._id);
+								place.yakcatName.push(yakcat.title);
+							}
+							else
+							{
+								console.log(err);
+							}
+						});
 					}
 				}
 				place.title = req.body.title;
