@@ -130,6 +130,19 @@ exports.place = function(req, res){
 				place.licence = req.body.licence;
 				place.freeTag = req.body.freetag.split(',');
 				
+				var contact = {
+						'tel' : req.body.tel, 
+						'mobile' : req.body.mobile,
+						'mail' : req.body.mail,
+						'transportation' : req.body.transportation,
+						'web' : req.body.web,
+						'opening' : req.body.opening,
+						'closing' : req.body.closing,
+						'special_opening' : req.body.special
+					};
+				
+				place.contact = contact;
+				
 				Zone.findNear(place.location.lat, place.location.lng, function(err, zone)
 				{
 					if (!err)

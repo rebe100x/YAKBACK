@@ -243,6 +243,15 @@ mixin datagrid()
 				}
 				
 				$("#placeForm #freetag").val(place.freeTag.join(","));
+				$("#placeForm #tel").val(place.contact.tel);
+				$("#placeForm #mobile").val(place.contact.mobile);
+				$("#placeForm #mail").val(place.contact.mail);
+				$("#placeForm #transportation").val(place.contact.transportation);
+				$("#placeForm #web").val(place.contact.web);
+				$("#placeForm #opening").val(place.contact.opening);
+				$("#placeForm #closing").val(place.contact.closing);
+				$("#placeForm #special").val(place.contact.special_opening);
+							
 				if (place.status == 1)
 					$("#placeForm #validate").check();
 				else

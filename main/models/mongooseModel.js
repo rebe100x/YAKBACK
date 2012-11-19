@@ -312,6 +312,17 @@ var Place = new Schema({
 								zip: String}
 							}
 ,	formatted_address	:	{type: String}
+,	contact	:	{ type: {
+							tel: String,
+							mobile: String,
+							mail: String,
+							transportation: String,
+							web: String,
+							opening: String,
+							closing: String,
+							special_opening: String 
+						}
+				}
 ,	status	: {type: Number}		
 ,	user	: {type: Schema.ObjectId}		
 ,	zone	: {type: Schema.ObjectId}

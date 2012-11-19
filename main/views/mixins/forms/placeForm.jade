@@ -45,6 +45,18 @@ mixin placeForm()
 				.col2
 					label Free Tags
 					input#freetag(type="text", data-provide="typeahead", name="freetag",placeholder='Free tags séparés par des virgules')
+					
+		div.control-group
+			div.controls
+				label Contact
+				input#tel(type="text", data-provide="typeahead", name="tel", placeholder='Téléphone')
+				input#mobile(type="text", data-provide="typeahead", name="mobile", placeholder='Mobile')
+				input#mail(type="text", data-provide="typeahead", name="mail", placeholder='Email')
+				input#web(type="text", data-provide="typeahead", name="web", placeholder='Site web')
+				input#opening(type="text", data-provide="typeahead", name="opening", placeholder="Horaires d'ouverture")
+				input#closing(type="text", data-provide="typeahead", name="closing", placeholder='Horaires de fermeture')
+				input#special(type="text", data-provide="typeahead", name="special", placeholder='Special opening')
+				input#transportation(type="text", data-provide="typeahead", name="transportation", placeholder='Comment y arriver? (ex: métro ligne 2 station Jaurès)')	
 			
 				label(for='picture') Photo
 				span#picturePreview
