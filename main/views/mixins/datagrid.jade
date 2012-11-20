@@ -259,6 +259,8 @@ mixin datagrid()
 			$('#placeForm #adresseGroup').removeClass("error");
 			$("#placeForm").fadeIn();
 			$("#btnBack").fadeIn();
+			$(".catLabel").remove();
+			yakcatArray = new Array();
 
 			$("#placeForm legend").html("Editer une place");
 			$("#placeForm #objid").val(this.id);
@@ -287,7 +289,7 @@ mixin datagrid()
 					$.ajax(url, {type: 'GET'}).done(function (response)
 					{
 						var yakcat = response.cat;
-						$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+yakcat._id+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+yakcat.title+"</div>");
+						$("label[for='category']").after("<div class='catLabel'><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+yakcat._id+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+yakcat.title+"</div>");
 						yakcatArray.push(yakcat);
 						$("#placeForm #yakcatInput").val(JSON.stringify(yakcatArray));
 					});
@@ -340,6 +342,8 @@ mixin datagrid()
 			$("#placeForm").fadeIn();
 			$("#btnBack").fadeIn();
 			$("#placeForm legend").html("Ajouter une place");
+			$(".catLabel").remove();
+			yakcatArray = new Array();
 		});
 
 
@@ -524,7 +528,7 @@ mixin datagrid()
 			},
 			property: "title",
 			onselect: function(obj) {
-				$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+obj._id+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
+				$("label[for='category']").after("<div class='catLabel'><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+obj._id+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
 				$('#placeForm #yakcat').val('').focus();
 				yakcatArray.push(obj);
 				$("#placeForm #yakcatInput").val(JSON.stringify(yakcatArray));
