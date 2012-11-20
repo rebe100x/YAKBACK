@@ -8,7 +8,7 @@ mixin datagrid()
 
 		div#newsfeedContainer
 			mixin placeForm()
-			
+
 			table#MyGrid.table.table-bordered.datagrid
 				thead
 					tr.headerControle
@@ -21,8 +21,8 @@ mixin datagrid()
 									input.input-medium(type='text', placeholder='Search')
 									button.btn
 										i.icon-search
-								a.searchPanel(href="#") Recherche avancée
-						tr.headerControle
+								a.showSearchPanel(href="#") Recherche avancée
+						tr.headerControle.advancedSearch
 							td.searchPanel(colspan=4, style="display:none")
 								input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Ajouter un thème")
 								.pillbox(style="display:none")
@@ -199,7 +199,7 @@ mixin datagrid()
 		}
 
 		// Toggle searchPanel
-		$('a.searchPanel').live('click', function() {
+		$('a.showSearchPanel').live('click', function() {
 			$("td.searchPanel").toggle("fast");
 		});
 
