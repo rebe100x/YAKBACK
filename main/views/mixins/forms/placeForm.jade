@@ -64,10 +64,14 @@ mixin placeForm()
 			div.control-group
 				div.controls
 					label Status
-					select.span1(id="status", name="status")
-						option(selected="true") 1
-						option() 3
-						option() 10
+					label.radio.inline Valider
+						input#option1(type="radio", name="status", value="1" , checked) 
+					label.radio.inline En attente
+						input#option4(type="radio", name="status", value="2")
+					label.radio.inline Rejeter
+						input#option2(type="radio", name="status", value="3")
+					label.radio.inline Erreur de localisation
+						input#options3(type="radio", name="status", value="10")
 			div.control-group
 				div.controls
 					button.btn.btn-large.btn-inverse(type='submit', name='submit', id='submit', value='Envoyer') Envoyer
