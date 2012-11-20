@@ -11,9 +11,8 @@ mixin datagrid()
 						strong= msg
 			table#MyGrid.table.table-bordered.datagrid
 				thead
-					tr
+					tr.headerControle
 						th
-							span.datagrid-header-title Liste des places
 							.datagrid-header-left
 								button.btn#btnAdd
 									i.icon-plus
@@ -23,13 +22,12 @@ mixin datagrid()
 									button.btn
 										i.icon-search
 								a.searchPanel(href="#") Recherche avancée
-						tr
-							td.searchPanel(colspan=4, style="display:none")
-								label(for="category") Thèmes
+						tr.headerControle
+							td.advancedSearch.searchPanel(colspan=4, style="display:none")
 								.pillbox(style="display:none")
 									ul
-								input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Un ou plusieurs thèmes")
-					tr
+								input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Ajouter un thème")
+					tr.headerControle
 						td(colspan=4)
 							.btn-group
 								button.btn.btn-danger.validerPlaces Valider
@@ -38,10 +36,10 @@ mixin datagrid()
 								ul.dropdown-menu
 									li
 										a.supprimerPlaces Supprimer
-								select#sortPlaces
-									option(value="creationDate") Date de création
-									option(value="pubDate") Date de publication
-									option(value="lastModifDate") Date de modification
+							select#sortPlaces.datagrid-header-right
+								option(value="creationDate") Date de création
+								option(value="pubDate") Date de publication
+								option(value="lastModifDate") Date de modification
 				tfoot
 					tr
 						th
@@ -153,7 +151,7 @@ mixin datagrid()
 				},
 				{
 					property: 'title',
-					label: 'Titre',
+					label: 'Liste des places',
 					sortable: true
 				},
 				{
@@ -259,6 +257,8 @@ mixin datagrid()
 			$('#placeForm #adresseGroup').removeClass("error");
 			$("#placeForm").fadeIn();
 			$("#btnBack").fadeIn();
+			$(".catLabel").remove();
+			yakcatArray = new Array();
 
 			$("#placeForm legend").html("Editer une place");
 			$("#placeForm #objid").val(this.id);
@@ -287,7 +287,7 @@ mixin datagrid()
 					$.ajax(url, {type: 'GET'}).done(function (response)
 					{
 						var yakcat = response.cat;
-						$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+yakcat._id+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+yakcat.title+"</div>");
+						$("label[for='category']").after("<div class='catLabel'><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+yakcat._id+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+yakcat.title+"</div>");
 						yakcatArray.push(yakcat);
 						$("#placeForm #yakcatInput").val(JSON.stringify(yakcatArray));
 					});
@@ -340,6 +340,8 @@ mixin datagrid()
 			$("#placeForm").fadeIn();
 			$("#btnBack").fadeIn();
 			$("#placeForm legend").html("Ajouter une place");
+			$(".catLabel").remove();
+			yakcatArray = new Array();
 		});
 
 
@@ -528,7 +530,7 @@ mixin datagrid()
 			},
 			property: "title",
 			onselect: function(obj) {
-				$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+obj._id+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
+				$("label[for='category']").after("<div class='catLabel'><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+obj._id+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
 				$('#placeForm #yakcat').val('').focus();
 				yakcatArray.push(obj);
 				$("#placeForm #yakcatInput").val(JSON.stringify(yakcatArray));
