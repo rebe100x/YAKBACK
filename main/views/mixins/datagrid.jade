@@ -237,9 +237,11 @@ mixin datagrid()
 				$("#placeForm #content").val(place.content);
 				$("#placeForm #freetag").val(place.freeTag);
 
-				for (var i = 0; i < place.yakCat.length; i++)
+				for (var i = 0; i < place.yakcatName.length; i++)
 				{
-					$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='yakcatArray.cleanArray(\""+obj._id+"\");$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+place.yakCat[i]+"</div>");
+					$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+place.yakcatName[i]+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+place.yakcatName[i]+"</div>");
+					yakcatArray.push(place.yakcatName[i]);
+					$("#placeForm #yakcatInput").val(JSON.stringify(yakcatArray));
 				}
 
 				$("#placeForm #freetag").val(place.freeTag.join(","));
