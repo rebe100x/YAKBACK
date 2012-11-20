@@ -106,9 +106,9 @@ exports.countUnvalidatedCats = function (req, res) {
 
 exports.findCatById = function (req, res) {
 	var Yakcat = db.model('Yakcat');
-   	Yakcat.findById(req.body.id, function (err, docs){
+   	Yakcat.findById(req.params.id, function (err, docs){
   	  res.json({
-  		cat: docs.title
+  		cat: docs
 	  });
 	});
 };
