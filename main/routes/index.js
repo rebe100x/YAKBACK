@@ -98,18 +98,8 @@ exports.place = function(req, res){
 					var yak = eval('('+req.body.yakcatInput+')');
 					for(i=0;i<yak.length;i++)
 					{
-						Yakcat.findByTitle(yak[i], function(err, yakcat)
-						{
-							if (!err)
-							{
-								place.yakCat.push(yakcat._id);
-								place.yakcatName.push(yakcat.title);
-							}
-							else
-							{
-								console.log(err);
-							}
-						});
+						place.yakCat.push(yak[i]._id);
+						place.yakcatName.push(yak[i].title);
 					}
 				}
 				place.title = req.body.title;
