@@ -30,10 +30,11 @@ a {
 #placeForm .col2 { display: block; float: right; margin-top: -65px; }
 #placeForm input[type=text] { width: 280px; }
 #placeForm input[type=text].big { width: 75%; }
-#MyGrid thead tr.headerControle {background-color: white; border: none;}
+#MyGrid thead tr.headerControle {background: url(../images/texture.png) repeat; border: none;}
 #MyGrid thead td {border-top: none;}
 #MyGrid thead a {font-size: smaller;}
-#MyGrid thead .advancedSearch {}
+#MyGrid thead .advancedSearch {opacity:0.4;}
+#MyGrid thead .advancedSearch {opacity:1.0;}
 #MyGrid .datagrid-header-title {margin-left: 230px; font-size: larger;}
 
 /* MAP

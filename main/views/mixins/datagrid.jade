@@ -22,8 +22,8 @@ mixin datagrid()
 									button.btn
 										i.icon-search
 								a.searchPanel(href="#") Recherche avancée
-						tr.headerControle
-							td.advancedSearch.searchPanel(colspan=4, style="display:none")
+						tr.headerControle.advancedSearch
+							td.searchPanel(colspan=4, style="display:none")
 								.pillbox(style="display:none")
 									ul
 								input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Ajouter un thème")
