@@ -103,7 +103,7 @@ app.get('/api/geoinfos/:x1/:y1/:x2/:y2/:heat/:type', api.geoinfos);
 app.get('/api/zones/:x/:y', api.zones);
 app.post('/api/users', api.users);
 app.get('/api/cats', api.cats);
-app.get('/api/cats/:string', api.findCatByTitle);
+app.get('/api/cats/:id', api.findCatById);
 app.get('/api/places', api.places);
 app.get('/api/places/:pageIndex/:pageSize/:searchTerm/:sortBy/:sortDirection', api.gridPlaces);
 app.get('/api/places/:pageIndex/:pageSize/:searchTerm/:sortBy/:sortDirection/:yakcats', api.gridPlaces);
