@@ -10,7 +10,7 @@ exports.infos = function (req, res) {
 	  res.json({
 		info: docs
 	  });
-	}); 
+	});
 };
 
 exports.geoinfos = function (req, res) {
@@ -29,7 +29,7 @@ exports.geoinfos = function (req, res) {
 	  res.json({
 		info: docs
 	  });
-	}); 
+	});
 };
 
 exports.countUnvalidatedInfos = function (req, res) {
@@ -38,7 +38,7 @@ exports.countUnvalidatedInfos = function (req, res) {
 	  res.json({
 		info: docs
 	  });
-	}); 
+	});
 };
 
 exports.countUnvalidatedUsers = function (req, res) {
@@ -47,7 +47,7 @@ exports.countUnvalidatedUsers = function (req, res) {
 	  res.json({
 		info: docs
 	  });
-	}); 
+	});
 };
 
 exports.countUnvalidatedPlaces = function (req, res) {
@@ -56,7 +56,7 @@ exports.countUnvalidatedPlaces = function (req, res) {
 	  res.json({
 		info: docs
 	  });
-	}); 
+	});
 };
 
 exports.searchPlace = function(req, res) {
@@ -74,7 +74,7 @@ exports.zones = function (req, res) {
 	  res.json({
 		zone: docs
 	  });
-	}); 
+	});
 };
 
 exports.cats = function (req, res) {
@@ -86,27 +86,36 @@ exports.cats = function (req, res) {
 	});
 };
 
+exports.findCatByTitle = function (req, res) {
+	var Yakcat = db.model('Yakcat');
+	Yakcat.findByTitle(function (err, docs){
+		res.json({
+			cat: docs
+		});
+	});
+};
+
 exports.countUnvalidatedCats = function (req, res) {
 	var Yakcat = db.model('Yakcat');
 	Yakcat.countUnvalidated(function (err, docs){
 	  res.json({
 		info: docs
 	  });
-	}); 
+	});
 };
 
 exports.findCatById = function (req, res) {
 	var Yakcat = db.model('Yakcat');
-   	Yakcat.findById(req.body.id, function (err, docs){
+   	Yakcat.findById(req.params.id, function (err, docs){
   	  res.json({
-  		cat: docs.title
+  		cat: docs
 	  });
 	});
 };
 
 exports.places = function (req, res) {
 	var Place = db.model('Place');
-	
+
 	Place.findAll(function (err, docs){
 	  res.json({
 		places: docs
@@ -149,9 +158,13 @@ exports.deletePlaces = function (req, res) {
 
 exports.gridPlaces = function (req, res) {
 	var Place = db.model('Place');
-	
+
+    var yakcats = [];
+    if (req.params.yakcats) {
+        yakcats = req.params.yakcats.split(',');
+    }
 	Place.findGridPlaces(req.params.pageIndex,req.params.pageSize,
-		req.params.searchTerm,req.params.sortBy,req.params.sortDirection,function (err, docs){
+		req.params.searchTerm,req.params.sortBy,req.params.sortDirection,yakcats,function (err, docs){
 
 		var data = {};
 
@@ -162,10 +175,8 @@ exports.gridPlaces = function (req, res) {
 		Place.countSearch(req.params.searchTerm, function (err, docs){
 			data['count'] = docs;
 			res.json(data);
-
-			//console.log(data);
 		});
-	}); 
+	});
 };
 
 exports.unvalidatedPlaceList = function (req, res) {
@@ -180,46 +191,46 @@ exports.unvalidatedPlaceList = function (req, res) {
 exports.addfavplace = function (req, res) {
 	var User = db.model('User');
 	var Point = db.model('Point');
-	
+
 	if(req.session.user){
-		var point = new Point(req.body.place);	
+		var point = new Point(req.body.place);
 		console.log(point);
 		req.session.user.favplace.push(point);
-		
-		User.update({_id:req.session.user._id},{$push:{"favplace":point}}, function(err,docs){			
+
+		User.update({_id:req.session.user._id},{$push:{"favplace":point}}, function(err,docs){
 			res.json(point._id);
 		});
 	}else{
 		req.session.message = "Erreur : vous devez être connecté pour sauver vos favoris";
 		res.redirect('/user/login');
 	}
-	
-	
+
+
 };
 
 exports.delfavplace = function (req, res) {
 	var User = db.model('User');
-	
+
 	if(req.session.user){
 			var pointId = req.body.pointId;
 			for(i=0;i<req.session.user.favplace.length;i++)
-				if(pointId==req.session.user.favplace[i]._id) 
+				if(pointId==req.session.user.favplace[i]._id)
 					req.session.user.favplace.splice(i, 1);
 					 //{$pull: {attendees: {_id: ObjectId( "4f8dfb06ee21783d7134503a" )}}})
 			User.update({_id:req.session.user._id},{$pull:{favplace:{_id:pointId}}}, function(err){
 				console.log(err);
 				res.json('del');
-				
+
 			});
-			
-			
-		
+
+
+
 	}else{
 		req.session.message = "Erreur : vous devez être connecté pour sauver vos favoris";
 		res.redirect('/user/login');
 	}
-	
-	
+
+
 };
 
 exports.usersearch = function (req, res) {
