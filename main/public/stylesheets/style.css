@@ -33,8 +33,7 @@ a {
 #MyGrid thead tr.headerControle {background: url(../images/texture.png) repeat; border: none;}
 #MyGrid thead td {border-top: none;}
 #MyGrid thead a {font-size: smaller;}
-#MyGrid thead .advancedSearch {opacity:0.4;}
-#MyGrid thead .advancedSearch {opacity:1.0;}
+#MyGrid thead .advancedSearch {background-color: white;}
 #MyGrid .datagrid-header-title {margin-left: 230px; font-size: larger;}
 
 /* MAP
