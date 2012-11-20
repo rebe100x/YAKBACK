@@ -116,10 +116,11 @@ mixin datagrid()
 
 				// Filter by yakCats
 				var apiCatArray = [];
-				if ($(".pillbox").pillbox("items").length > 0) {
+				if ($(".pillbox").pillbox("items")) {
 					$($(".pillbox").pillbox("items")).each(function() {
-						apiCatArray.push(this.text);
+						apiCatArray.push(this.value);
 					});
+					url += '/' + apiCatArray.join();
 				}
 
 				$.ajax(url, {
@@ -206,25 +207,20 @@ mixin datagrid()
 
 		// Searchpanel yakcat input
 		$('input#yakCat').typeahead({
-			source: function (query, process) {
+			source: function (typeahead, query) {
 				$.ajax({
 					url: "/api/cats",
 					success: function(data) {
-						var yakarray = [];
-						for(i = 0; i< data.cats.length;i++)
-						{
-							yakarray.push(data.cats[i].title);
-						}
-						process(yakarray);
+						typeahead.process(data.cats);
 					}
 				})
 			},
-			updater: function(obj) {
+			property: "title",
+			onselect: function(obj) {
 				$(".pillbox").show();
-				$(".pillbox ul").append("<li>"+obj+"</li>");
+				$(".pillbox ul").append("<li data-value="+obj._id+">"+obj.title+"</li>");
 
 				$('input#yakCat').val('').focus();
-				yakcatArray.push(obj);
 				refreshDatagridAndMenu();
 
 				// TO GET PILLBOX ITEMS

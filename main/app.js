@@ -10,12 +10,12 @@ var express = require('express'),
   db = require('./models/mongooseModel'),
   config = require('./confs.js'),
   fs = require('fs');
-  
+
 var app = express();
 
 // Configuration
 
-	
+
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -38,16 +38,16 @@ app.configure(function(){
 	//res.locals.conf = JSON.stringify(config.confs.dev);
     next();
   });
-  
+
   app.use(express.methodOverride());
   app.use(app.router);
-  
+
 });
 
 app.configure('development', function(){
 	conf = config.confs.dev;
 	app.locals.conf = JSON.stringify(config.confs.dev);
-	
+
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
@@ -58,10 +58,10 @@ app.configure('production', function(){
 	app.use(express.errorHandler());
 });
 
-var db = routes.db(conf);	
+var db = routes.db(conf);
 
 
-	
+
 // Routes
 
 app.get('/', routes.index);
@@ -105,6 +105,7 @@ app.post('/api/users', api.users);
 app.get('/api/cats', api.cats);
 app.get('/api/places', api.places);
 app.get('/api/places/:pageIndex/:pageSize/:searchTerm/:sortBy/:sortDirection', api.gridPlaces);
+app.get('/api/places/:pageIndex/:pageSize/:searchTerm/:sortBy/:sortDirection/:yakcats', api.gridPlaces);
 app.get('/api/places/:id', api.findPlaceById);
 app.get('/api/usersearch/:string', api.usersearch);
 app.get('/api/findCatById', api.findCatById);
@@ -135,7 +136,7 @@ app.get('*', routes.index);
 
 //io = require('socket.io');
 //sio = io.listen(app);
-		
+
 function requiresLogin(req,res,next){
 	if(req.session.user){
 		next();
@@ -146,7 +147,7 @@ function requiresLogin(req,res,next){
 }
 function requiresPosition(req,res,next){
 	delete req.session.position;
-	
+
 	if(!req.session.position){
 		sio.sockets.on('connection', function (socket) {
 		  //socket.emit('news', { hello: 'world' });
@@ -159,9 +160,9 @@ function requiresPosition(req,res,next){
 	}else{
 		next();
 	}
-		
+
 	next();
-	
+
 }
 // Start server
 

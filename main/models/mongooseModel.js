@@ -20,42 +20,42 @@ var Address = new Schema({
 	, area      : String
 	, zip      : String
 });
-mongoose.model('Address', Address);	
+mongoose.model('Address', Address);
 */
 
 var Point = new Schema({
 	  name : String
-	, location	: { type : { lat: Number, lng: Number }}	
+	, location	: { type : { lat: Number, lng: Number }}
 });
 mongoose.model('Point', Point);
-	
+
 /**
  * Schema definition
  */
 var Info = new Schema({
 	title     : { type: String}
-  , content	: {type: String}		
-  , thumb	: {type: String}		
-  , origin	: {type: String}		
+  , content	: {type: String}
+  , thumb	: {type: String}
+  , origin	: {type: String}
   , access	: {type: Number}
-  , licence	: {type: String}		
-  , outGoingLink       : { type: String }  
-  , heat	: {type: Number}		
-  , print	: {type: Number}		
-  , yakCat	: {type: [Yakcat]}		
+  , licence	: {type: String}
+  , outGoingLink       : { type: String }
+  , heat	: {type: Number}
+  , print	: {type: Number}
+  , yakCat	: {type: [Yakcat]}
   , yakTag	: {type: [String]}
-  , yakType	: {type: Number}  
-  , freeTag	: {type: [String]}	
-  , pubDate	: {type: Date, required: true, default: Date.now}		  
-  , creationDate	: {type: Date, required: true, default: Date.now}		
-  , lastModifDate	: {type: Date, required: true, default: Date.now}		
-  , dateEndPrint	: {type: Date}		
-  , address	: {type : String}	
-  , location	: { type : { lat: Number, lng: Number }, index : '2d'}	
-  , status	: {type: Number}		
-  , user	: {type: Schema.ObjectId}		
+  , yakType	: {type: Number}
+  , freeTag	: {type: [String]}
+  , pubDate	: {type: Date, required: true, default: Date.now}
+  , creationDate	: {type: Date, required: true, default: Date.now}
+  , lastModifDate	: {type: Date, required: true, default: Date.now}
+  , dateEndPrint	: {type: Date}
+  , address	: {type : String}
+  , location	: { type : { lat: Number, lng: Number }, index : '2d'}
+  , status	: {type: Number}
+  , user	: {type: Schema.ObjectId}
   , zone	: {type: Schema.ObjectId}
-  ,	placeId	: {type: Schema.ObjectId}  
+  ,	placeId	: {type: Schema.ObjectId}
 }, { collection: 'info' });
 
 Info.index({location : '2d'});
@@ -89,7 +89,7 @@ Info.statics.findAllGeo = function (x1,y1,x2,y2,heat,type,usersubs,tagsubs,callb
   var now = new Date();
   var D = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
   var DTS = D.getTime() / 1000 - (heat * 60 * 60 * 24);
-  D.setTime(DTS*1000); 
+  D.setTime(DTS*1000);
   var box = [[parseFloat(x1),parseFloat(y1)],[parseFloat(x2),parseFloat(y2)]];
   var cond = {
 				"print":1,
@@ -98,8 +98,8 @@ Info.statics.findAllGeo = function (x1,y1,x2,y2,heat,type,usersubs,tagsubs,callb
 				"pubDate":{$gte:D},
 				"yakType" : {$in:type}
 			};
-			
-  //alerts				
+
+  //alerts
   if(type == 5)
 	cond = {
 				"print":1,
@@ -107,9 +107,9 @@ Info.statics.findAllGeo = function (x1,y1,x2,y2,heat,type,usersubs,tagsubs,callb
 				"location" : {$within:{"$box":box}},
 				"pubDate":{$gte:D},
 				$or:[ {"user":{$in:usersubs}}, {"freeTag": {$in:tagsubs}} ],
-				
+
 			};
-	
+
   return this.find(
 	cond,
 	[],
@@ -144,8 +144,8 @@ var User = new Schema({
 	, usersubs	: { type: [Schema.ObjectId], index: true}
 	, tagsubs	: { type: [String], index: true}
 	, placesubs	: { type: [Schema.ObjectId], index: true}
-	, location	: { type : { lat: Number, lng: Number }, index : '2d'}	
-	, address	: { type : { 
+	, location	: { type : { lat: Number, lng: Number }, index : '2d'}
+	, address	: { type : {
 								street_number: String,
 								street: String,
 								arr: String,
@@ -156,12 +156,12 @@ var User = new Schema({
 								zip: String}
 							}
 	, favplace : [Point]
-	, creationDate	: {type: Date, required: true, default: Date.now}		
-	, lastModifDate	: {type: Date, required: true, default: Date.now}		
-	, lastLoginDate	: {type: Date, required: true, default: Date.now}		
-	, status	: {type: Number}		
-  
-  
+	, creationDate	: {type: Date, required: true, default: Date.now}
+	, lastModifDate	: {type: Date, required: true, default: Date.now}
+	, lastLoginDate	: {type: Date, required: true, default: Date.now}
+	, status	: {type: Number}
+
+
 }, { collection: 'user' });
 
 //User.plugin(Troop.basicAuth, {loginPath: 'login'});
@@ -185,32 +185,32 @@ User.setters = function(password) {
 		  this.salt = this.makeSalt();
 		  this.hashed_password = this.encryptPassword(password);
 		}
-		
+
 User.methods.encryptPassword = function(password) {
 		  return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
 	}
-	
+
 User.statics.Authenticate = function(lg,pwd,callback) {
 	  return this.findOne({login:lg,password:pwd},callback);
 	}
 User.makeSalt =  function() {
 	  return Math.round((new Date().valueOf() * Math.random())) + '';
 	}
-	
+
 User.statics.findAll = function (callback) {
   return this.find({},[],{sort:{name:1}}, callback);
 }
-	
+
 User.statics.search = function(string,callback){
 	var input = new RegExp(string,'i');
 	return this.find(
 	{	$or:[ {'login': {$regex:input}}, {'name': {$regex:input}} , {"tag": {$regex:input}} ],
-		
+
 	"status":1,
 	},
 	['_id','tag','name'],
 	{
-		
+
 		skip:0, // Starting Row
 		limit:100, // Ending Row
 		sort:{
@@ -267,7 +267,7 @@ var Yakcat = new Schema({
   , creationDate       : { type:Date }
   , lastModifDate       : { type:Date }
   , status       : { type:Number }
-  
+
 }, { collection: 'yakcat' });
 
 Yakcat.statics.findAll = function (callback) {
@@ -299,13 +299,13 @@ var Place = new Schema({
 ,	access	: { type: Number }
 ,	licence	: { type: String }
 ,	outGoingLink	: { type: String }
-, 	yakCat	: [Schema.ObjectId]	
-,	yakcatName	: [String]	
+, 	yakCat	: [Schema.ObjectId]
+,	yakcatName	: [String]
 , 	freeTag	: [String]
-,	creationDate	: {type: Date, required: true, default: Date.now}		
-,	lastModifDate	: {type: Date, required: true, default: Date.now}		
+,	creationDate	: {type: Date, required: true, default: Date.now}
+,	lastModifDate	: {type: Date, required: true, default: Date.now}
 ,	location	: { type : { lat: Number, lng: Number }, index : '2d'}
-,	address		: { type : { 
+,	address		: { type : {
 								street_number: String,
 								street: String,
 								arr: String,
@@ -324,11 +324,11 @@ var Place = new Schema({
 							web: String,
 							opening: String,
 							closing: String,
-							special_opening: String 
+							special_opening: String
 						}
 				}
-,	status	: {type: Number}		
-,	user	: {type: Schema.ObjectId}		
+,	status	: {type: Number}
+,	user	: {type: Schema.ObjectId}
 ,	zone	: {type: Schema.ObjectId}
 },{ collection: 'place' });
 
@@ -346,10 +346,10 @@ Place.statics.countSearch = function (searchTerm, callback) {
 	var search = new RegExp(searchTerm, 'i');
 
 	return this.count(
-		{	
-			"title" : search, 
-			"status" : 
-				{ $in: [3, 10] } 
+		{
+			"title" : search,
+			"status" :
+				{ $in: [3, 10] }
 		}, callback);
 }
 
@@ -380,7 +380,7 @@ Place.statics.deletePlaces = function (ids, callback) {
 	this.update(conditions, update, options, callback);
 }
 
-Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy, sortDirection, callback) {
+Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy, sortDirection, yakcats, callback) {
 	var search = new RegExp(searchTerm, 'i');
 
 	var desc = 1;
@@ -390,18 +390,18 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy
 	return this.find(
 		{
 			"title" : search,
-			"status" : 
+			"status" :
 				{ $in: [3, 10]}
-		}, 
-		'title content outGoingLink address user', 
+		},
+		'title content outGoingLink address user',
 		{
-			skip: 
-				(pageIndex -1)*pageSize, 
-			limit: 
+			skip:
+				(pageIndex -1)*pageSize,
+			limit:
 				pageSize,
-			sort: 
+			sort:
 				[[sortBy, desc]]
-		}, 
+		},
 		callback);
 }
 
