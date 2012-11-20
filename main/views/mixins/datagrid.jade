@@ -220,9 +220,6 @@ mixin datagrid()
 
 				$('input#yakCat').val('').focus();
 				refreshDatagridAndMenu();
-
-				// TO GET PILLBOX ITEMS
-				// $(".pillbox").pillbox("items")
 			}
 		});
 
@@ -455,6 +452,9 @@ mixin datagrid()
 		}
 
 		$("li.yakcat-value").live('click', function() {
+			if ($(".pillbox").pillbox("items").length == 0) {
+				$(".pillbox").hide();
+			}
 			refreshDatagridAndMenu();
 		});
 
