@@ -28,7 +28,7 @@ a {
 #placeForm .control-group { margin: 0;}
 #placeForm label { font-size: smaller; font-weight: bold; color: #666666; margin-top: 0px;}
 #placeForm .col2 { display: block; float: right; margin-top: -65px; }
-#placeForm input[type=text] { width: 280px; }
+#placeForm input[type=text] { width: 370px; }
 #placeForm input[type=text].big { width: 75%; }
 #MyGrid thead tr.headerControle {background: url(../images/texture.png) repeat; border: none;}
 #MyGrid thead td {border-top: none;}

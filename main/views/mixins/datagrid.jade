@@ -6,9 +6,8 @@ mixin datagrid()
 					button.close(type="button",data-dismiss="alert") x
 					strong= msg
 
-		mixin placeForm()
-
 		div#newsfeedContainer
+			mixin placeForm()
 			
 			table#MyGrid.table.table-bordered.datagrid
 				thead
@@ -23,11 +22,11 @@ mixin datagrid()
 									button.btn
 										i.icon-search
 								a.searchPanel(href="#") Recherche avancée
-						tr.headerControle.advancedSearch
+						tr.headerControle
 							td.searchPanel(colspan=4, style="display:none")
+								input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Ajouter un thème")
 								.pillbox(style="display:none")
 									ul
-								input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Ajouter un thème")
 					tr.headerControle
 						td(colspan=4)
 							.btn-group

@@ -1,7 +1,7 @@
 mixin placeForm()
 	button.btn#btnBack(style='display:none')
 		i.icon-chevron-left
-	form#placeForm.span8(action='/place', method='POST', enctype='multipart/form-data', style='display:none')
+	form#placeForm(action='/place', method='POST', enctype='multipart/form-data', style='display:none')
 		input#yakcatInput(type='hidden', name='yakcatInput', value='') 
 		input#placeInput(type='hidden', name='placeInput', value='')
 		input#latitude(type="hidden",data-provide="typeahead", name="latitude")
@@ -53,6 +53,7 @@ mixin placeForm()
 				input#mobile(type="text", data-provide="typeahead", name="mobile", placeholder='Mobile')
 				input#mail(type="text", data-provide="typeahead", name="mail", placeholder='Email')
 				input#web(type="text", data-provide="typeahead", name="web", placeholder='Site web')
+				label Horaires / Transport
 				input#opening(type="text", data-provide="typeahead", name="opening", placeholder="Horaires d'ouverture")
 				input#closing(type="text", data-provide="typeahead", name="closing", placeholder='Horaires de fermeture')
 				input#special(type="text", data-provide="typeahead", name="special", placeholder='Special opening')
