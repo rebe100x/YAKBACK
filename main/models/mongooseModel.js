@@ -342,15 +342,19 @@ Place.statics.findAll = function (callback) {
   return this.find({},[],{sort:{title:1}}, callback);
 }
 
-Place.statics.countSearch = function (searchTerm, callback) {
+Place.statics.countSearch = function (searchTerm, yakcats, callback) {
 	var search = new RegExp(searchTerm, 'i');
 
-	return this.count(
-		{
-			"title" : search,
-			"status" :
-				{ $in: [3, 10] }
-		}, callback);
+	var conditions = {
+		"title" : search,
+		"status" :
+			{ $in: [3, 10]}
+		};
+
+	if (yakcats.length > 0)
+		conditions["yakCat"] = { $in: yakcats };
+
+	return this.count(conditions, callback);
 }
 
 Place.statics.validatePlaces = function (ids, callback) {
@@ -387,12 +391,17 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy
 	if (sortDirection == 'desc')
 		desc = -1;
 
+	var conditions = {
+		"title" : search,
+		"status" :
+			{ $in: [3, 10]}
+		};
+
+	if (yakcats.length > 0)
+		conditions["yakCat"] = { $in: yakcats };
+
 	return this.find(
-		{
-			"title" : search,
-			"status" :
-				{ $in: [3, 10]}
-		},
+		conditions,
 		'title content outGoingLink address user',
 		{
 			skip:
