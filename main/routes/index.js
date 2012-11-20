@@ -131,7 +131,6 @@ exports.place = function(req, res){
 				place.lastModifDate = new Date();
 				place.origin = 'operator';
 				
-				console.log(req.body.status);
 				place.status = req.body.status;
 					
 				place.access = 1;
@@ -156,31 +155,30 @@ exports.place = function(req, res){
 					if (!err)
 					{
 						place.zone = zone[0]._id;
+						// security against unidentified users	
+						if(req.session.user)
+						{
+							place.user = req.session.user._id;	
+							place.save(function (err) 
+							{
+								if (!err) 
+								{
+									formMessage.push("La place a été sauvegardée !");
+									console.log('Success!');
+								}
+								else
+								{
+									formMessage.push("Une erreur est survenue lors de l'ajout de la place (Doublon...etc)."); 
+									console.log(err);
+								}
+							});
+						}	
 					}
 					else
 					{
 						console.log(err);
 					}
-				});
-					
-				// security against unidentified users	
-				if(req.session.user)
-				{
-					place.user = req.session.user._id;	
-					place.save(function (err) 
-					{
-						if (!err) 
-						{
-							formMessage.push("La place a été sauvegardée !");
-							console.log('Success!');
-						}
-						else
-						{
-							formMessage.push("Une erreur est survenue lors de l'ajout de la place (Doublon...etc)."); 
-							console.log(err);
-						}
-					});
-				}	 
+				}); 
 			}
 			else
 			{
