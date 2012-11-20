@@ -124,14 +124,21 @@ block content
 				icon:'/images/beachflag.png',
 				//position:center
 			});
+				
 			
 			var input = document.getElementById('place');
 			var autocomplete = new google.maps.places.Autocomplete(input);
-			
+	
 			autocomplete.bindTo('bounds', map);
-			
+	
+			var infowindow = new google.maps.InfoWindow();
+			var marker = new google.maps.Marker({
+				map: map
+			});
+	
 			google.maps.event.addListener(autocomplete, 'place_changed', function() {
 				infowindow.close();
+				marker.setVisible(false);
 				input.className = '';
 				var place = autocomplete.getPlace();
 				if (!place.geometry) {
@@ -153,8 +160,8 @@ block content
 				new google.maps.Point(0, 0),
 				new google.maps.Point(17, 34),
 				new google.maps.Size(35, 35));
-				//markerLocation.setIcon(image);
-				//markerLocation.setPosition(place.geometry.location);
+				marker.setIcon(image);
+				marker.setPosition(place.geometry.location);
 				
 				var address = '';
 				if (place.address_components) {
@@ -166,9 +173,9 @@ block content
 				}
 				
 				//infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-				//infowindow.open(map, markerLocation);
-			});	
-			
+				//infowindow.open(map, marker);
+				$('#placeForm #btn-place-adder').click();
+			});
 			
 		});/*END READY*/
 
