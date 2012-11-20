@@ -216,13 +216,10 @@ mixin datagrid()
 			property: "title",
 			onselect: function(obj) {
 				$(".pillbox").show();
-				$(".pillbox ul").append("<li data-value="+obj._id+">"+obj.title+"</li>");
+				$(".pillbox ul").append("<li class='yakcat-value' data-value="+obj._id+">"+obj.title+"</li>");
 
 				$('input#yakCat').val('').focus();
 				refreshDatagridAndMenu();
-
-				// TO GET PILLBOX ITEMS
-				// $(".pillbox").pillbox("items")
 			}
 		});
 
@@ -453,6 +450,13 @@ mixin datagrid()
 					$('#placenumber').addClass('badge badge-important').html(data.info);
 			});
 		}
+
+		$("li.yakcat-value").live('click', function() {
+			if ($(".pillbox").pillbox("items").length == 0) {
+				$(".pillbox").hide();
+			}
+			refreshDatagridAndMenu();
+		});
 
 		// We validate the form before submitting it
 		$('#placeForm').submit(function()
