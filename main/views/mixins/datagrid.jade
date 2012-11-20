@@ -1,14 +1,15 @@
 mixin datagrid()
 	.fuelux
+		- if (message)
+			each msg in message
+				div.alert.fade.in
+					button.close(type="button",data-dismiss="alert") x
+					strong= msg
 
 		mixin placeForm()
 
 		div#newsfeedContainer
-			- if (message)
-				each msg in message
-					div.alert.fade.in
-						button.close(type="button",data-dismiss="alert") x
-						strong= msg
+			
 			table#MyGrid.table.table-bordered.datagrid
 				thead
 					tr.headerControle

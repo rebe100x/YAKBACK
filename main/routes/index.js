@@ -89,7 +89,6 @@ exports.place = function(req, res){
 			var drawTool = require('../mylib/drawlib.js');
 			var size = [{"width":120,"height":90},{"width":512,"height":0}];
 			var placeThumb = drawTool.StoreImg(req.files.picture,size,conf);
-			formMessage.push(placeThumb.msg);
 	
 			if(placeThumb.err == 0)
 			{
@@ -161,6 +160,8 @@ exports.place = function(req, res){
 									formMessage.push("Une erreur est survenue lors de l'ajout de la place (Doublon...etc)."); 
 									console.log(err);
 								}
+								req.session.message = formMessage;
+								res.redirect('place/map');
 							});
 						}	
 					}
@@ -174,8 +175,9 @@ exports.place = function(req, res){
 			{
 				formMessage.push("Erreur dans l'image uploadée: La place n'est pas sauvegardée.");
 				console.log("Erreur dans l'image uploadée: La place n'est pas sauvegardée.");
-			}	
-			
+				req.session.message = formMessage;
+				res.redirect('place/map');
+			}			
 		});			
 	}
 	else
@@ -186,14 +188,9 @@ exports.place = function(req, res){
 			formMessage.push("Erreur: définissez le titre de la place");
 		if(!req.body.placeInput)
 			formMessage.push("Erreur: définissez une géolocalisation de la place");
+		req.session.message = formMessage;
+		res.redirect('place/map');
 	}
-	
-	req.session.message = formMessage;
-	/*for(i=0;i<req.session.type.length;i++)
-		if(theYakType==req.session.type[i]) 
-			req.session.type.splice(i, 1);
-	req.session.type.push(theYakType);*/
-	res.redirect('place/map');
 };
 
 /******* USER ******/
