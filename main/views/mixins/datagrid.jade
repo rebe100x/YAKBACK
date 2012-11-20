@@ -11,9 +11,8 @@ mixin datagrid()
 						strong= msg
 			table#MyGrid.table.table-bordered.datagrid
 				thead
-					tr
+					tr.headerControle
 						th
-							span.datagrid-header-title Liste des places
 							.datagrid-header-left
 								button.btn#btnAdd
 									i.icon-plus
@@ -23,13 +22,12 @@ mixin datagrid()
 									button.btn
 										i.icon-search
 								a.searchPanel(href="#") Recherche avancée
-						tr
-							td.searchPanel(colspan=4, style="display:none")
-								label(for="category") Thèmes
+						tr.headerControle
+							td.advancedSearch.searchPanel(colspan=4, style="display:none")
 								.pillbox(style="display:none")
 									ul
-								input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Un ou plusieurs thèmes")
-					tr
+								input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Ajouter un thème")
+					tr.headerControle
 						td(colspan=4)
 							.btn-group
 								button.btn.btn-danger.validerPlaces Valider
@@ -38,10 +36,10 @@ mixin datagrid()
 								ul.dropdown-menu
 									li
 										a.supprimerPlaces Supprimer
-								select#sortPlaces
-									option(value="creationDate") Date de création
-									option(value="pubDate") Date de publication
-									option(value="lastModifDate") Date de modification
+							select#sortPlaces.datagrid-header-right
+								option(value="creationDate") Date de création
+								option(value="pubDate") Date de publication
+								option(value="lastModifDate") Date de modification
 				tfoot
 					tr
 						th
@@ -152,7 +150,7 @@ mixin datagrid()
 				},
 				{
 					property: 'title',
-					label: 'Titre',
+					label: 'Liste des places',
 					sortable: true
 				},
 				{
