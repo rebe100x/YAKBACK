@@ -131,11 +131,8 @@ exports.place = function(req, res){
 				place.lastModifDate = new Date();
 				place.origin = 'operator';
 				
-				// We check the state of the checkbox to know if the place's status should be 1 or (3,10)
-				if (req.body.validate == "on")
-					place.status = 1;
-				else
-					place.status = 3;
+				console.log(req.body.status);
+				place.status = req.body.status;
 					
 				place.access = 1;
 				place.licence = req.body.licence;

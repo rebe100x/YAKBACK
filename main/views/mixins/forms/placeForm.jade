@@ -24,7 +24,7 @@ mixin placeForm()
 		div.control-group#licenceGroup
 			div.controls
 				label Licence
-				input.hashtagMaker(type='text', name='licence', id='licence', placeholder='Open Source', autocomplete="on") 
+				input.hashtagMaker(type='text', name='licence', id='licence', placeholder='Open Source', autocomplete="off") 
 		div.control-group#origineGroup.col2
 				div.controls
 					label Origine
@@ -63,9 +63,11 @@ mixin placeForm()
 				input#picture(type="file", name="picture")
 			div.control-group
 				div.controls
-					label.checkbox 
-						input#validate(type="checkbox", name="validate", checked="true") 
-						| Valider la place
+					label Status
+					select(id="status", name="status")
+						option(selected="true") 1
+						option() 3
+						option() 10
 			div.control-group
 				div.controls
 					button.btn.btn-large.btn-inverse(type='submit', name='submit', id='submit', value='Envoyer') Envoyer

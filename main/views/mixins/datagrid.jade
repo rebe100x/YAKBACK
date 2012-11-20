@@ -251,11 +251,8 @@ mixin datagrid()
 				$("#placeForm #opening").val(place.contact.opening);
 				$("#placeForm #closing").val(place.contact.closing);
 				$("#placeForm #special").val(place.contact.special_opening);
-
-				if (place.status == 1)
-					$("#placeForm #validate").check();
-				else
-					$("#placeForm #validate").uncheck();
+					
+				$("#placeForm #status").val(place.status);
 
 				// loading the thumb
 				var imag = "<img class='img-rounded' " + "src='" + place.thumb +"' style='width:100px'/>";
@@ -504,6 +501,10 @@ mixin datagrid()
 				placeArray.push(obj);
 				$("#placeForm #placeInput").val(JSON.stringify(placeArray));
 			}
+		});
+		
+		$('#placeForm #licence').typeahead({
+			source: ["Licence Ouverte", "Licence Libre"]
 		});
 
 		$('#placeForm #btn-place-adder').click(function(){
