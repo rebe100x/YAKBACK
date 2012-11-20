@@ -86,6 +86,15 @@ exports.cats = function (req, res) {
 	});
 };
 
+exports.findCatByTitle = function (req, res) {
+	var Yakcat = db.model('Yakcat');
+	Yakcat.findByTitle(function (err, docs){
+		res.json({
+			cat: docs
+		});
+	});
+};
+
 exports.countUnvalidatedCats = function (req, res) {
 	var Yakcat = db.model('Yakcat');
 	Yakcat.countUnvalidated(function (err, docs){

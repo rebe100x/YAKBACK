@@ -283,9 +283,14 @@ mixin datagrid()
 
 				for (var i = 0; i < place.yakcatName.length; i++)
 				{
-					$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+place.yakcatName[i]+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+place.yakcatName[i]+"</div>");
-					yakcatArray.push(place.yakcatName[i]);
-					$("#placeForm #yakcatInput").val(JSON.stringify(yakcatArray));
+					var url = '/api/cats/'+place.yakcatName[i];
+					$.ajax(url, {type: 'GET'}).done(function (response)
+					{
+						var yakcat = response.cat;
+						$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+yakcat._id+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+yakcat.title+"</div>");
+						yakcatArray.push(yakcat);
+						$("#placeForm #yakcatInput").val(JSON.stringify(yakcatArray));
+					});
 				}
 
 				$("#placeForm #freetag").val(place.freeTag.join(","));
@@ -509,21 +514,17 @@ mixin datagrid()
 		});
 
 		$('#placeForm #yakcat').typeahead({
-			source: function (query, process) {
+			source: function (typeahead, query) {
 				$.ajax({
 					url: "/api/cats",
 					success: function(data) {
-						var yakarray = [];
-						for(i = 0; i< data.cats.length;i++)
-						{
-							yakarray.push(data.cats[i].title);
-						}
-						process(yakarray);
+						typeahead.process(data.cats);
 					}
 				})
 			},
-			updater: function(obj) {
-				$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+obj+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj+"</div>");
+			property: "title",
+			onselect: function(obj) {
+				$("label[for='category']").after("<div><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+obj._id+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
 				$('#placeForm #yakcat').val('').focus();
 				yakcatArray.push(obj);
 				$("#placeForm #yakcatInput").val(JSON.stringify(yakcatArray));
