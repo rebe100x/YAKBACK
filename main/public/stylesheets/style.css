@@ -1,7 +1,7 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  
+
 }
 
 a {
@@ -33,13 +33,12 @@ a {
 #MyGrid thead tr.headerControle {background: url(../images/texture.png) repeat; border: none;}
 #MyGrid thead td {border-top: none;}
 #MyGrid thead a {font-size: smaller;}
-#MyGrid thead .advancedSearch {background-color: white;}
-#MyGrid .datagrid-header-title {margin-left: 230px; font-size: larger;}
+#MyGrid thead .searchPanel {background-color: rgba(255,255,255,0.6);}
 
 /* MAP
 -------------------------------------------------- */
 	/*MAP TOP CONTROLLER*/
-#newsfeedMenu{margin:10px auto;padding:10px;text-align:center;width:100%;float:left;opacity:0.85;background:#FFFFFF;}	
+#newsfeedMenu{margin:10px auto;padding:10px;text-align:center;width:100%;float:left;opacity:0.85;background:#FFFFFF;}
 		/*heat module*/
 #newsfeedMenu #heatModule{margin:10px 20px 10px 0px;padding:7px 15px;}
 #newsfeedMenu #heatModule #dayPrinter{padding: 3px;}
@@ -55,7 +54,7 @@ a {
 	-webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 	-moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-}	
+}
 	/*MAP TAB MENU*/
 #newsNav{width:100%;margin:0px auto;padding:0px;float:left;opacity:0.95;background:#FFFFFF;}
 .nav-tabs li{width:25%;text-align:center;background-color:#F2F2F2;}
@@ -114,7 +113,7 @@ span.help-inline.small{font-size:0.65em;font-style:italic;}
 #searchContent{display:none;background:#ffffff;float:left;padding:0px 10px;}
 		/*MY POSTS*/
 #mypostsContent{display:none;background:#ffffff;float:left;padding:0px 10px;}
-		
+
 
 /* MAIN MENU
 -------------------------------------------------- */

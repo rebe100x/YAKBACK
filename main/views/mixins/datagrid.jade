@@ -1,14 +1,15 @@
 mixin datagrid()
 	.fuelux
+		- if (message)
+			each msg in message
+				div.alert.fade.in
+					button.close(type="button",data-dismiss="alert") x
+					strong= msg
 
 		mixin placeForm()
 
 		div#newsfeedContainer
-			- if (message)
-				each msg in message
-					div.alert.fade.in
-						button.close(type="button",data-dismiss="alert") x
-						strong= msg
+			
 			table#MyGrid.table.table-bordered.datagrid
 				thead
 					tr.headerControle
@@ -252,8 +253,8 @@ mixin datagrid()
 			$('#placeForm #licenceGroup').removeClass("error");
 			$('#placeForm #origineGroup').removeClass("error");
 			$('#placeForm #adresseGroup').removeClass("error");
-			$("#placeForm").fadeIn();
 			$("#btnBack").fadeIn();
+			$("#placeForm").fadeIn();
 			$(".catLabel").remove();
 			yakcatArray = new Array();
 
@@ -334,8 +335,8 @@ mixin datagrid()
 			$('#placeForm #adresseGroup').removeClass("error");
 			$('#placeForm #content').val("");
 			$('#placeLabel').first().remove();
-			$("#placeForm").fadeIn();
 			$("#btnBack").fadeIn();
+			$("#placeForm").fadeIn();
 			$("#placeForm legend").html("Ajouter une place");
 			$(".catLabel").remove();
 			yakcatArray = new Array();
