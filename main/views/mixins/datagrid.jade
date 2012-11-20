@@ -281,9 +281,9 @@ mixin datagrid()
 				$("#placeForm #content").val(place.content);
 				$("#placeForm #freetag").val(place.freeTag);
 
-				for (var i = 0; i < place.yakcatName.length; i++)
+				for (var i = 0; i < place.yakCat.length; i++)
 				{
-					var url = '/api/cats/'+place.yakcatName[i];
+					var url = '/api/cats/'+place.yakCat[i];
 					$.ajax(url, {type: 'GET'}).done(function (response)
 					{
 						var yakcat = response.cat;
