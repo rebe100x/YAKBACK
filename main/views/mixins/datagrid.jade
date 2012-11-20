@@ -9,7 +9,7 @@ mixin datagrid()
 		mixin placeForm()
 
 		div#newsfeedContainer
-			
+
 			table#MyGrid.table.table-bordered.datagrid
 				thead
 					tr.headerControle
@@ -22,7 +22,7 @@ mixin datagrid()
 									input.input-medium(type='text', placeholder='Search')
 									button.btn
 										i.icon-search
-								a.searchPanel(href="#") Recherche avancée
+								a.showSearchPanel(href="#") Recherche avancée
 						tr.headerControle.advancedSearch
 							td.searchPanel(colspan=4, style="display:none")
 								.pillbox(style="display:none")
@@ -200,7 +200,7 @@ mixin datagrid()
 		}
 
 		// Toggle searchPanel
-		$('a.searchPanel').live('click', function() {
+		$('a.showSearchPanel').live('click', function() {
 			$("td.searchPanel").toggle("fast");
 		});
 
