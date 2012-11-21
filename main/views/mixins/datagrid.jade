@@ -244,7 +244,7 @@ mixin datagrid()
 					$('#placeForm #longitude').val(position.lng());
 
 					getformattedAddress(position);
-
+			
 				});
 			});
 
@@ -592,7 +592,7 @@ mixin datagrid()
 						$("#placeForm #placeInput").val(JSON.stringify(placeArray));
 						$('#placeLabel').first().remove();
 						$('#placeForm #btn-place-adder').parent().before("<div id='placeLabel'><i class='icon-remove icon-pointer' onclick='placeArray.cleanArrayByLocation("+results[0].geometry.location.Ya+","+results[0].geometry.location.Xa+");$(\"#placeForm #placeInput\").val(JSON.stringify(placeArray));$(this).parent().remove();'></i> "+results[0].formatted_address+"</div>");
-
+						$("#placeForm #place").val("");
 					} else {
 						var salt = new Date().getTime();
 						$('#placeForm #btn-place-adder').parent().before("<div id='alert"+salt+"' class='control-label'><i class='icon-exclamation-sign'> </i>Adresse invalide ("+status+")</div>");

@@ -303,6 +303,7 @@ function getformattedAddress(position){
 				$('#place').select();
 			}
 		});
+		$("#place").val('').select();
 }
 
 
