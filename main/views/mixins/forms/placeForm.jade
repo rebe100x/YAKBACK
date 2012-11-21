@@ -12,7 +12,7 @@ mixin placeForm()
 		legend Ajouter une place
 		div.control-group.error
 				div.controls
-					label#err(type="text", id="err", name="err", style='display:none') Les champs marqués en rouge sont obligatoires
+					label.alert#err(type="text", id="err", name="err", style='display:none') Les champs en rouge sont obligatoires.
 		div.control-group#titleGroup
 			div.controls
 				label Titre 
@@ -20,16 +20,16 @@ mixin placeForm()
 		div.control-group#contentGroup
 			div.controls
 				label Description
-				textarea.span8.hashtagMaker(type='text', id='content', name='content', placeholder="Quelques détails sur la place à ajouter, avec la possibilité d'ajouter des #hashtags.", rows='3')	
+				textarea.hashtagMaker(type='text', id='content', name='content', placeholder="Quelques détails sur la place à ajouter, avec la possibilité d'ajouter des #hashtags.", rows='3')	
 		div.control-group#licenceGroup
 			div.controls
-				label Licence
-				input.hashtagMaker(type='text', name='licence', id='licence', placeholder='Open Source', autocomplete="off") 
-		div.control-group#origineGroup.col2
-				div.controls
+				.col
+					label Licence
+					input.hashtagMaker(type='text', name='licence', id='licence', placeholder='Open Source', autocomplete="off") 
+				.col
 					label Origine
 					input.hashtagMaker(type='text', name='origine', id='origine', placeholder='Yakwala', autocomplete="on")
-		div.control-group#adresseGroup
+		div.control-group#adresseGroup.clearBoth
 			div.controls
 				label(for='Place') Adresse
 				.input-append
@@ -38,31 +38,38 @@ mixin placeForm()
 		div.control-group#yakcatGroup
 			div.controls
 				label(for='category') Thèmes
+				input(type="text", data-provide="typeahead", id="yakcat", name="yakcat", autocomplete="off", placeholder='Un ou plusieurs thèmes')
 				.pillbox#pillYakcat(style="display:none")
 					ul
-				input(type="text", data-provide="typeahead", id="yakcat", name="yakcat", autocomplete="off", placeholder='Un ou plusieurs thèmes')
 		div.control-group
 			div.controls
 				.col2
 					label Free Tags
 					input#freetag(type="text", data-provide="typeahead", name="freetag",placeholder='Free tags séparés par des virgules')
-					
-		div.control-group
+		div.control-group.clearBoth
 			div.controls
 				label Contact
-				input#tel(type="text", data-provide="typeahead", name="tel", placeholder='Téléphone')
-				input#mobile(type="text", data-provide="typeahead", name="mobile", placeholder='Mobile')
-				input#mail(type="text", data-provide="typeahead", name="mail", placeholder='Email')
-				input#web(type="text", data-provide="typeahead", name="web", placeholder='Site web')
-				label Horaires / Transport
-				input#opening(type="text", data-provide="typeahead", name="opening", placeholder="Horaires d'ouverture")
-				input#closing(type="text", data-provide="typeahead", name="closing", placeholder='Horaires de fermeture')
-				input#special(type="text", data-provide="typeahead", name="special", placeholder='Special opening')
-				input#transportation(type="text", data-provide="typeahead", name="transportation", placeholder='Comment y arriver? (ex: métro ligne 2 station Jaurès)')	
+				.col
+					input#tel(type="text", data-provide="typeahead", name="tel", placeholder='Téléphone')
+				.col
+					input#mobile(type="text", data-provide="typeahead", name="mobile", placeholder='Mobile')
+				.col
+					input#mail(type="text", data-provide="typeahead", name="mail", placeholder='Email')
+				.col
+					input#web(type="text", data-provide="typeahead", name="web", placeholder='Site web')
+				label.clearBoth Horaires / Transport
+				.col
+					input#opening(type="text", data-provide="typeahead", name="opening", placeholder="Horaires d'ouverture")
+				.col
+					input#closing(type="text", data-provide="typeahead", name="closing", placeholder='Horaires de fermeture')
+				.col
+					input#special(type="text", data-provide="typeahead", name="special", placeholder='Special opening')
+				.col
+					input#transportation(type="text", data-provide="typeahead", name="transportation", placeholder='Comment y arriver? (ex: métro ligne 2 station Jaurès)')	
 			
-				label(for='picture') Photo
-				span#picturePreview
+				label(for='picture').clearBoth Photo
 				input#picture(type="file", name="picture")
+				span#picturePreview
 			div.control-group
 				div.controls
 					label Status
