@@ -40,6 +40,8 @@ mixin placeForm()
 				.col
 					label(for='category') Thèmes
 					input(type="text", data-provide="typeahead", id="yakcat", name="yakcat", autocomplete="off", placeholder='Ajouter un ou plusieurs thèmes')
+					.pillbox#pillYakcat(style="display:none")
+						ul
 				.col
 					label Free Tags
 					input#freetag(type="text", data-provide="typeahead", name="freetag",placeholder='Free tags séparés par des virgules')
