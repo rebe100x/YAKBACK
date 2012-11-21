@@ -1,77 +1,80 @@
 mixin datagrid()
-	.fuelux
-		- if (message)
-			each msg in message
-				div.alert.fade.in
-					button.close(type="button",data-dismiss="alert") x
-					strong= msg
-
-		div#newsfeedContainer
-			mixin placeForm()
-
-			table#MyGrid.table.table-bordered.datagrid
-				thead
-					tr.headerControle
-						th
-							.datagrid-header-left
-								button.btn#btnAdd
-									i.icon-plus
-							.datagrid-header-right
-								.input-append.search
-									input.input-medium(type='text', placeholder='Search')
-									button.btn
-										i.icon-search
-								a.showSearchPanel(href="#") Recherche avancée
-						tr.headerControle.advancedSearch
-							td.searchPanel(colspan=4, style="display:none")
-								input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Ajouter un thème")
-								.pillbox(style="display:none")
-									ul
-					tr.headerControle
-						td(colspan=4)
-							.btn-group
-								button.btn.btn-danger.validerPlaces Valider
-								button.btn.btn-danger.dropdown-toggle(data-toggle='dropdown')
-									span.caret
-								ul.dropdown-menu
-									li
-										a.supprimerPlaces Supprimer
-							select#sortPlaces.datagrid-header-right
-								option(value="creationDate") Date de création
-								option(value="pubDate") Date de publication
-								option(value="lastModifDate") Date de modification
-				tfoot
-					tr
-						th
-							.datagrid-footer-left(style='display: none;')
-								.grid-controls
-									span
-										span.grid-start
-										| -
-										span.grid-end
-										| of
-										span.grid-count
-									select.grid-pagesize
-										option 10
-										option 20
-										option 50
-										option 100
-									span Per Page
-							.datagrid-footer-right(style='display: none;')
-								.grid-pager
-									button.btn.grid-prevpage
-										i.icon-chevron-left
-									span Page
-									.input-append.dropdown.combobox.dropup
-										input.span1(type='text')
-										button.btn(data-toggle='dropdown')
-											i.caret
-										ul.dropdown-menu
-									span
-										| of
-										span.grid-pages
-									button.btn.grid-nextpage
-										i.icon-chevron-right
+	- if(session)
+		.fuelux
+			- if (message)
+				each msg in message
+					div.alert.fade.in
+						button.close(type="button",data-dismiss="alert") x
+						strong= msg
+	
+			div#newsfeedContainer
+				mixin placeForm()
+	
+				table#MyGrid.table.table-bordered.datagrid
+					thead
+						tr.headerControle
+							th
+								.datagrid-header-left
+									button.btn#btnAdd
+										i.icon-plus
+								.datagrid-header-right
+									.input-append.search
+										input.input-medium(type='text', placeholder='Search')
+										button.btn
+											i.icon-search
+									a.showSearchPanel(href="#") Recherche avancée
+							tr.headerControle.advancedSearch
+								td.searchPanel(colspan=4, style="display:none")
+									input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Ajouter un thème")
+									.pillbox(style="display:none")
+										ul
+						tr.headerControle
+							td(colspan=4)
+								.btn-group
+									button.btn.btn-danger.validerPlaces Valider
+									button.btn.btn-danger.dropdown-toggle(data-toggle='dropdown')
+										span.caret
+									ul.dropdown-menu
+										li
+											a.supprimerPlaces Supprimer
+								select#sortPlaces.datagrid-header-right
+									option(value="creationDate") Date de création
+									option(value="pubDate") Date de publication
+									option(value="lastModifDate") Date de modification
+					tfoot
+						tr
+							th
+								.datagrid-footer-left(style='display: none;')
+									.grid-controls
+										span
+											span.grid-start
+											| -
+											span.grid-end
+											| of
+											span.grid-count
+										select.grid-pagesize
+											option 10
+											option 20
+											option 50
+											option 100
+										span Per Page
+								.datagrid-footer-right(style='display: none;')
+									.grid-pager
+										button.btn.grid-prevpage
+											i.icon-chevron-left
+										span Page
+										.input-append.dropdown.combobox.dropup
+											input.span1(type='text')
+											button.btn(data-toggle='dropdown')
+												i.caret
+											ul.dropdown-menu
+										span
+											| of
+											span.grid-pages
+										button.btn.grid-nextpage
+											i.icon-chevron-right
+	- else
+		mixin loginForm() 
 
 	script
 		var yakcatArray = [];
@@ -255,6 +258,7 @@ mixin datagrid()
 			$("#btnBack").fadeIn();
 			$("#placeForm").fadeIn();
 			$(".catLabel").remove();
+			$('#err').hide();
 			yakcatArray = new Array();
 
 			$("#placeForm legend").html("Editer une place");
@@ -338,6 +342,7 @@ mixin datagrid()
 			$("#placeForm").fadeIn();
 			$("#placeForm legend").html("Ajouter une place");
 			$(".catLabel").remove();
+			$('#err').hide();
 			yakcatArray = new Array();
 		});
 
@@ -457,6 +462,13 @@ mixin datagrid()
 			}
 			refreshDatagridAndMenu();
 		});
+		
+		$("li.yakcat-val").live('click', function() {
+			if ($("#pillYakcat").pillbox("items").length == 0) {
+				$("#pillYakcat").hide();
+			}
+			refreshDatagridAndMenu();
+		});
 
 		// We validate the form before submitting it
 		$('#placeForm').submit(function()
@@ -482,6 +494,8 @@ mixin datagrid()
 				$('#err').show();
 				return false;
 			}
+			$("#placeForm #yakcatInput").val(JSON.stringify(yakcatArray));
+
 			return true;
 		});
 
@@ -530,10 +544,11 @@ mixin datagrid()
 			},
 			property: "title",
 			onselect: function(obj) {
-				$("label[for='category']").after("<div class='catLabel'><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+obj._id+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
-				$('#placeForm #yakcat').val('').focus();
+				//$("label[for='category']").after("<div class='catLabel'><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+obj._id+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
+				$("#pillYakcat").show();
+				$("#pillYakcat ul").append("<li class='yakcat-val' data-value="+obj._id+">"+obj.title+"</li>");	
 				yakcatArray.push(obj);
-				$("#placeForm #yakcatInput").val(JSON.stringify(yakcatArray));
+				$('#placeForm #yakcat').val('').focus();			
 			}
 		});
 

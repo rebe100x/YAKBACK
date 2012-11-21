@@ -38,8 +38,9 @@ mixin placeForm()
 		div.control-group#yakcatGroup
 			div.controls
 				label(for='category') Thèmes
+				.pillbox#pillYakcat(style="display:none")
+					ul
 				input(type="text", data-provide="typeahead", id="yakcat", name="yakcat", autocomplete="off", placeholder='Un ou plusieurs thèmes')
-
 		div.control-group
 			div.controls
 				.col2
