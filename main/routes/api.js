@@ -77,6 +77,15 @@ exports.zones = function (req, res) {
 	});
 };
 
+exports.findZoneById = function (req, res) {
+    var Zone = db.model('Zone');
+    Zone.findById(req.params.id, function (err, docs){
+      res.json({
+        zone: docs
+      });
+    });
+};
+
 exports.cats = function (req, res) {
 	var Yakcat = db.model('Yakcat');
 	Yakcat.findAll(function (err, docs){
@@ -169,6 +178,8 @@ exports.gridPlaces = function (req, res) {
 		var data = {};
 
 		data['place'] = docs;
+
+        console.log(data['place']['user']);
 		data['pageIndex'] = req.params.pageIndex;
 		data['pageSize'] = req.params.pageSize;
 

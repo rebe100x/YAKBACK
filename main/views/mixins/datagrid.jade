@@ -6,10 +6,10 @@ mixin datagrid()
 					div.alert.fade.in
 						button.close(type="button",data-dismiss="alert") x
 						strong= msg
-	
+
 			div#newsfeedContainer
 				mixin placeForm()
-	
+
 				table#MyGrid.table.table-bordered.datagrid
 					thead
 						tr.headerControle
@@ -74,7 +74,7 @@ mixin datagrid()
 										button.btn.grid-nextpage
 											i.icon-chevron-right
 	- else
-		mixin loginForm() 
+		mixin loginForm()
 
 	script
 		var yakcatArray = [];
@@ -163,7 +163,7 @@ mixin datagrid()
 					sortable: true
 				},
 				{
-					property: 'address',
+					property: 'zone',
 					label: 'Ville',
 					sortable: true
 				}],
@@ -171,7 +171,8 @@ mixin datagrid()
 					$.each(items, function (index, item) {
 						item.checked = makeCheckBox(item);
 						item.title = fillContent(item);
-						item.address = item.address['city'];
+						console.log(item.zone);
+						item.zone = formatZone(item.zone);
 						if (item.user)
 							item.user = formatUser(item);
 						else
@@ -244,7 +245,7 @@ mixin datagrid()
 					$('#placeForm #longitude').val(position.lng());
 
 					getformattedAddress(position);
-			
+
 				});
 			});
 
@@ -368,6 +369,19 @@ mixin datagrid()
 			});
 		}
 
+		function formatZone(zoneId) {
+			var res;
+			$.ajax({
+				url: '/api/zones/'+ zoneId,
+				dataType: 'json',
+				async: false,
+				success: function(data) {
+					console.log(data);
+					return data.zone.name;
+				}
+			});
+		}
+
 		/*
 		$("#validation").change(function() {
 			$.getJSON('/api/places/'+ $(this).val(),function(data) {
@@ -462,7 +476,7 @@ mixin datagrid()
 			}
 			refreshDatagridAndMenu();
 		});
-		
+
 		$("li.yakcat-val").live('click', function() {
 			if ($("#pillYakcat").pillbox("items").length == 0) {
 				$("#pillYakcat").hide();
@@ -546,9 +560,9 @@ mixin datagrid()
 			onselect: function(obj) {
 				//$("label[for='category']").after("<div class='catLabel'><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+obj._id+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
 				$("#pillYakcat").show();
-				$("#pillYakcat ul").append("<li class='yakcat-val' data-value="+obj._id+">"+obj.title+"</li>");	
+				$("#pillYakcat ul").append("<li class='yakcat-val' data-value="+obj._id+">"+obj.title+"</li>");
 				yakcatArray.push(obj);
-				$('#placeForm #yakcat').val('').focus();			
+				$('#placeForm #yakcat').val('').focus();
 			}
 		});
 
