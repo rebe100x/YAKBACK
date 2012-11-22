@@ -166,6 +166,10 @@ var User = new Schema({
 
 //User.plugin(Troop.basicAuth, {loginPath: 'login'});
 
+User.statics.findAll = function (callback) {
+  return this.find({}, callback);
+}
+
 User.statics.findByLogin = function (login,callback) {
   return this.find({login:login}, callback);
 }
@@ -176,6 +180,7 @@ User.statics.findByIds = function (ids,callback) {
 User.statics.findById = function (id,callback) {
   return this.findOne({'_id': id}, callback);
 }
+
 User.statics.countUnvalidated = function (callback) {
 	return this.count( {'status': { $in: [3, 10]}}, callback );
 }
@@ -299,6 +304,7 @@ var Place = new Schema({
 ,	content	: { type: String }
 ,	thumb	: { type: String }
 ,	origin	: { type: String }
+,	filesourceId	: {type: Schema.ObjectId}
 ,	originLink	:	{ type: String }
 ,	access	: { type: Number }
 ,	licence	: { type: String }
