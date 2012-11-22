@@ -300,6 +300,7 @@ var Place = new Schema({
 ,	content	: { type: String }
 ,	thumb	: { type: String }
 ,	origin	: { type: String }
+,	filesourceId	: {type: Schema.ObjectId}
 ,	originLink	:	{ type: String }
 ,	access	: { type: Number }
 ,	licence	: { type: String }

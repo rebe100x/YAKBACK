@@ -1,80 +1,77 @@
 mixin datagrid()
-	- if(session)
-		.fuelux
-			- if (message)
-				each msg in message
-					div.alert.fade.in
-						button.close(type="button",data-dismiss="alert") x
-						strong= msg
-	
-			div#newsfeedContainer
-				mixin placeForm()
-	
-				table#MyGrid.table.table-bordered.datagrid
-					thead
-						tr.headerControle
-							th
-								.datagrid-header-left
-									button.btn#btnAdd
-										i.icon-plus
-								.datagrid-header-right
-									.input-append.search
-										input.input-medium(type='text', placeholder='Search')
-										button.btn
-											i.icon-search
-									a.showSearchPanel(href="#") Recherche avancée
-							tr.headerControle.advancedSearch
-								td.searchPanel(colspan=4, style="display:none")
-									input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Ajouter un thème")
-									.pillbox(style="display:none")
-										ul
-						tr.headerControle
-							td(colspan=4)
-								.btn-group
-									button.btn.btn-danger.validerPlaces Valider
-									button.btn.btn-danger.dropdown-toggle(data-toggle='dropdown')
-										span.caret
-									ul.dropdown-menu
-										li
-											a.supprimerPlaces Supprimer
-								select#sortPlaces.datagrid-header-right
-									option(value="creationDate") Date de création
-									option(value="pubDate") Date de publication
-									option(value="lastModifDate") Date de modification
-					tfoot
-						tr
-							th
-								.datagrid-footer-left(style='display: none;')
-									.grid-controls
-										span
-											span.grid-start
-											| -
-											span.grid-end
-											| of
-											span.grid-count
-										select.grid-pagesize
-											option 10
-											option 20
-											option 50
-											option 100
-										span Per Page
-								.datagrid-footer-right(style='display: none;')
-									.grid-pager
-										button.btn.grid-prevpage
-											i.icon-chevron-left
-										span Page
-										.input-append.dropdown.combobox.dropup
-											input.span1(type='text')
-											button.btn(data-toggle='dropdown')
-												i.caret
-											ul.dropdown-menu
-										span
-											| of
-											span.grid-pages
-										button.btn.grid-nextpage
-											i.icon-chevron-right
-	- else
-		mixin loginForm() 
+	.fuelux
+		- if (message)
+			each msg in message
+				div.alert.fade.in
+					button.close(type="button",data-dismiss="alert") x
+					strong= msg
+
+		div#newsfeedContainer
+			mixin placeForm()
+
+			table#MyGrid.table.table-bordered.datagrid
+				thead
+					tr.headerControle
+						th
+							.datagrid-header-left
+								button.btn#btnAdd
+									i.icon-plus
+							.datagrid-header-right
+								.input-append.search
+									input.input-medium(type='text', placeholder='Search')
+									button.btn
+										i.icon-search
+								a.showSearchPanel(href="#") Recherche avancée
+						tr.headerControle.advancedSearch
+							td.searchPanel(colspan=4, style="display:none")
+								input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Ajouter un thème")
+								.pillbox(style="display:none")
+									ul
+					tr.headerControle
+						td(colspan=4)
+							.btn-group
+								button.btn.btn-danger.validerPlaces Valider
+								button.btn.btn-danger.dropdown-toggle(data-toggle='dropdown')
+									span.caret
+								ul.dropdown-menu
+									li
+										a.supprimerPlaces Supprimer
+							select#sortPlaces.datagrid-header-right
+								option(value="creationDate") Date de création
+								option(value="pubDate") Date de publication
+								option(value="lastModifDate") Date de modification
+				tfoot
+					tr
+						th
+							.datagrid-footer-left(style='display: none;')
+								.grid-controls
+									span
+										span.grid-start
+										| -
+										span.grid-end
+										| of
+										span.grid-count
+									select.grid-pagesize
+										option 10
+										option 20
+										option 50
+										option 100
+									span Per Page
+							.datagrid-footer-right(style='display: none;')
+								.grid-pager
+									button.btn.grid-prevpage
+										i.icon-chevron-left
+									span Page
+									.input-append.dropdown.combobox.dropup
+										input.span1(type='text')
+										button.btn(data-toggle='dropdown')
+											i.caret
+										ul.dropdown-menu
+									span
+										| of
+										span.grid-pages
+									button.btn.grid-nextpage
+										i.icon-chevron-right
 
 	script
 		var yakcatArray = [];

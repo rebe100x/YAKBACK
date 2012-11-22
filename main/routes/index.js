@@ -149,6 +149,7 @@ exports.place = function(req, res){
 						if(req.session.user)
 						{
 							place.user = req.session.user._id;	
+							console.log(place);
 							place.save(function (err) 
 							{
 								if (!err) 
