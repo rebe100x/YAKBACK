@@ -200,7 +200,7 @@ exports.gridPlaces = function (req, res) {
 
 		data['place'] = docs;
 
-        console.log(data['place']['user']);
+        console.log(data);
 		data['pageIndex'] = req.params.pageIndex;
 		data['pageSize'] = req.params.pageSize;
 

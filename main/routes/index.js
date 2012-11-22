@@ -71,17 +71,10 @@ exports.place = function(req, res){
 
 	// we need a title, a location and a user
 	if(req.body.placeInput && req.body.title && req.session.user)
-<<<<<<< HEAD
 	{
-		Place.findById(obj_id, function (err, place)
-		{
-			if (err || place == null)
-=======
-	{	
 		Place.findById(obj_id, function (err, found_place)
 		{
-			if (err || found_place == null) 
->>>>>>> 6954856467e64ed7cf45dd797781280666f4ea4b
+			if (err || found_place == null)
 			{
 				console.log("Place not found by id: creating a new place");
 				edit = false;
@@ -155,14 +148,8 @@ exports.place = function(req, res){
 						// security against unidentified users
 						if(req.session.user)
 						{
-<<<<<<< HEAD
 							place.user = req.session.user._id;
 							place.save(function (err)
-=======
-							place.user = req.session.user._id;	
-							console.log(place);
-							place.save(function (err) 
->>>>>>> 6954856467e64ed7cf45dd797781280666f4ea4b
 							{
 								if (!err)
 								{
