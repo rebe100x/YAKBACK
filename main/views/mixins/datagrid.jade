@@ -161,7 +161,7 @@ mixin datagrid()
 					sortable: true
 				},
 				{
-					property: 'address',
+					property: 'zone',
 					label: 'Ville',
 					sortable: true
 				}],
@@ -169,7 +169,8 @@ mixin datagrid()
 					$.each(items, function (index, item) {
 						item.checked = makeCheckBox(item);
 						item.title = fillContent(item);
-						item.address = item.address['city'];
+						console.log(item.zone);
+						item.zone = formatZone(item.zone);
 						if (item.user)
 							item.user = formatUser(item);
 						else
@@ -242,7 +243,7 @@ mixin datagrid()
 					$('#placeForm #longitude').val(position.lng());
 
 					getformattedAddress(position);
-			
+
 				});
 			});
 
@@ -287,7 +288,12 @@ mixin datagrid()
 					{
 						var yakcat = response.cat;
 						$("#pillYakcat").show();
+<<<<<<< HEAD
 						$("#pillYakcat ul").append("<li class='yakcat-val' data-value="+yakcat._id+">"+yakcat.title+"</li>");	
+=======
+						$("#pillYakcat ul").append("<li class='yakcat-val' data-value="+yakcat._id+">"+yakcat.title+"</li>");
+						yakcatArray.push(obj);
+>>>>>>> 150a969f640b75bd1994f7b055c834c392ebd55b
 						$('#placeForm #yakcat').val('').focus();
 					});
 				}
@@ -362,6 +368,19 @@ mixin datagrid()
 				async: false,
 				success: function(data) {
 					return data.user.name;
+				}
+			});
+		}
+
+		function formatZone(zoneId) {
+			var res;
+			$.ajax({
+				url: '/api/zones/'+ zoneId,
+				dataType: 'json',
+				async: false,
+				success: function(data) {
+					console.log(data);
+					return data.zone.name;
 				}
 			});
 		}
@@ -460,6 +479,16 @@ mixin datagrid()
 			}
 			refreshDatagridAndMenu();
 		});
+<<<<<<< HEAD
+=======
+
+		$("li.yakcat-val").live('click', function() {
+			if ($("#pillYakcat").pillbox("items").length == 0) {
+				$("#pillYakcat").hide();
+			}
+			refreshDatagridAndMenu();
+		});
+>>>>>>> 150a969f640b75bd1994f7b055c834c392ebd55b
 
 		// We validate the form before submitting it
 		$('#placeForm').submit(function()

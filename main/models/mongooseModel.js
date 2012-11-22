@@ -252,6 +252,10 @@ Zone.statics.findNear = function (x,y,callback) {
   //return this.find( { "location" : { "$within" : {,"$box": [[x-1, y-1], [x+1, y+1]]}}},callback );
 }
 
+Zone.statics.findById = function (id, callback) {
+	return this.findOne({'_id': id}, callback);
+}
+
 Zone.statics.findAll = function (callback) {
   return this.find({}, callback);
 }
@@ -409,7 +413,7 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy
 
 	return this.find(
 		conditions,
-		'title content outGoingLink address user',
+		'title content outGoingLink zone user',
 		{
 			skip:
 				(pageIndex -1)*pageSize,
