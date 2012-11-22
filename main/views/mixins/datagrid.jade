@@ -288,9 +288,10 @@ mixin datagrid()
 					$.ajax(url, {type: 'GET'}).done(function (response)
 					{
 						var yakcat = response.cat;
-						$("label[for='category']").after("<div class='catLabel'><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+yakcat._id+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+yakcat.title+"</div>");
-						yakcatArray.push(yakcat);
-						$("#placeForm #yakcatInput").val(JSON.stringify(yakcatArray));
+						$("#pillYakcat").show();
+						$("#pillYakcat ul").append("<li class='yakcat-val' data-value="+yakcat._id+">"+yakcat.title+"</li>");	
+						yakcatArray.push(obj);
+						$('#placeForm #yakcat').val('').focus();
 					});
 				}
 
@@ -549,25 +550,6 @@ mixin datagrid()
 				$("#pillYakcat ul").append("<li class='yakcat-val' data-value="+obj._id+">"+obj.title+"</li>");	
 				yakcatArray.push(obj);
 				$('#placeForm #yakcat').val('').focus();			
-			}
-		});
-
-		$('#placeForm #place').typeahead({
-			minLength : 3,
-			source: function (typeahead, query) {
-				$.ajax({
-					url: "/api/places",
-					success: function(data) {
-						typeahead.process(data.places);
-					}
-				})},
-			property: "title",
-			onselect: function(obj) {
-				$('#placeLabel').first().remove();
-				$('#placeForm #btn-place-adder').parent().before("<div id='placeLabel'><i class='icon-remove icon-pointer'  onclick='placeArray.cleanArray(\""+obj._id+"\");$(\"#placeForm #placeInput\").val(JSON.stringify(placeArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
-				$('#placeForm #place').val('').focus();
-				placeArray.push(obj);
-				$("#placeForm #placeInput").val(JSON.stringify(placeArray));
 			}
 		});
 
