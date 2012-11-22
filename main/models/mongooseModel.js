@@ -310,6 +310,7 @@ var Place = new Schema({
 ,	licence	: { type: String }
 ,	outGoingLink	: { type: String }
 , 	yakCat	: [Schema.ObjectId]
+,	yakTag	: [String]
 ,	yakcatName	: [String]
 , 	freeTag	: [String]
 ,	creationDate	: {type: Date, required: true, default: Date.now}
