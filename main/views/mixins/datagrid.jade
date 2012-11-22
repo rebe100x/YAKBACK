@@ -169,7 +169,6 @@ mixin datagrid()
 					$.each(items, function (index, item) {
 						item.checked = makeCheckBox(item);
 						item.title = fillContent(item);
-						console.log(item.zone);
 						item.zone = formatZone(item.zone);
 						if (item.user)
 							item.user = formatUser(item);
@@ -374,10 +373,14 @@ mixin datagrid()
 				dataType: 'json',
 				async: false,
 				success: function(data) {
-					console.log(data);
-					return data.zone.name;
+					if (data['zone'])
+						res = data['zone'].name;
+					else
+						res = "Zone inconnue";
 				}
 			});
+
+			return res;
 		}
 
 		/*
