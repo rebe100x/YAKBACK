@@ -65,9 +65,7 @@ exports.place = function(req, res){
 	var Yakcat = db.model('Yakcat');
 	var place;
 	//mongoose.set('debug', true);
-	var obj_id = 0;
-	if (req.body.objid != "")
-		obj_id = req.body.objid;
+	var obj_id = req.body.objid;
 	var edit = false;
 	//console.log(req.files);
 	
