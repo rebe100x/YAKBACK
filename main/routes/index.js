@@ -95,13 +95,8 @@ exports.place = function(req, res){
 				{
 					var yak = eval('('+req.body.yakcatInput+')');
 					var yakN = eval('('+req.body.yakcatNames+')');
-					place.yakCat = new Array();
-					place.yakcatName = new Array();
-					for(i=0;i<yak.length;i++)
-					{
-						place.yakCat.push(yak[i]);
-						place.yakcatName.push(yakN[i]);
-					}
+					place.yakCat = yak;
+					place.yakcatName = yakN;
 				}
 				place.title = req.body.title;
 				place.content = req.body.content;
