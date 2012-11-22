@@ -2,7 +2,7 @@ mixin datagrid()
 	.fuelux
 		- if (message)
 			each msg in message
-				div.alert.fade.in
+				div.alert.fade.in#alert
 					button.close(type="button",data-dismiss="alert") x
 					strong= msg
 
@@ -256,8 +256,10 @@ mixin datagrid()
 			$("#btnBack").fadeIn();
 			$("#placeForm").fadeIn();
 			$(".catLabel").remove();
+			$("#pillYakcat ul").empty();
 			$('#err').hide();
 			yakcatArray = new Array();
+			yakcatNames = new Array();
 
 			$("#placeForm legend").html("Editer une place");
 			$("#placeForm #objid").val(this.id);
@@ -340,8 +342,10 @@ mixin datagrid()
 			$("#placeForm").fadeIn();
 			$("#placeForm legend").html("Ajouter une place");
 			$(".catLabel").remove();
+			$("#pillYakcat ul").empty();
 			$('#err').hide();
 			yakcatArray = new Array();
+			yakcatNames = new Array();
 		});
 
 
