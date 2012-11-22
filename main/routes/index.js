@@ -63,7 +63,6 @@ exports.place = function(req, res){
 	var Place = db.model('Place');
 	var Zone = db.model('Zone');
 	var Yakcat = db.model('Yakcat');
-	var place;
 	//mongoose.set('debug', true);
 	var obj_id = req.body.objid;
 	var edit = false;
@@ -72,9 +71,9 @@ exports.place = function(req, res){
 	// we need a title, a location and a user	
 	if(req.body.placeInput && req.body.title && req.session.user)
 	{	
-		Place.findById(obj_id, function (err, found_place)
+		Place.findById(obj_id, function (err, place)
 		{
-			if (err || found_place == null) 
+			if (err || place == null) 
 			{
 				console.log("Place not found by id: creating a new place");
 				edit = false;
@@ -84,7 +83,6 @@ exports.place = function(req, res){
 			{
 				console.log("Place found by id: updating");
 				edit = true;
-				place = found_place;
 			}
 				
 			var drawTool = require('../mylib/drawlib.js');
@@ -96,10 +94,13 @@ exports.place = function(req, res){
 				if(req.body.yakcatInput.length > 0)
 				{
 					var yak = eval('('+req.body.yakcatInput+')');
+					var yakN = eval('('+req.body.yakcatNames+')');
+					place.yakCat = new Array();
+					place.yakcatName = new Array();
 					for(i=0;i<yak.length;i++)
 					{
-						place.yakCat.push(yak[i]._id);
-						place.yakcatName.push(yak[i].title);
+						place.yakCat.push(yak[i]);
+						place.yakcatName.push(yakN[i]);
 					}
 				}
 				place.title = req.body.title;

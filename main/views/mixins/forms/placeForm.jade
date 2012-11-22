@@ -3,6 +3,7 @@ mixin placeForm()
 		i.icon-chevron-left
 	form#placeForm(action='/place', method='POST', enctype='multipart/form-data', style='display:none')
 		input#yakcatInput(type='hidden', name='yakcatInput', value='') 
+		input#yakcatNames(type='hidden', name='yakcatNames', value='') 
 		input#placeInput(type='hidden', name='placeInput', value='')
 		input#latitude(type="hidden",data-provide="typeahead", name="latitude")
 		input#longitude(type="hidden",data-provide="typeahead", name="longitude")
