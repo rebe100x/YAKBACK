@@ -288,12 +288,7 @@ mixin datagrid()
 					{
 						var yakcat = response.cat;
 						$("#pillYakcat").show();
-<<<<<<< HEAD
-						$("#pillYakcat ul").append("<li class='yakcat-val' data-value="+yakcat._id+">"+yakcat.title+"</li>");	
-=======
 						$("#pillYakcat ul").append("<li class='yakcat-val' data-value="+yakcat._id+">"+yakcat.title+"</li>");
-						yakcatArray.push(obj);
->>>>>>> 150a969f640b75bd1994f7b055c834c392ebd55b
 						$('#placeForm #yakcat').val('').focus();
 					});
 				}
@@ -479,16 +474,6 @@ mixin datagrid()
 			}
 			refreshDatagridAndMenu();
 		});
-<<<<<<< HEAD
-=======
-
-		$("li.yakcat-val").live('click', function() {
-			if ($("#pillYakcat").pillbox("items").length == 0) {
-				$("#pillYakcat").hide();
-			}
-			refreshDatagridAndMenu();
-		});
->>>>>>> 150a969f640b75bd1994f7b055c834c392ebd55b
 
 		// We validate the form before submitting it
 		$('#placeForm').submit(function()
@@ -514,7 +499,7 @@ mixin datagrid()
 				$('#err').show();
 				return false;
 			}
-			
+
 			if ($("#pillYakcat").pillbox("items")) {
 					$($("#pillYakcat").pillbox("items")).each(function() {
 						yakcatArray.push(this.value);
@@ -574,11 +559,11 @@ mixin datagrid()
 			onselect: function(obj) {
 				//$("label[for='category']").after("<div class='catLabel'><i class='icon-remove icon-pointer'  onclick='var index=yakcatArray.indexOf(\""+obj._id+"\"); yakcatArray.splice(index,1);$(\"#placeForm #yakcatInput\").val(JSON.stringify(yakcatArray));$(this).parent().remove();'></i> "+obj.title+"</div>");
 				$("#pillYakcat").show();
-				$("#pillYakcat ul").append("<li class='yakcat-val' data-value="+obj._id+">"+obj.title+"</li>");	
-				$('#placeForm #yakcat').val('').focus();			
+				$("#pillYakcat ul").append("<li class='yakcat-val' data-value="+obj._id+">"+obj.title+"</li>");
+				$('#placeForm #yakcat').val('').focus();
 			}
 		});
-		
+
 		$("li.yakcat-val").live('click', function() {
 			if ($("#pillYakcat").pillbox("items").length == 0) {
 				$("#pillYakcat").hide();
