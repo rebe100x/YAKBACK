@@ -113,6 +113,15 @@ exports.findCatById = function (req, res) {
 	});
 };
 
+exports.findUserById = function (req, res) {
+	var User = db.model('User');
+	User.findById(req.params.id, function (err, docs){
+  	  res.json({
+  		user: docs
+	  });
+	});
+};
+
 exports.places = function (req, res) {
 	var Place = db.model('Place');
 
@@ -122,6 +131,18 @@ exports.places = function (req, res) {
 	  });
 	});
 };
+
+exports.users = function (req, res) {
+	var User = db.model('User');
+
+	User.findAll(function (err, docs){
+	  res.json({
+		users: docs
+	  });
+	});
+};
+
+
 
 exports.findPlaceById = function (req, res) {
 	var Place = db.model('Place');

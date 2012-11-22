@@ -102,6 +102,7 @@ app.get('/api/validinfos', api.countUnvalidatedInfos);
 app.get('/api/geoinfos/:x1/:y1/:x2/:y2/:heat/:type', api.geoinfos);
 app.get('/api/zones/:x/:y', api.zones);
 app.post('/api/users', api.users);
+app.get('/api/users', api.users);
 app.get('/api/cats', api.cats);
 app.get('/api/cats/:id', api.findCatById);
 app.get('/api/places', api.places);
@@ -110,7 +111,7 @@ app.get('/api/places/:pageIndex/:pageSize/:searchTerm/:sortBy/:sortDirection/:ya
 app.get('/api/places/:id', api.findPlaceById);
 app.get('/api/usersearch/:string', api.usersearch);
 app.get('/api/findCatById', api.findCatById);
-app.get('/api/user/:id', api.userById);
+app.get('/api/user/:id', api.findUserById);
 
 app.get('/api/validusers', api.countUnvalidatedUsers);
 app.get('/api/validcats', api.countUnvalidatedCats);

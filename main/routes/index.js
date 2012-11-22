@@ -72,9 +72,9 @@ exports.place = function(req, res){
 	// we need a title, a location and a user	
 	if(req.body.placeInput && req.body.title && req.session.user)
 	{	
-		Place.findById(obj_id, function (err, place)
+		Place.findById(obj_id, function (err, found_place)
 		{
-			if (err || place == null) 
+			if (err || found_place == null) 
 			{
 				console.log("Place not found by id: creating a new place");
 				edit = false;
@@ -84,6 +84,7 @@ exports.place = function(req, res){
 			{
 				console.log("Place found by id: updating");
 				edit = true;
+				place = found_place;
 			}
 				
 			var drawTool = require('../mylib/drawlib.js');
