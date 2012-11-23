@@ -521,6 +521,7 @@ mixin datagrid()
 			if ($('#placeForm #title').val() == "")
 			{
 				$('#placeForm #titleGroup').addClass("error");
+				$('#placeForm #title').focus();
 				err = true;
 			}
 			else
