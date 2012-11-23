@@ -9,15 +9,15 @@ mixin searchForm()
 			button.btn(type='text', name='search', id='search', value='chercher') Chercher
 		div#placeList
 
-	script 
+	script
 
 		$(document).ready(function() {
-			
+
 			$('#searchInput').typeahead({
 					minLength : 3,
 					source: function (typeahead, query) {
 						$.ajax({
-								url: "/api/places",				
+								url: "/api/places",
 								success: function( data ) {
 									typeahead.process(data.places);
 								}
