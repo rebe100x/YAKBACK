@@ -21,17 +21,22 @@ mixin datagrid()
 									input#search.input-medium(type='text', placeholder='Search', data-provide="typeahead", autocomplete="off")
 									button.btn
 										i.icon-search
-								a.showSearchPanel(href="#") Recherche avancée
+								a.showSearchPanel(href="#") Filtrer les résultats
 						tr.headerControle.advancedSearch
 							td.searchPanel(colspan=4, style="display:none")
 								.yakCatFilter
-									input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Ajouter un thème")
+									input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Filtrer par thème")
 									.pillbox#yakCatFilter(style="display:none")
 										ul
 								.userFilter
-									input#userFilter.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Nom d'utilisateur")
+									input#userFilter.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Filtrer par utilisateur")
 									.pillbox#userFilter(style="display:none")
 										ul
+								.statusFilter
+									select#filterStatus
+										option(value="2") Places en attente
+										option(value="1") Places validées
+										option(value="3") Places rejetées
 					tr.headerControle
 						td(colspan=4)
 							.btn-group
@@ -45,10 +50,6 @@ mixin datagrid()
 								option(value="creationDate") Date de création
 								option(value="pubDate") Date de publication
 								option(value="lastModifDate") Date de modification
-							select#filterStatus.datagrid-header-right
-								option(value="2") Places en attente
-								option(value="1") Places validées
-								option(value="3") Places rejetées
 				tfoot
 					tr
 						th
@@ -582,7 +583,7 @@ mixin datagrid()
 			}
 			else
 				$('#placeForm #titleGroup').removeClass("error");
-		
+
 			if (err)
 			{
 				$('#err').show();
