@@ -518,6 +518,14 @@ mixin datagrid()
 		$('#placeForm').submit(function()
 		{
 			var err = false;
+			if (placeArray.length == 0)
+			{
+				$('#placeForm #adresseGroup').addClass("error");
+				$('#placeForm #place').focus()
+				err = true;
+			}
+			else
+				$('#placeForm #adresseGroup').removeClass("error");
 			if ($('#placeForm #title').val() == "")
 			{
 				$('#placeForm #titleGroup').addClass("error");
@@ -526,14 +534,7 @@ mixin datagrid()
 			}
 			else
 				$('#placeForm #titleGroup').removeClass("error");
-			if (placeArray.length == 0)
-			{
-				$('#placeForm #adresseGroup').addClass("error");
-				err = true;
-			}
-			else
-				$('#placeForm #adresseGroup').removeClass("error");
-
+		
 			if (err)
 			{
 				$('#err').show();
