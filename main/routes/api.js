@@ -183,7 +183,16 @@ exports.gridPlaces = function (req, res) {
 
     var yakcats = [];
     if (req.params.yakcats) {
-        yakcats = req.params.yakcats.split(',');
+        if (req.params.yakcats !== "__empty") {
+            yakcats = req.params.yakcats.split(',');
+        }
+    }
+
+    var users = [];
+    if (req.params.users) {
+        if (req.params.users !== "__allusers") {
+            users = req.params.users.split(',');
+        }
     }
 
     var sortProperties = [];
@@ -198,7 +207,7 @@ exports.gridPlaces = function (req, res) {
 
 	Place.findGridPlaces(req.params.pageIndex,req.params.pageSize,
 		req.params.searchTerm,sortProperties,sortDirections,
-        req.params.status, yakcats, function (err, docs){
+        req.params.status, yakcats, users, function (err, docs){
 
 		var data = {};
 

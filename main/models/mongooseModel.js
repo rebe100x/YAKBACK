@@ -397,7 +397,7 @@ Place.statics.deletePlaces = function (ids, callback) {
 	this.update(conditions, update, options, callback);
 }
 
-Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortProperties, sortDirections, status, yakcats, callback) {
+Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortProperties, sortDirections, status, yakcats, users, callback) {
 	var search = new RegExp(searchTerm, 'i');
 
 	var conditions = {
@@ -417,6 +417,9 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortPr
 	if (status == 2) {
 		conditions["status"] = { $in: [2,10] };
 	}
+
+	if (users.length > 0)
+		conditions["user"] = { $in: users };
 
 	if (yakcats.length > 0)
 		conditions["yakCat"] = { $in: yakcats };

@@ -24,9 +24,14 @@ mixin datagrid()
 								a.showSearchPanel(href="#") Recherche avancée
 						tr.headerControle.advancedSearch
 							td.searchPanel(colspan=4, style="display:none")
-								input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Ajouter un thème")
-								.pillbox(style="display:none")
-									ul
+								.yakCatFilter
+									input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Ajouter un thème")
+									.pillbox#yakCatFilter(style="display:none")
+										ul
+								.userFilter
+									input#userFilter.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Nom d'utilisateur")
+									.pillbox#userFilter(style="display:none")
+										ul
 					tr.headerControle
 						td(colspan=4)
 							.btn-group
@@ -128,11 +133,27 @@ mixin datagrid()
 
 				// Filter by yakCats
 				var apiCatArray = [];
-				if ($(".pillbox").pillbox("items")) {
-					$($(".pillbox").pillbox("items")).each(function() {
+				if ($($(".pillbox#yakCatFilter").pillbox("items")).length) {
+					$($(".pillbox#yakCatFilter").pillbox("items")).each(function() {
 						apiCatArray.push(this.value);
 					});
+
 					url += '/' + apiCatArray.join();
+				}
+				else  {
+					url += '/__empty';
+				}
+
+				var userArray = [];
+				if ($($(".pillbox#userFilter").pillbox("items")).length) {
+					$($(".pillbox#userFilter").pillbox("items")).each(function() {
+						userArray.push(this.value);
+					});
+
+					url += '/' + userArray.join();
+				}
+				else  {
+					url += '/__allusers';
 				}
 
 				$.ajax(url, {
@@ -226,10 +247,30 @@ mixin datagrid()
 			},
 			property: "title",
 			onselect: function(obj) {
-				$(".pillbox").show();
-				$(".pillbox ul").append("<li class='yakcat-value' data-value="+obj._id+">"+obj.title+"</li>");
+				$(".pillbox#yakCatFilter").show();
+				$(".pillbox#yakCatFilter ul").append("<li class='yakcat-value' data-value="+obj._id+">"+obj.title+"</li>");
 
 				$('input#yakCat').val('').focus();
+				refreshDatagridAndMenu();
+			}
+		});
+
+		// Searchpanel yakcat input
+		$('input#userFilter').typeahead({
+			source: function (typeahead, query) {
+				$.ajax({
+					url: "/api/users",
+					success: function(data) {
+						typeahead.process(data.users);
+					}
+				})
+			},
+			property: "name",
+			onselect: function(obj) {
+				$(".pillbox#userFilter").show();
+				$(".pillbox#userFilter ul").append("<li class='user-value' data-value="+obj._id+">"+obj.name+"</li>");
+
+				$('input#userFilter').val('').focus();
 				refreshDatagridAndMenu();
 			}
 		});
@@ -508,8 +549,15 @@ mixin datagrid()
 		}
 
 		$("li.yakcat-value").live('click', function() {
-			if ($(".pillbox").pillbox("items").length == 0) {
-				$(".pillbox").hide();
+			if ($(".pillbox#yakCatFilter").pillbox("items").length == 0) {
+				$(".pillbox#yakCatFilter").hide();
+			}
+			refreshDatagridAndMenu();
+		});
+
+		$("li.user-value").live('click', function() {
+			if ($(".pillbox#userFilter").pillbox("items").length == 0) {
+				$(".pillbox#userFilter").hide();
 			}
 			refreshDatagridAndMenu();
 		});
