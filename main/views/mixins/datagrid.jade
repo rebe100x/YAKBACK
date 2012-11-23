@@ -40,6 +40,10 @@ mixin datagrid()
 								option(value="creationDate") Date de création
 								option(value="pubDate") Date de publication
 								option(value="lastModifDate") Date de modification
+							select#filterStatus.datagrid-header-right
+								option(value="2") Places en attente
+								option(value="1") Places validées
+								option(value="3") Places rejetées
 				tfoot
 					tr
 						th
@@ -112,7 +116,11 @@ mixin datagrid()
 					var sort = $('#sortPlaces :selected').val();
 					url += '/' + sort + '/asc';
 				}
-
+				
+				//filter by status
+				var status = $('#filterStatus :selected').val();
+				url += '/' + status;
+				
 				// Filter by yakCats
 				var apiCatArray = [];
 				if ($(".pillbox").pillbox("items")) {
@@ -223,6 +231,10 @@ mixin datagrid()
 
 		// Refresh on sort selection
 		$('#sortPlaces').live('change', function() {
+			refreshDatagridAndMenu();
+		});
+		// Refresh on sort selection
+		$('#filterStatus').live('change', function() {
 			refreshDatagridAndMenu();
 		});
 

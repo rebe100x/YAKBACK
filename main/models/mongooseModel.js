@@ -395,18 +395,24 @@ Place.statics.deletePlaces = function (ids, callback) {
 	this.update(conditions, update, options, callback);
 }
 
-Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy, sortDirection, yakcats, callback) {
+Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy, sortDirection, status, yakcats, callback) {
 	var search = new RegExp(searchTerm, 'i');
 
 	var desc = 1;
 	if (sortDirection == 'desc')
 		desc = -1;
-
+	
 	var conditions = {
-		"title" : search,
-		"status" :
-			{ $in: [3, 10]}
-		};
+			"title" : search,
+			"status" : status
+			};
+	if (status == 2) {
+		conditions = {
+			"title" : search,
+			"status" : { $in: [2,10]}
+			};
+	}
+
 
 	if (yakcats.length > 0)
 		conditions["yakCat"] = { $in: yakcats };

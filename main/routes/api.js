@@ -189,13 +189,15 @@ exports.deletePlaces = function (req, res) {
 exports.gridPlaces = function (req, res) {
 	var Place = db.model('Place');
     var User = db.model('User');
-
+    console.log(req.params);
+   
     var yakcats = [];
     if (req.params.yakcats) {
         yakcats = req.params.yakcats.split(',');
     }
+    
 	Place.findGridPlaces(req.params.pageIndex,req.params.pageSize,
-		req.params.searchTerm,req.params.sortBy,req.params.sortDirection,yakcats,function (err, docs){
+		req.params.searchTerm,req.params.sortBy,req.params.sortDirection,req.params.status, yakcats, function (err, docs){
 
 		var data = {};
 
