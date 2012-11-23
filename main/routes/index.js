@@ -115,7 +115,8 @@ exports.place = function(req, res){
 				if (!edit)
 					place.creationDate = new Date();
 				place.lastModifDate = new Date();
-				place.origin = 'operator';
+				place.origin = req.body.origine;
+				place.outGoingLink = req.body.outgoinglink;
 
 				place.status = req.body.status;
 
@@ -144,12 +145,16 @@ exports.place = function(req, res){
 						// security against unidentified users
 						if(req.session.user)
 						{
-							place.user = req.session.user._id;
+							if (!edit)
+								place.user = req.session.user._id;
 							place.save(function (err)
 							{
 								if (!err)
 								{
-									formMessage.push("La place a été sauvegardée !");
+									if (place.status == 1)
+										formMessage.push("La place a été validée !");
+									else
+										formMessage.push("La place a été modifiée et est toujours en attente de validation !");
 									console.log('Success!');
 								}
 								else
