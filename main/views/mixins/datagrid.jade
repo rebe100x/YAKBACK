@@ -566,21 +566,23 @@ mixin datagrid()
 		$('#placeForm').submit(function()
 		{
 			var err = false;
-			if ($('#placeForm #title').val() == "")
-			{
-				$('#placeForm #titleGroup').addClass("error");
-				err = true;
-			}
-			else
-				$('#placeForm #titleGroup').removeClass("error");
 			if (placeArray.length == 0)
 			{
 				$('#placeForm #adresseGroup').addClass("error");
+				$('#placeForm #place').focus()
 				err = true;
 			}
 			else
 				$('#placeForm #adresseGroup').removeClass("error");
-
+			if ($('#placeForm #title').val() == "")
+			{
+				$('#placeForm #titleGroup').addClass("error");
+				$('#placeForm #title').focus();
+				err = true;
+			}
+			else
+				$('#placeForm #titleGroup').removeClass("error");
+		
 			if (err)
 			{
 				$('#err').show();

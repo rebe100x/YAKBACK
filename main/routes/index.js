@@ -152,9 +152,11 @@ exports.place = function(req, res){
 								if (!err)
 								{
 									if (place.status == 1)
-										formMessage.push("La place a été validée !");
+										formMessage.push("La place a été validée.");
+									else if (place.status == 3)
+										formMessage.push("La place a été rejetée.");
 									else
-										formMessage.push("La place a été modifiée et est toujours en attente de validation !");
+										formMessage.push("La place a été modifiée et est en attente de validation.");
 									console.log('Success!');
 								}
 								else
