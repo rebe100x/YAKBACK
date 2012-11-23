@@ -82,7 +82,7 @@ Info.statics.findAll = function (callback) {
 }
 
 Info.statics.countUnvalidated = function (callback) {
-	return this.count( {'status': { $in: [3, 10]}}, callback );
+	return this.count( {'status': { $in: [2, 10]}}, callback );
 }
 
 Info.statics.findAllGeo = function (x1,y1,x2,y2,heat,type,usersubs,tagsubs,callback) {
@@ -182,7 +182,7 @@ User.statics.findById = function (id,callback) {
 }
 
 User.statics.countUnvalidated = function (callback) {
-	return this.count( {'status': { $in: [3, 10]}}, callback );
+	return this.count( {'status': { $in: [2, 10]}}, callback );
 }
 
 User.setters = function(password) {
@@ -292,7 +292,7 @@ Yakcat.statics.findByTitle = function (title, callback) {
 }
 
 Yakcat.statics.countUnvalidated = function (callback) {
-	return this.count( {'status': { $in: [3, 10]}}, callback );
+	return this.count( {'status': { $in: [2, 10]}}, callback );
 }
 
 mongoose.model('Yakcat', Yakcat);
@@ -353,14 +353,20 @@ Place.statics.findAll = function (callback) {
   return this.find({},[],{sort:{title:1}}, callback);
 }
 
-Place.statics.countSearch = function (searchTerm, yakcats, callback) {
+Place.statics.countSearch = function (searchTerm, status, yakcats, callback) {
 	var search = new RegExp(searchTerm, 'i');
 
 	var conditions = {
-		"title" : search,
-		"status" :
-			{ $in: [3, 10]}
-		};
+			"title" : search,
+			"status" : status
+			};
+	if (status == 2) {
+		conditions = {
+			"title" : search,
+			"status" :
+				{ $in: [2, 10]}
+			};
+	}
 
 	if (yakcats.length > 0)
 		conditions["yakCat"] = { $in: yakcats };
@@ -432,11 +438,11 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy
 }
 
 Place.statics.countUnvalidated = function (callback) {
-	return this.count( {status: { $in: [3, 10]}}, callback );
+	return this.count( {status: { $in: [2, 10]}}, callback );
 }
 
 Place.statics.unvalidatedList = function (callback) {
-	return this.find( {status: { $in: [3, 10]}},[],{sort:{title:1}}, callback );
+	return this.find( {status: { $in: [2, 10]}},[],{sort:{title:1}}, callback );
 }
 
 Place.statics.findByTitle = function (title, callback) {
