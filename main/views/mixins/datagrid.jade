@@ -108,19 +108,24 @@ mixin datagrid()
 				url += '/' + options.pageSize;
 				url += '/' + options.search;
 
+				var sortPropertyArray = [];
+				var sortDirectionArray = [];
+
 				if (options.sortProperty) {
-					url += '/' + options.sortProperty;
-					url += '/' + options.sortDirection;
+					sortPropertyArray.push(options.sortProperty);
+					sortDirectionArray.push(options.sortDirection);
 				}
-				else {
-					var sort = $('#sortPlaces :selected').val();
-					url += '/' + sort + '/asc';
-				}
-				
+
+				// Always sort by dates, newest first
+				sortPropertyArray.push( $('#sortPlaces :selected').val() );
+				sortDirectionArray.push("desc");
+
+				url += '/' + sortPropertyArray.join() + '/' + sortDirectionArray.join();
+
 				//filter by status
 				var status = $('#filterStatus :selected').val();
 				url += '/' + status;
-				
+
 				// Filter by yakCats
 				var apiCatArray = [];
 				if ($(".pillbox").pillbox("items")) {
