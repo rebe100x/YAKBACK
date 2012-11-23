@@ -163,7 +163,9 @@ exports.place = function(req, res){
 									console.log(err);
 								}
 								req.session.message = formMessage;
+
 								res.redirect('place/map');
+
 							});
 						}
 					}
