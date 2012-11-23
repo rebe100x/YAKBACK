@@ -30,7 +30,7 @@ a {
 #MyGrid thead tr.headerControle {background: url(../images/texture.png) repeat; border: none;}
 #MyGrid thead td {border-top: none;}
 #MyGrid thead a {font-size: smaller;}
-#MyGrid thead .searchPanel, #MyGrid thead .searchUser {background-color: rgba(255,255,255,0.6);}
+#MyGrid thead .searchPanel {background-color: rgba(255,255,255,0.6);}
 
 
 /* MAP
