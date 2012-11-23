@@ -189,8 +189,7 @@ exports.deletePlaces = function (req, res) {
 exports.gridPlaces = function (req, res) {
 	var Place = db.model('Place');
     var User = db.model('User');
-    console.log(req.params);
-   
+    
     var yakcats = [];
     if (req.params.yakcats) {
         yakcats = req.params.yakcats.split(',');
