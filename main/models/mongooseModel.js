@@ -357,15 +357,11 @@ Place.statics.countSearch = function (searchTerm, status, yakcats, callback) {
 	var search = new RegExp(searchTerm, 'i');
 
 	var conditions = {
-			"title" : search,
-			"status" : status
-			};
+		"title" : search,
+		"status" : status
+	};
 	if (status == 2) {
-		conditions = {
-			"title" : search,
-			"status" :
-				{ $in: [2, 10]}
-			};
+		conditions["status"] = { $in: [2,10] };
 	}
 
 	if (yakcats.length > 0)
@@ -401,24 +397,26 @@ Place.statics.deletePlaces = function (ids, callback) {
 	this.update(conditions, update, options, callback);
 }
 
-Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy, sortDirection, status, yakcats, callback) {
+Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortProperties, sortDirections, status, yakcats, callback) {
 	var search = new RegExp(searchTerm, 'i');
 
-	var desc = 1;
-	if (sortDirection == 'desc')
-		desc = -1;
-	
 	var conditions = {
-			"title" : search,
-			"status" : status
-			};
-	if (status == 2) {
-		conditions = {
-			"title" : search,
-			"status" : { $in: [2,10]}
-			};
+		"title" : search,
+		"status" : status
+	};
+
+	var sortBy = {};
+
+	for (index in sortProperties) {
+		var desc = 1;
+		if (sortDirections[index] == "desc")
+			desc = -1;
+		sortBy[sortProperties[index]] = desc;
 	}
 
+	if (status == 2) {
+		conditions["status"] = { $in: [2,10] };
+	}
 
 	if (yakcats.length > 0)
 		conditions["yakCat"] = { $in: yakcats };
@@ -432,7 +430,7 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortBy
 			limit:
 				pageSize,
 			sort:
-				[[sortBy, desc]]
+				sortBy
 		},
 		callback);
 }
