@@ -170,10 +170,7 @@ mixin datagrid()
 						item.checked = makeCheckBox(item);
 						item.title = fillContent(item);
 						item.zone = formatZone(item.zone);
-						if (item.user)
-							item.user = formatUser(item);
-						else
-							item.user = "Yakwala";
+						item.user = formatUser(item.user);
 					});
 				}
 			})
@@ -358,16 +355,20 @@ mixin datagrid()
 			markerLocation.setVisible(false);
 		});
 
-		function formatUser(item) {
+		function formatUser(userId) {
 			var res;
 			$.ajax({
-				url: '/api/user/'+ item.user,
+				url: '/api/user/'+ userId,
 				dataType: 'json',
 				async: false,
 				success: function(data) {
-					return data.user.name;
+					if (data['user'])
+						res = data['user'].name;
+					else
+						res = "Utilisateur inconnu";
 				}
 			});
+			return res;
 		}
 
 		function formatZone(zoneId) {
