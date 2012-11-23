@@ -59,15 +59,6 @@ exports.countUnvalidatedPlaces = function (req, res) {
 	});
 };
 
-exports.searchPlace = function(req, res) {
-	var Place = db.model('Place');
-   	Place.findByTitle(req.body.title, function (err, docs){
-  	  res.json({
-  		info: docs.title
-		});
-	});
-};
-
 exports.zones = function (req, res) {
 	var Zone = db.model('Zone');
 	Zone.findNear(req.params.x,req.params.y,function (err, docs){

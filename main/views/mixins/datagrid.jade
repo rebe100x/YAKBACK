@@ -18,7 +18,7 @@ mixin datagrid()
 									i.icon-plus
 							.datagrid-header-right
 								.input-append.search
-									input.input-medium(type='text', placeholder='Search')
+									input#search.input-medium(type='text', placeholder='Search', data-provide="typeahead", autocomplete="off")
 									button.btn
 										i.icon-search
 								a.showSearchPanel(href="#") Recherche avancée
@@ -236,6 +236,19 @@ mixin datagrid()
 		// Refresh on sort selection
 		$('#filterStatus').live('change', function() {
 			refreshDatagridAndMenu();
+		});
+
+		//Autocomplete on title (search input)
+		$('input#search').typeahead({
+			source: function (typeahead, query) {
+				$.ajax({
+					url: "/api/places",
+					success: function(data) {
+						typeahead.process(data.places);
+					}
+				})
+			},
+			property: "title"
 		});
 
 		// Edit Place function
