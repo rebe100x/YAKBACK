@@ -116,7 +116,6 @@ app.get('/api/user/:id', api.findUserById);
 app.get('/api/validusers', api.countUnvalidatedUsers);
 app.get('/api/validcats', api.countUnvalidatedCats);
 app.get('/api/validplaces', api.countUnvalidatedPlaces);
-app.get('/api/unvalidatedPlaceList', api.unvalidatedPlaceList);
 
 app.get('/api/places/validate/:ids', api.validatePlaces);
 app.get('/api/places/delete/:ids', api.deletePlaces);

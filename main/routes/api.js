@@ -181,6 +181,8 @@ exports.gridPlaces = function (req, res) {
 	var Place = db.model('Place');
     var User = db.model('User');
 
+    console.log(req.param("yakcats"));
+
     var yakcats = [];
     if (req.params.yakcats) {
         if (req.params.yakcats !== "__empty") {
