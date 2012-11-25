@@ -203,27 +203,18 @@ exports.gridPlaces = function (req, res) {
 
 	Place.findGridPlaces(req.params.pageIndex,req.params.pageSize,
 		req.params.searchTerm,sortProperties,sortDirections,
-        req.params.status, yakcats, users, function (err, docs){
+        req.params.status, yakcats, users, function (err, place){
 
 		var data = {};
 
-        data['place'] = docs;
+        data['place'] = place;
 		data['pageIndex'] = req.params.pageIndex;
 		data['pageSize'] = req.params.pageSize;
 
-		Place.countSearch(req.params.searchTerm, req.params.status, yakcats, users, function (err, docs){
-			data['count'] = docs;
+		Place.countSearch(req.params.searchTerm, req.params.status, yakcats, users, function (err, count){
+			data['count'] = count;
 			res.json(data);
 		});
-	});
-};
-
-exports.unvalidatedPlaceList = function (req, res) {
-	var Place = db.model('Place');
-	Place.unvalidatedList(function (err, docs){
-	  res.json({
-		place: docs
-	  });
 	});
 };
 
