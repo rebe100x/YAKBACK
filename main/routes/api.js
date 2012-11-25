@@ -215,7 +215,7 @@ exports.gridPlaces = function (req, res) {
 		data['pageIndex'] = req.params.pageIndex;
 		data['pageSize'] = req.params.pageSize;
 
-		Place.countSearch(req.params.searchTerm, req.params.status, yakcats, function (err, docs){
+		Place.countSearch(req.params.searchTerm, req.params.status, yakcats, users, function (err, docs){
 			data['count'] = docs;
 			res.json(data);
 		});
