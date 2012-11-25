@@ -117,44 +117,51 @@ mixin datagrid()
 				var sortPropertyArray = [];
 				var sortDirectionArray = [];
 
+				// Add currently selected datagrid column to sort properties
 				if (options.sortProperty) {
 					sortPropertyArray.push(options.sortProperty);
 					sortDirectionArray.push(options.sortDirection);
 				}
 
-				// Always sort by dates, newest first
+				// Also sort by the selected date
 				sortPropertyArray.push( $('#sortPlaces :selected').val() );
+				// Always newest first
 				sortDirectionArray.push("desc");
 
+				// Would be easier if we could pass dictionaries, needs testing
 				url += '/' + sortPropertyArray.join() + '/' + sortDirectionArray.join();
 
-				//filter by status
+				// Filter by status
 				var status = $('#filterStatus :selected').val();
 				url += '/' + status;
 
+				// Optional filters: Yakcats, Users
+				//  - Passed as query to allow for null
+				var queryChar = '?';
+
 				// Filter by yakCats
-				var apiCatArray = [];
-				if ($($(".pillbox#yakCatFilter").pillbox("items")).length) {
-					$($(".pillbox#yakCatFilter").pillbox("items")).each(function() {
+				var catPillboxItems = $(".pillbox#yakCatFilter").pillbox("items");
+				if (catPillboxItems.length) {
+					var apiCatArray = [];
+
+					$(catPillboxItems).each(function() {
 						apiCatArray.push(this.value);
 					});
 
-					url += '/' + apiCatArray.join();
-				}
-				else  {
-					url += '/__empty';
+					url += queryChar + "yakcats=" + apiCatArray.join();
+					queryChar = '&';
 				}
 
-				var userArray = [];
-				if ($($(".pillbox#userFilter").pillbox("items")).length) {
-					$($(".pillbox#userFilter").pillbox("items")).each(function() {
+				// Filter by users
+				var userPillboxItems = $(".pillbox#userFilter").pillbox("items");
+				if (userPillboxItems.length) {
+					var userArray = [];
+
+					$(userPillboxItems).each(function() {
 						userArray.push(this.value);
 					});
 
-					url += '/' + userArray.join();
-				}
-				else  {
-					url += '/__allusers';
+					url += queryChar + "users=" + userArray.join();
 				}
 
 				$.ajax(url, {

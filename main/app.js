@@ -107,7 +107,7 @@ app.get('/api/users', api.users);
 app.get('/api/cats', api.cats);
 app.get('/api/cats/:id', api.findCatById);
 app.get('/api/places', api.places);
-app.get('/api/places/:pageIndex/:pageSize/:searchTerm/:sortBy/:sortDirection/:status/:yakcats/:users', api.gridPlaces);
+app.get('/api/places/:pageIndex/:pageSize/:searchTerm/:sortBy/:sortDirection/:status', api.gridPlaces);
 app.get('/api/places/:id', api.findPlaceById);
 app.get('/api/usersearch/:string', api.usersearch);
 app.get('/api/findCatById', api.findCatById);
@@ -131,8 +131,6 @@ app.delete('/api/post/:id', api.deletePost);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
-
-
 
 //io = require('socket.io');
 //sio = io.listen(app);
