@@ -31,8 +31,11 @@ a {
 #MyGrid thead td {border-top: none;}
 #MyGrid thead a {font-size: smaller;}
 #MyGrid thead .searchPanel {background-color: rgba(255,255,255,0.6);}
-
-
+#MyGrid #iconSearchPanel {margin-top: -1px;}
+#MyGrid input#yakCat {display: inline;}
+#MyGrid .pillbox#yakCatFilter {display: inline;}
+#MyGrid input#userFilter {display: inline;}
+#MyGrid .pillbox#userFilter {display: inline;}
 
 /* MAP
 -------------------------------------------------- */
