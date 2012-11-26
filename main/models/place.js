@@ -84,16 +84,19 @@ Place.statics.countSearch = function (searchTerm, status, yakcats, users, callba
 	var search = new RegExp(searchTerm, 'i');
 
 	var conditions = {
-		"title" : search,
-		"status" : status
+		"title" : search
 	};
 
 	if (status == 2) {
 		conditions["status"] = { $in: [2,10] };
 	}
+	else if (status != 4) {
+		conditions["status"] = status;
+	}
+
 
 	if (0 < yakcats.length)
-		conditions["yakCat"] = { $in: yakcats };
+		conditions["yakCat"] = { $all: yakcats };
 
 	if (0 < users.length)
 		conditions["user"] = { $in: users };
@@ -131,8 +134,7 @@ Place.statics.deletePlaces = function (ids, callback) {
 Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortProperties, sortDirections, status, yakcats, users, callback) {
 
 	var conditions = {
-		"title" : new RegExp(searchTerm, 'i'),
-		"status" : status
+		"title" : new RegExp(searchTerm, 'i')
 	};
 
 	var sortBy = {};
@@ -147,12 +149,15 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortPr
 	if (status == 2) {
 		conditions["status"] = { $in: [2,10] };
 	}
+	else if (status != 4) {
+		conditions["status"] = status;
+	}
 
 	if (users.length > 0)
 		conditions["user"] = { $in: users };
 
 	if (yakcats.length > 0)
-		conditions["yakCat"] = { $in: yakcats };
+		conditions["yakCat"] = { $all: yakcats };
 
 	return this.find(
 		conditions,
