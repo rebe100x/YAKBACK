@@ -24,7 +24,7 @@ mixin datagrid()
 								button.btn#btnAdd
 									i.icon-plus
 						tr.headerControle.advancedSearch
-							td.searchPanel(colspan=4, style="display:none")
+							td.searchPanel(colspan=5, style="display:none")
 								.yakCatFilter
 									input#yakCat.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Filtrer par thème")
 									.pillbox#yakCatFilter(style="display:none")
@@ -34,7 +34,7 @@ mixin datagrid()
 									.pillbox#userFilter(style="display:none")
 										ul
 					tr.headerControle
-						td(colspan=4)
+						td(colspan=5)
 							.btn-group
 								button.btn.btn-danger.validerPlaces Valider
 								button.btn.btn-danger.dropdown-toggle(data-toggle='dropdown')
@@ -201,13 +201,18 @@ mixin datagrid()
 					sortable: true
 				},
 				{
-					property: 'user',
-					label: 'Utilisateur',
+					property: 'origin',
+					label: 'Origine',
 					sortable: true
 				},
 				{
 					property: 'zone',
 					label: 'Ville',
+					sortable: true
+				},
+				{
+					property: 'creationDate',
+					label: 'Création',
 					sortable: true
 				}],
 				formatter: function (items) {
@@ -215,11 +220,18 @@ mixin datagrid()
 						item.checked = makeCheckBox(item);
 						item.title = fillContent(item);
 						item.zone = formatZone(item.zone);
-						item.user = formatUser(item.user);
+						item.origin = formatOrigin(item);
+						item.creationDate = formatDate(item.creationDate);
 					});
 				}
 			})
 		});
+
+		function formatOrigin(item) {
+			if (item.origin)
+				return item.origin
+			return "Origine inconnue";
+		}
 
 		function makeCheckBox(item) {
 			return '<input type="checkbox" class="selectYakPlace" value="' + item._id + '"/>';
@@ -227,7 +239,6 @@ mixin datagrid()
 
 		function fillContent(item) {
 			var res = "";
-			var size = 80;
 			var icon = "icon-time";
 			var title_icon = "En attente";
 			var title_title = "";
@@ -261,12 +272,54 @@ mixin datagrid()
 			res += '<div class="text-info" '+ title_title + '><i class="' + icon + '" title="' + title_icon + '" ></i>' + item.title + '</div>';
 
 			res += "<small>";
-
-			if (item.formatted_address)
-				res += item.formatted_address;
 			
+			if (item.formatted_address)
+				res += "<div>" + item.formatted_address + "</div>";
+			
+			if (item.yakCat) {
+				res += "<div>";
+				for(i = 0; i<  item.yakCat.length;i++){
+					res += formatYakcat(item.yakCat[i]);
+					res += ', ';
+				}
+				if (item.freeTag) 
+					res += displayFreeTags(item.freeTag);
+				res = res.slice(0,-2);
+				res += "</div>";
+			}
+
 			res += '</small></a>';
 			return res;
+		}
+
+		function displayFreeTags(freeTag) {
+			var result = "";
+			for(i = 0; i<  freeTag.length;i++){
+					result += freeTag[i];
+					result += ', ';
+				}
+			return result;
+		}
+
+		function formatYakcat(yakcatId) {
+			var res;
+			$.ajax({
+				url: '/api/cats/'+ yakcatId,
+				dataType: 'json',
+				async: false,
+				success: function(data) {
+					if (data['cat'])
+						res = data['cat'].title;
+				}
+			});
+			return res;
+		}
+
+		function formatDate(creationDate) {
+			var dateTmp = new Date(creationDate);
+			//console.log(val.creationDate);
+			return dateTmp.getDate()+'/'+(dateTmp.getMonth()+1)+'/'+dateTmp.getFullYear();
+							
 		}
 
 		$('a.centerMap').live('click', function() {
@@ -356,22 +409,7 @@ mixin datagrid()
 			property: "title"
 		});
 
-		function formatUser(userId) {
-			var res;
-			$.ajax({
-				url: '/api/user/'+ userId,
-				dataType: 'json',
-				async: false,
-				success: function(data) {
-					if (data['user'])
-						res = data['user'].name;
-					else
-						res = "Utilisateur inconnu";
-				}
-			});
-			return res;
-		}
-
+		
 		function formatZone(zoneId) {
 			var res;
 			$.ajax({

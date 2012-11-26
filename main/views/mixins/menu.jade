@@ -48,11 +48,11 @@ mixin menu(active)
 									a(href="") Dashboard
 							- if(active == 'place')
 								li.active
-									a(href="/place/map") Places
+									a(href="/place/map") Lieux
 										span1#placenumber
 							- else
 								li
-									a(href="/place/map") Places
+									a(href="/place/map") Lieux
 										span1#placenumber
 							- if (active == 'info')
 								li.active
@@ -64,27 +64,27 @@ mixin menu(active)
 										span1#infonumber
 							- if (active == 'comment')
 								li.active
-									a(href="") Comments
+									a(href="") Commentaires
 										span1#commentnumber
 							- else
 								li
-									a(href="") Comments
+									a(href="") Commentaires
 										span1#commentnumber
 							- if (active == 'yakcat')										
 								li.active
-									a(href="") Yakcats
+									a(href="") Catégories
 										span1#catnumber
 							- else
 								li
-									a(href="") Yakcats
+									a(href="") Catégories
 										span1#catnumber
 							- if (active == 'user')										
 								li.active
-									a(href="") Users
+									a(href="") Utilisateurs
 										span1#usernumber
 							- else
 								li
-									a(href="") Users
+									a(href="") Utilisateurs
 										span1#usernumber
 
 	script
