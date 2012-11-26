@@ -41,16 +41,17 @@ mixin datagrid()
 								ul.dropdown-menu
 									li
 										a.supprimerPlaces Rejeter
-							.statusFilter.datagrid-header-right
-								select#filterStatus
-									option(value="2") Places en attente
-									option(value="1") Places validées
-									option(value="3") Places rejetées
-									option(value="4") Toutes les places
-							select#sortPlaces.datagrid-header-right
-								option(value="creationDate") Date de création
-								option(value="pubDate") Date de publication
-								option(value="lastModifDate") Date de modification
+							select#filterStatus
+								option(value="2") Places en attente
+								option(value="1") Places validées
+								option(value="3") Places rejetées
+								option(value="4") Toutes les places
+							.dateSort.datagrid-header-right
+								span Ordonner par
+								select#sortPlaces
+									option(value="creationDate") Date de création
+									option(value="pubDate") Date de publication
+									option(value="lastModifDate") Date de modification
 				tfoot
 					tr
 						th
