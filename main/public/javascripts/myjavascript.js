@@ -287,7 +287,7 @@ function getformattedAddress(position){
 		var geocoder = new google.maps.Geocoder();
 		geocoder.geocode( geoQuery, function(results, status) {
 			if (status == google.maps.GeocoderStatus.OK) {
-				$('#place').val(results[0].formatted_address).select();
+				//$('#place').val(results[0].formatted_address).select();
 				var placeGmap = getPlaceFromGmapResult(results[0]);
 				//console.log(results);
 				placeArray.push(placeGmap);
@@ -303,7 +303,7 @@ function getformattedAddress(position){
 				$('#place').select();
 			}
 		});
-		$("#place").val('').select();
+		//$("#place").val('').select();
 }
 
 
