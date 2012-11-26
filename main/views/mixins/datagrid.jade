@@ -246,7 +246,11 @@ mixin datagrid()
 			res += '<div class="liens">';
 			if (item.outGoingLink)
 				res += '<a href=\''+ item.outGoingLink + '\' target="_blank" title="Lien externe"><i class="icon-share-alt "></i></a>';
+
+			res += '<a class="centerMap" id="' + item._id + '" href="#">';
 			res += '<i class = "icon-map-marker" title="Localiser"></i>';
+			res += '</a>';
+
 			res += "</div>";
 
 			res += '<a class="editPlace" id="' + item._id + '" href="#">';
