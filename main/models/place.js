@@ -161,7 +161,7 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortPr
 
 	return this.find(
 		conditions,
-		'title content outGoingLink zone user status',
+		'title content outGoingLink zone user status formatted_address',
 		{
 			skip:
 			(pageIndex -1)*pageSize,
