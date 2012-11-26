@@ -194,7 +194,7 @@ mixin datagrid()
 				},
 				{
 					property: 'title',
-					label: 'Liste des places',
+					label: 'Lieux',
 					sortable: true
 				},
 				{
@@ -225,15 +225,39 @@ mixin datagrid()
 		function fillContent(item) {
 			var res;
 			var size = 80;
+			var icon = "icon-time";
+			var title_icon = "En attente";
+			var title_title = "";
 
 			res = '<a class="editPlace" id="' + item._id + '" href="#">';
-			res += '<div class="text-info">' + item.title + '</div><small>';
-			if (item.content.length > size)
-				res += '<em>' + item.content.slice(0, size) + '...</em>';
-			else
-				res += '<em>' + item.content + '</em>';
+
+			if (item.status == 1) {
+				icon = 'icon-ok-sign';
+				title_icon = "Validée";
+			}
+			else if (item.status == 3) {
+				icon = 'icon-ban-circle';
+				title_icon = "Rejetée";
+			}
+			else if (item.status == 10) {
+				icon = 'icon-info-sign';
+				title_icon = "Erreur de localisation";
+			}
+
+			if(item.title.length > 50) {
+				title_title = "title = '" + item.title + "'";
+				item.title = item.title.slice(0, 50) + "...";
+			}
+
+			res += '<div class="text-info" '+ title_title + '><i class="' + icon + '" title="' + title_icon + '" ></i>' + item.title + '</div>';
+			
+			res += '<div class="liens">';
 			if (item.outGoingLink)
-				res += '<br><a href=\''+ item.outGoingLink + '\'>' + item.outGoingLink + '</a>';
+				res += '<a href=\''+ item.outGoingLink + '\' target="_blank" title="Lien externe"><i class="icon-share-alt "></i></a>';
+			res += '<i class = "icon-map-marker" title="Localiser"></i>';
+			
+			res += "</div>";
+
 			res += '</small></a>';
 			return res;
 		}

@@ -31,7 +31,8 @@ a {
 #MyGrid thead td {border-top: none;}
 #MyGrid thead a {font-size: smaller;}
 #MyGrid thead .searchPanel {background-color: rgba(255,255,255,0.6);}
-
+#MyGrid i {margin-right: 5px;}
+#MyGrid .liens {float: right; display: block; margin-top: -20px;}
 
 
 /* MAP
