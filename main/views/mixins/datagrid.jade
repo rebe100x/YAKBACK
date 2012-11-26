@@ -42,11 +42,11 @@ mixin datagrid()
 								ul.dropdown-menu
 									li
 										a.supprimerPlaces Rejeter
-							select#filterStatus
-								option(value="2") Places en attente
-								option(value="1") Places validées
-								option(value="3") Places rejetées
-								option(value="4") Toutes les places
+								select#filterStatus
+									option(value="2") Places en attente
+									option(value="1") Places validées
+									option(value="3") Places rejetées
+									option(value="4") Toutes les places
 							.dateSort.datagrid-header-right
 								span Ordonner par
 								select#sortPlaces
@@ -451,7 +451,7 @@ mixin datagrid()
 		$(".editPlace").live('click', function()
 		{
 			event.preventDefault();
-			
+
 			listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
 				getformattedAddress(event.latLng);
 				placeMarker(event.latLng,markerLocation);
@@ -463,7 +463,7 @@ mixin datagrid()
 
 				getformattedAddress(position);
 			});
-			
+
 
 			$("#MyGrid").hide();
 			// We remove the error class when we open a form for editing a place
@@ -487,13 +487,13 @@ mixin datagrid()
 
 			// We search for the place in mongo and we fill the form with the place's values
 			$.ajax({
-				url: url, 
+				url: url,
 				type: 'GET',
 				async: false,
 				success: function (response)
 				{
 					var place = response.place;
-	
+
 					var latlng = new google.maps.LatLng(place.location.lat, place.location.lng);
 					getformattedAddress(latlng);
 					placeMarker(latlng,markerLocation);
@@ -504,13 +504,13 @@ mixin datagrid()
 					$("#placeForm #title").val(place.title);
 					$("#placeForm #content").val(place.content);
 					$("#placeForm #freetag").val(place.freeTag);
-	
+
 					for (var i = 0; i < place.yakCat.length; i++)
 					{
 						var url = '/api/cats/'+place.yakCat[i];
 						$.ajax({
 							url: url,
-							type: 'GET', 
+							type: 'GET',
 							async: false,
 							success: function (response)
 							{
@@ -518,20 +518,20 @@ mixin datagrid()
 								$("#pillYakcat").show();
 								$("#pillYakcat ul").append("<li class='yakcat-val' data-value="+yakcat._id+">"+yakcat.title+"</li>");
 								$('#placeForm #yakcat').val('').focus();
-							}	
+							}
 						});
 					}
-					
+
 					$('input:radio[name=status][value='+place.status+']').click();
 					$("#placeForm #title").focus();
 					$("#placeForm #place").val('');
-					
+
 					// loading the thumb
 					var imag = "<img class='img-rounded' " + "src='public/uploads/" + place.thumb +"' style='width:100px'/>";
 					$("#placeForm #picturePreview").html(imag);
-					
-					$("#placeForm #freetag").val(place.freeTag.join(","));	
-	
+
+					$("#placeForm #freetag").val(place.freeTag.join(","));
+
 					if (place.contact)
 					{
 						$("#placeForm #tel").val(place.contact.tel);
@@ -541,8 +541,8 @@ mixin datagrid()
 						$("#placeForm #web").val(place.contact.web);
 						$("#placeForm #opening").val(place.contact.opening);
 						$("#placeForm #closing").val(place.contact.closing);
-						$("#placeForm #special").val(place.contact.special_opening);			
-					}	
+						$("#placeForm #special").val(place.contact.special_opening);
+					}
 				}
 			});
 		});
@@ -562,7 +562,7 @@ mixin datagrid()
 
 				getformattedAddress(position);
 			});
-			
+
 			$("#MyGrid").hide();
 			$("#placeForm")[0].reset();
 			// We remove the error class when we open a form for creating a new place
@@ -620,7 +620,7 @@ mixin datagrid()
 				$('#err').show();
 				return false;
 			}
-			
+
 			if ($("#pillYakcat").pillbox("items")) {
 					$($("#pillYakcat").pillbox("items")).each(function() {
 						yakcatArray.push(this.value);
@@ -642,7 +642,7 @@ mixin datagrid()
 
 			return true;
 		});*/
-		
+
 		$('#placeForm').isHappy({
 			fields: {
 				// reference the field you're talking about, probably by `id`
