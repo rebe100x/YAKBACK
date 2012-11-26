@@ -264,7 +264,7 @@ mixin datagrid()
 				title_icon = "Rejetée";
 			}
 			else if (item.status == 10) {
-				icon = 'icon-info-sign';
+				icon = 'icon-warning-sign';
 				title_icon = "Erreur de localisation";
 			}
 
@@ -273,7 +273,7 @@ mixin datagrid()
 				item.title = item.title.slice(0, 50) + "...";
 			}
 
-			res += '<div class="text-info" '+ title_title + '><i class="' + icon + '" title="' + title_icon + '" ></i>' + item.title + '</div>';
+			res += '<div class="text-info" '+ title_title + '><i class="' + icon + ' status" title="' + title_icon + '" ></i>' + item.title + '</div>';
 
 			res += "<small>";
 
@@ -291,17 +291,23 @@ mixin datagrid()
 				res = res.slice(0,-2);
 				res += "</div>";
 			}
-
+			else if(item.freeTag) {
+				res += displayFreeTags(item.freeTag);
+				result = result.slice(0,-2);
+			}
 			res += '</small></a>';
 			return res;
 		}
 
 		function displayFreeTags(freeTag) {
 			var result = "";
+			console.log(freeTag);
 			for(i = 0; i<  freeTag.length;i++){
+				if (freeTag[i] != "") {
 					result += freeTag[i];
 					result += ', ';
 				}
+			}
 			return result;
 		}
 
