@@ -259,8 +259,7 @@ mixin datagrid()
 			}
 
 			res += '<div class="text-info" '+ title_title + '><i class="' + icon + '" title="' + title_icon + '" ></i>' + item.title + '</div>';
-			
-			
+
 			res += "<small>";
 
 			if (item.formatted_address)
@@ -269,6 +268,26 @@ mixin datagrid()
 			res += '</small></a>';
 			return res;
 		}
+
+		$('a.centerMap').live('click', function() {
+			var url = '/api/places/'+this.id;
+
+			// We search for the place in mongo and we fill the form with the place's values
+			$.ajax({
+				url: url,
+				type: 'GET',
+				async: false,
+				success: function (response)
+				{
+					var place = response.place;
+
+					var latlng = new google.maps.LatLng(place.location.lat, place.location.lng);
+					getformattedAddress(latlng);
+					placeMarker(latlng,markerLocation);
+					map.setCenter(markerLocation.getPosition());
+				}
+			});
+		});
 
 		// Toggle searchPanel
 		$('a.showSearchPanel').live('click', function() {
