@@ -89,7 +89,7 @@ mixin datagrid()
 	script
 		var yakcatArray = [];
 		var yakcatNames = [];
-		var placeArray = [];
+		var placeArray;
 		var hashtag = [];
 		var hashtagTmp = [];
 
@@ -595,17 +595,10 @@ mixin datagrid()
 		});
 
 		// We validate the form before submitting it
-		/*$('#placeForm').submit(function()
+		$('#placeForm').submit(function()
 		{
 			var err = false;
-			if (placeArray.length == 0)
-			{
-				$('#placeForm #adresseGroup').addClass("error");
-				$('#placeForm #place').focus()
-				err = true;
-			}
-			else
-				$('#placeForm #adresseGroup').removeClass("error");
+
 			if ($('#placeForm #title').val() == "")
 			{
 				$('#placeForm #titleGroup').addClass("error");
@@ -614,6 +607,16 @@ mixin datagrid()
 			}
 			else
 				$('#placeForm #titleGroup').removeClass("error");
+
+			if (placeArray == null)
+			{
+				$('#placeForm #adresseGroup').addClass("error");
+				$('#placeForm #place').focus()
+				err = true;
+			}
+			else
+				$('#placeForm #adresseGroup').removeClass("error");
+
 
 			if (err)
 			{
@@ -641,21 +644,6 @@ mixin datagrid()
 			//$(this).ajaxSubmit(options);
 
 			return true;
-		});*/
-
-		$('#placeForm').isHappy({
-			fields: {
-				// reference the field you're talking about, probably by `id`
-				// but you could certainly do $('[name=name]') as well.
-				'#title': {
-					required: true,
-					message: 'Un titre est obligatoire'
-				},
-				'#place': {
-					required: true,
-					message: 'Une adresse doit obligatoirement être spécifiée'
-				}
-			}
 		});
 
 
@@ -734,10 +722,10 @@ mixin datagrid()
 						markerLocation.setPosition(results[0].geometry.location);
 						placeMarker(results[0].geometry.location,markerLocation);
 						var placeGmap = getPlaceFromGmapResult(results[0]);
-						placeArray.push(placeGmap);
+						placeArray = placeGmap;
 						$("#placeForm #placeInput").val(JSON.stringify(placeArray));
 						$('#placeLabel').first().remove();
-						$('#placeForm #btn-place-adder').parent().before("<div id='placeLabel'><i class='icon-remove icon-pointer' onclick='placeArray.cleanArrayByLocation("+results[0].geometry.location.Ya+","+results[0].geometry.location.Xa+");$(\"#placeForm #placeInput\").val(JSON.stringify(placeArray));$(this).parent().remove();'></i> "+results[0].formatted_address+"</div>");
+						$('#placeForm #btn-place-adder').parent().before("<div id='placeLabel'><i class='icon-remove icon-pointer' onclick='placeArray=null;$(\"#placeForm #placeInput\").val(JSON.stringify(placeArray));$(this).parent().remove();'></i> "+results[0].formatted_address+"</div>");
 						$("#placeForm #place").val("");
 					} else {
 						var salt = new Date().getTime();
