@@ -18,7 +18,7 @@ mixin datagrid()
 									i.icon-plus
 							.datagrid-header-right
 								.input-append.search
-									input#search.input-medium(type='text', placeholder='Search', data-provide="typeahead", autocomplete="off")
+									input#search.input-medium(type='text', placeholder='Recherche', data-provide="typeahead", autocomplete="off")
 									button.btn
 										i.icon-search
 								a.showSearchPanel(href="#") Filtrer les résultats
@@ -59,14 +59,14 @@ mixin datagrid()
 										span.grid-start
 										| -
 										span.grid-end
-										| of
+										| de
 										span.grid-count
 									select.grid-pagesize
 										option 10
 										option 20
 										option 50
 										option 100
-									span Per Page
+									span Par Page
 							.datagrid-footer-right(style='display: none;')
 								.grid-pager
 									button.btn.grid-prevpage
@@ -78,7 +78,7 @@ mixin datagrid()
 											i.caret
 										ul.dropdown-menu
 									span
-										| of
+										| de
 										span.grid-pages
 									button.btn.grid-nextpage
 										i.icon-chevron-right
@@ -227,7 +227,12 @@ mixin datagrid()
 			var size = 80;
 
 			res = '<a class="editPlace" id="' + item._id + '" href="#">';
-			res += '<div class="text-info">' + item.title + '</div><small>';
+			res += '<div class="text-info">' + item.title + '</div>';
+
+			res += '<small>';
+			if (item.status == 10)
+				res += '<i class="icon-exclamation-sign">Erreur de localisation</i>';
+
 			if (item.content.length > size)
 				res += '<em>' + item.content.slice(0, size) + '...</em>';
 			else

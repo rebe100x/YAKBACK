@@ -93,7 +93,7 @@ Place.statics.countSearch = function (searchTerm, status, yakcats, users, callba
 	}
 
 	if (0 < yakcats.length)
-		conditions["yakCat"] = { $in: yakcats };
+		conditions["yakCat"] = { $all: yakcats };
 
 	if (0 < users.length)
 		conditions["user"] = { $in: users };
@@ -152,11 +152,11 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortPr
 		conditions["user"] = { $in: users };
 
 	if (yakcats.length > 0)
-		conditions["yakCat"] = { $in: yakcats };
+		conditions["yakCat"] = { $all: yakcats };
 
 	return this.find(
 		conditions,
-		'title content outGoingLink zone user',
+		'title content outGoingLink zone user status',
 		{
 			skip:
 			(pageIndex -1)*pageSize,
