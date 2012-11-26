@@ -49,6 +49,10 @@ block content
 		
 		/*READY FUNCTIONS*/
 		$(document).ready(function() {
+		
+			setTimeout(function() {
+				$("#alert").fadeOut();
+			}, 3000);
 			/*init*/
 			if(user.length){
 				user = JSON.parse(JSON.stringify(!{user}));

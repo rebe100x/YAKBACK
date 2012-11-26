@@ -10,7 +10,7 @@ exports.db = function(conf){
 };
 
 exports.index = function(req, res){
-  res.render('place/map');
+  	res.render('place/map');
 };
 
 exports.partials = function (req, res) {
@@ -53,6 +53,7 @@ exports.place_add = function(req, res){
 };
 
 exports.place_map = function(req, res){
+	delete req.session.message;
 	res.render('place/map');
 };
 
