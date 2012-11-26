@@ -424,6 +424,7 @@ mixin datagrid()
 			});
 		}
 
+		// Remove pillbox if empty, refresh datagrid everytime an object is removed
 		$("li.yakcat-value").live('click', function() {
 			if ($(".pillbox#yakCatFilter").pillbox("items").length == 0) {
 				$(".pillbox#yakCatFilter").hide();
@@ -614,7 +615,7 @@ mixin datagrid()
 
 			//$(this).ajaxSubmit(options);
 
-			return false;
+			return true;
 		});
 
 		/*POST EFFECTS*/
