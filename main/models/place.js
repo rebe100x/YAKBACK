@@ -84,13 +84,16 @@ Place.statics.countSearch = function (searchTerm, status, yakcats, users, callba
 	var search = new RegExp(searchTerm, 'i');
 
 	var conditions = {
-		"title" : search,
-		"status" : status
+		"title" : search
 	};
 
 	if (status == 2) {
 		conditions["status"] = { $in: [2,10] };
 	}
+	else if (status != 4) {
+		conditions["status"] = status;
+	}
+
 
 	if (0 < yakcats.length)
 		conditions["yakCat"] = { $all: yakcats };
@@ -147,6 +150,11 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortPr
 	if (status == 2) {
 		conditions["status"] = { $in: [2,10] };
 	}
+	else if (status != 4) {
+		conditions["status"] = status;
+	}
+
+	console.log(status);
 
 	if (users.length > 0)
 		conditions["user"] = { $in: users };

@@ -14,14 +14,14 @@ mixin datagrid()
 					tr.headerControle
 						th
 							.datagrid-header-left
-								button.btn#btnAdd
-									i.icon-plus
-							.datagrid-header-right
 								.input-append.search
 									input#search.input-medium(type='text', placeholder='Recherche', data-provide="typeahead", autocomplete="off")
 									button.btn
 										i.icon-search
 								a.showSearchPanel(href="#") Filtrer les résultats
+							.datagrid-header-right
+								button.btn#btnAdd
+									i.icon-plus
 						tr.headerControle.advancedSearch
 							td.searchPanel(colspan=4, style="display:none")
 								.yakCatFilter
@@ -32,11 +32,6 @@ mixin datagrid()
 									input#userFilter.typeahead(type="text", data-provide="typeahead", autocomplete="off", placeholder="Filtrer par utilisateur")
 									.pillbox#userFilter(style="display:none")
 										ul
-								.statusFilter
-									select#filterStatus
-										option(value="2") Places en attente
-										option(value="1") Places validées
-										option(value="3") Places rejetées
 					tr.headerControle
 						td(colspan=4)
 							.btn-group
@@ -46,6 +41,12 @@ mixin datagrid()
 								ul.dropdown-menu
 									li
 										a.supprimerPlaces Rejeter
+							.statusFilter.datagrid-header-right
+								select#filterStatus
+									option(value="2") Places en attente
+									option(value="1") Places validées
+									option(value="3") Places rejetées
+									option(value="4") Toutes les places
 							select#sortPlaces.datagrid-header-right
 								option(value="creationDate") Date de création
 								option(value="pubDate") Date de publication
