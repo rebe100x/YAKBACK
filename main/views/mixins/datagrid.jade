@@ -449,18 +449,19 @@ mixin datagrid()
 		$(".editPlace").live('click', function()
 		{
 			event.preventDefault();
+			
 			listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
 				getformattedAddress(event.latLng);
 				placeMarker(event.latLng,markerLocation);
-				google.maps.event.addListener(markerLocation, 'dragend', function() {
-					var position = markerLocation.getPosition();
-					$('#placeForm #latitude').val(position.lat());
-					$('#placeForm #longitude').val(position.lng());
-
-					getformattedAddress(position);
-
-				});
 			});
+			listenerHandleDrag = google.maps.event.addListener(markerLocation, 'dragend', function() {
+				var position = markerLocation.getPosition();
+				$('#placeForm #latitude').val(position.lat());
+				$('#placeForm #longitude').val(position.lng());
+
+				getformattedAddress(position);
+			});
+			
 
 			$("#MyGrid").hide();
 			// We remove the error class when we open a form for editing a place
@@ -483,49 +484,64 @@ mixin datagrid()
 			var url = '/api/places/'+this.id;
 
 			// We search for the place in mongo and we fill the form with the place's values
-			$.ajax(url, {type: 'GET'}).done(function (response)
-			{
-				var place = response.place;
-				$("#placeForm #place").val(place.formatted_address);
-
-				var latlng = new google.maps.LatLng(place.location.lat, place.location.lng);
-				getformattedAddress(latlng);
-				placeMarker(latlng,markerLocation);
-				map.setCenter(markerLocation.getPosition());
-				$("#placeForm #licence").val(place.licence);
-				$("#placeForm #origine").val(place.origin);
-				$("#placeForm #outgoinglink").val(place.outGoingLink);
-				$("#placeForm #title").val(place.title);
-				$("#placeForm #content").val(place.content);
-				$("#placeForm #freetag").val(place.freeTag);
-
-				for (var i = 0; i < place.yakCat.length; i++)
+			$.ajax({
+				url: url, 
+				type: 'GET',
+				async: false,
+				success: function (response)
 				{
-					var url = '/api/cats/'+place.yakCat[i];
-					$.ajax(url, {type: 'GET'}).done(function (response)
+					var place = response.place;
+	
+					var latlng = new google.maps.LatLng(place.location.lat, place.location.lng);
+					getformattedAddress(latlng);
+					placeMarker(latlng,markerLocation);
+					map.setCenter(markerLocation.getPosition());
+					$("#placeForm #licence").val(place.licence);
+					$("#placeForm #origine").val(place.origin);
+					$("#placeForm #outgoinglink").val(place.outGoingLink);
+					$("#placeForm #title").val(place.title);
+					$("#placeForm #content").val(place.content);
+					$("#placeForm #freetag").val(place.freeTag);
+	
+					for (var i = 0; i < place.yakCat.length; i++)
 					{
-						var yakcat = response.cat;
-						$("#pillYakcat").show();
-						$("#pillYakcat ul").append("<li class='yakcat-val' data-value="+yakcat._id+">"+yakcat.title+"</li>");
-						$('#placeForm #yakcat').val('').focus();
-					});
+						var url = '/api/cats/'+place.yakCat[i];
+						$.ajax({
+							url: url,
+							type: 'GET', 
+							async: false,
+							success: function (response)
+							{
+								var yakcat = response.cat;
+								$("#pillYakcat").show();
+								$("#pillYakcat ul").append("<li class='yakcat-val' data-value="+yakcat._id+">"+yakcat.title+"</li>");
+								$('#placeForm #yakcat').val('').focus();
+							}	
+						});
+					}
+					
+					$('input:radio[name=status][value='+place.status+']').click();
+					$("#placeForm #title").focus();
+					$("#placeForm #place").val('');
+					
+					// loading the thumb
+					var imag = "<img class='img-rounded' " + "src='public/uploads/" + place.thumb +"' style='width:100px'/>";
+					$("#placeForm #picturePreview").html(imag);
+					
+					$("#placeForm #freetag").val(place.freeTag.join(","));	
+	
+					if (place.contact)
+					{
+						$("#placeForm #tel").val(place.contact.tel);
+						$("#placeForm #mobile").val(place.contact.mobile);
+						$("#placeForm #mail").val(place.contact.mail);
+						$("#placeForm #transportation").val(place.contact.transportation);
+						$("#placeForm #web").val(place.contact.web);
+						$("#placeForm #opening").val(place.contact.opening);
+						$("#placeForm #closing").val(place.contact.closing);
+						$("#placeForm #special").val(place.contact.special_opening);			
+					}	
 				}
-
-				$("#placeForm #freetag").val(place.freeTag.join(","));
-				$("#placeForm #tel").val(place.contact.tel);
-				$("#placeForm #mobile").val(place.contact.mobile);
-				$("#placeForm #mail").val(place.contact.mail);
-				$("#placeForm #transportation").val(place.contact.transportation);
-				$("#placeForm #web").val(place.contact.web);
-				$("#placeForm #opening").val(place.contact.opening);
-				$("#placeForm #closing").val(place.contact.closing);
-				$("#placeForm #special").val(place.contact.special_opening);
-
-				$("#placeForm #status").val(place.status);
-
-				// loading the thumb
-				var imag = "<img class='img-rounded' " + "src='" + place.thumb +"' style='width:100px'/>";
-				$("#placeForm #picturePreview").html(imag);
 			});
 		});
 
@@ -536,15 +552,15 @@ mixin datagrid()
 			listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
 				getformattedAddress(event.latLng);
 				placeMarker(event.latLng,markerLocation);
-				google.maps.event.addListener(markerLocation, 'dragend', function() {
-					var position = markerLocation.getPosition();
-					$('#placeForm #latitude').val(position.lat());
-					$('#placeForm #longitude').val(position.lng());
-
-					getformattedAddress(position);
-
-				});
 			});
+			listenerHandleDrag = google.maps.event.addListener(markerLocation, 'dragend', function() {
+				var position = markerLocation.getPosition();
+				$('#placeForm #latitude').val(position.lat());
+				$('#placeForm #longitude').val(position.lng());
+
+				getformattedAddress(position);
+			});
+			
 			$("#MyGrid").hide();
 			$("#placeForm")[0].reset();
 			// We remove the error class when we open a form for creating a new place
@@ -561,6 +577,7 @@ mixin datagrid()
 			$(".catLabel").remove();
 			$("#pillYakcat ul").empty();
 			$('#err').hide();
+			$("#placeForm #title").focus();
 			yakcatArray = new Array();
 			yakcatNames = new Array();
 		});
@@ -576,7 +593,7 @@ mixin datagrid()
 		});
 
 		// We validate the form before submitting it
-		$('#placeForm').submit(function()
+		/*$('#placeForm').submit(function()
 		{
 			var err = false;
 			if (placeArray.length == 0)
@@ -601,7 +618,7 @@ mixin datagrid()
 				$('#err').show();
 				return false;
 			}
-
+			
 			if ($("#pillYakcat").pillbox("items")) {
 					$($("#pillYakcat").pillbox("items")).each(function() {
 						yakcatArray.push(this.value);
@@ -622,7 +639,23 @@ mixin datagrid()
 			//$(this).ajaxSubmit(options);
 
 			return true;
+		});*/
+		
+		$('#placeForm').isHappy({
+			fields: {
+				// reference the field you're talking about, probably by `id`
+				// but you could certainly do $('[name=name]') as well.
+				'#title': {
+					required: true,
+					message: 'Un titre est obligatoire'
+				},
+				'#place': {
+					required: true,
+					message: 'Une adresse doit obligatoirement être spécifiée'
+				}
+			}
 		});
+
 
 		/*POST EFFECTS*/
 		// hashtag creation from title field
