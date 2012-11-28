@@ -168,6 +168,9 @@ mixin datagrid()
 				$.ajax(url, {
 					type: 'GET'
 				}).done(function (response) {
+
+					$("#search").focus();
+
 					// Prepare data to return to Datagrid
 					var data = response.place;
 					var count = response.count;
@@ -299,7 +302,7 @@ mixin datagrid()
 
 		function displayFreeTags(freeTag) {
 			var result = "";
-			console.log(freeTag);
+
 			for(i = 0; i<  freeTag.length;i++){
 				if (freeTag[i] != "") {
 					result += freeTag[i];
