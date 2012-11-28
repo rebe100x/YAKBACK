@@ -291,7 +291,7 @@ function getformattedAddress(position){
 				var placeGmap = getPlaceFromGmapResult(results[0]);
 				//console.log(results);
 				placeArray = placeGmap;
-				$("#placeInput").val(JSON.stringify(placeArray));
+				$("#placeForm #placeInput").val(JSON.stringify(placeArray));
 				$('#placeLabel').first().remove();
 				$('#btn-place-adder').parent().before("<div id='placeLabel'><i class='icon-remove' onclick='placeArray=null;$(\"#placeInput\").val(JSON.stringify(placeArray));$(this).parent().remove();'></i> "+results[0].formatted_address+"</div>");
 			} else {

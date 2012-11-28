@@ -13,6 +13,35 @@ exports.index = function(req, res){
   	res.render('place/map');
 };
 
+exports.requiresLogin = function(req,res,next){
+
+	if(req.session.user){
+		var User = db.model('User');
+		User.findById(req.session.user,function (err, theuser){
+			if(theuser != undefined && theuser != null ){
+				
+				res.locals.user = theuser;
+				res.locals.user.token ='xxx';
+				res.locals.user.salt = 'xxx';
+				res.locals.user.hash='xxx';
+				res.locals.user.apiToken='xxx';
+				res.locals.user.apiCode='xxx';
+				console.log('LOGGED IN');
+				next();
+			}else{
+				console.log('NOT LOGGED IN');
+				req.session.message = 'Please login to access this section:';
+				res.redirect('/user/login?redir='+req.url);
+			}
+		});
+	}else{
+		console.log('NOT LOGGED IN');
+		req.session.message = 'Please login to access this section:';
+		res.redirect('/user/login?redir='+req.url);
+	}	
+};
+
+
 exports.partials = function (req, res) {
   var name = req.params.name;
   res.render('partials/' + name);
@@ -104,7 +133,7 @@ exports.place = function(req, res){
 				place.thumb = placeThumb.name;
 
 				// NOTE : in the query below, order is important : in DB we have lat, lng but need to insert in reverse order : lng,lat  (=> bug mongoose ???)
-				place.formatted_address = JSON.parse(req.body.placeInput);
+				place.formatted_address = JSON.parse(req.body.placeInput).title;
 				place.location = {lng:parseFloat(req.body.longitude),lat:parseFloat(req.body.latitude)};
 
 				if (!edit)
@@ -208,6 +237,25 @@ exports.user_logout = function(req, res){
 	delete req.session.user;
 	res.redirect('/place/map');
 };
+
+exports.session = function(req, res){
+
+	var User = db.model('User');
+	
+	User.authenticate(req.body.login,req.body.password, function(err, user) {
+	if(!(typeof(user) == 'undefined' || user === null || user === '')){
+			req.session.user = user._id;
+			res.redirect(req.body.redir || '/place/map');
+		}else{
+			req.session.message = 'Identifiants incorrects.';
+			res.redirect('user/login?redir='+req.body.redir);
+		}
+	
+	});
+	
+};
+
+
 exports.user = function(req, res){
 
 	var User = db.model('User');

@@ -23,9 +23,8 @@ block content
 	
 		/*INIT*/
 		var conf = !{conf};
-		var user = [!{user}];
+		var user = !{JSON.stringify(user)};
 		var logged = 0;
-		//var user = JSON.parse(JSON.stringify({!{user}}));
 		
 		var curPos = {'x':0,'y':0,'z':0};
 		var geolocalized = 0;
@@ -54,10 +53,8 @@ block content
 				$("#alert").fadeOut();
 			}, 3000);
 			/*init*/
-			if(user.length){
-				user = JSON.parse(JSON.stringify(!{user}));
+			if(!$.isEmptyObject(user))
 				logged = 1;
-			}
 			
 			if(logged){
 				$.each(user.favplace,function(key,val){
@@ -70,6 +67,7 @@ block content
 			}
 				
 			/*endroits favoris*/
+			
 			$('ul#favplacelist').delegate("li.zoneLoc span",'click', function () {
 				var lat = parseFloat($(this).parent().attr('lat'));
 				var lng = parseFloat($(this).parent().attr('lng'));	
@@ -77,6 +75,7 @@ block content
 			});
 			
 			/*autour de moi*/
+			
 			$('#arroundme').click(function(){
 				if(logged){
 					if(user.location){
@@ -88,7 +87,7 @@ block content
 				}else
 					window.location = '/user/login';
 			});
-		
+			
 			// init news feed (Setting the scroll bar)
 			drawNewsFeed();
 

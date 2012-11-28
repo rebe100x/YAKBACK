@@ -4,8 +4,9 @@
  */
 
 var mongoose = require('mongoose')
-	, Schema = mongoose.Schema;
-//	, Troop = require('mongoose-troop');
+	, Schema = mongoose.Schema
+	, S = require('string'),
+	crypto = require('crypto');
 
 //mongoose.set('debug', true);
 
@@ -127,7 +128,6 @@ Info.statics.findAllGeo = function (x1,y1,x2,y2,heat,type,usersubs,tagsubs,callb
 mongoose.model('Info', Info);
 
 /*USERS*/
-var crypto = require('crypto');
 
 var User = new Schema({
 	name	: { type: String, index: true}
@@ -136,10 +136,11 @@ var User = new Schema({
 	, web	: { type: String}
 	, tag	: { type: [String], index: true}
 	, thumb	: { type: String}
-	, type	: { type: Number, index: true}
+	, type	: { type: Number, required: true, index: true}
 	, login	: { type: String, lowercase: true, required: true, index: { unique: true } }
-	, hash	: { type: String }
-	, password	: { type: String }
+	, hash       : { type: String ,required: true, index: true}
+	, salt       : { type: String ,required: true, index: true}
+	, token       : { type: String ,required: true, index: true}
 	, usersubs	: { type: [Schema.ObjectId], index: true}
 	, tagsubs	: { type: [String], index: true}
 	, placesubs	: { type: [Schema.ObjectId], index: true}
@@ -158,24 +159,21 @@ var User = new Schema({
 	, creationDate	: {type: Date, required: true, default: Date.now}
 	, lastModifDate	: {type: Date, required: true, default: Date.now}
 	, lastLoginDate	: {type: Date, required: true, default: Date.now}
-	, status	: {type: Number}
-
-
+	, status	: {type: Number, required: true, default: 2,index: true}
 }, { collection: 'user' });
-
-//User.plugin(Troop.basicAuth, {loginPath: 'login'});
 
 User.statics.findAll = function (callback) {
   return this.find({}, callback);
 }
 
 User.statics.findByLogin = function (login,callback) {
-  return this.find({login:login}, callback);
+  return this.find({login:login, status:1}, callback);
 }
 
 User.statics.findByIds = function (ids,callback) {
   return this.find({'_id': { $in: ids}}, callback);
 }
+
 User.statics.findById = function (id,callback) {
   return this.findOne({'_id': id}, callback);
 }
@@ -183,23 +181,6 @@ User.statics.findById = function (id,callback) {
 User.statics.countUnvalidated = function (callback) {
 	return this.count( {'status': { $in: [2, 10]}}, callback );
 }
-
-User.setters = function(password) {
-		  this._passwd = password;
-		  this.salt = this.makeSalt();
-		  this.hashed_password = this.encryptPassword(password);
-		}
-
-User.methods.encryptPassword = function(password) {
-		  return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
-	}
-
-User.statics.Authenticate = function(lg,pwd,callback) {
-	  return this.findOne({login:lg,password:pwd},callback);
-	}
-User.makeSalt =  function() {
-	  return Math.round((new Date().valueOf() * Math.random())) + '';
-	}
 
 User.statics.findAll = function (callback) {
   return this.find({},[],{sort:{name:1}}, callback);
@@ -223,17 +204,21 @@ User.statics.search = function(string,callback){
 	},
 	callback);
 }
-//.or([{ 'firstName': { $regex: re }}, { 'lastName': { $regex: re }}])
-var m = mongoose.model('User', User);
 
-///////////////////////////
-/*m.register({
-  login: 'tintin'
-, passwd: 'tintin'
-}, function() {
-})*/
-//////////////////////////
+User.statics.findByNameorLogin = function(string,callback){
+	
+	return this.findOne(
+	{	$or:[ {'login': string}, {'name': string}], "status":1 },
+	'_id,name,login',
+	{},
+	callback);
+}
 
+
+var auth = require('../mylib/basicAuth');
+User.plugin(auth);
+
+mongoose.model('User', User);
 
 /*ZONE*/
 var Zone = new Schema({

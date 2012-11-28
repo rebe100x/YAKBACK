@@ -262,7 +262,7 @@ mixin datagrid()
 				title_icon = "Rejetée";
 			}
 			else if (item.status == 10) {
-				icon = 'icon-info-sign';
+				icon = 'icon-warning-sign';
 				title_icon = "Erreur de localisation";
 			}
 
@@ -271,7 +271,7 @@ mixin datagrid()
 				item.title = item.title.slice(0, 50) + "...";
 			}
 
-			res += '<div class="text-info" '+ title_title + '><i class="' + icon + '" title="' + title_icon + '" ></i>' + item.title + '</div>';
+			res += '<div class="text-info" '+ title_title + '><i class="' + icon + ' status" title="' + title_icon + '" ></i>' + item.title + '</div>';
 
 			res += "<small>";
 
@@ -289,17 +289,23 @@ mixin datagrid()
 				res = res.slice(0,-2);
 				res += "</div>";
 			}
-
+			else if(item.freeTag) {
+				res += displayFreeTags(item.freeTag);
+				result = result.slice(0,-2);
+			}
 			res += '</small></a>';
 			return res;
 		}
 
 		function displayFreeTags(freeTag) {
 			var result = "";
+			console.log(freeTag);
 			for(i = 0; i<  freeTag.length;i++){
+				if (freeTag[i] != "") {
 					result += freeTag[i];
 					result += ', ';
 				}
+			}
 			return result;
 		}
 
@@ -597,6 +603,7 @@ mixin datagrid()
 					map.setCenter(markerLocation.getPosition());
 					$("#placeForm #licence").val(place.licence);
 					$("#placeForm #origine").val(place.origin);
+					$("#placeForm #origine").prop('disabled', true);
 					$("#placeForm #outgoinglink").val(place.outGoingLink);
 					$("#placeForm #title").val(place.title);
 					$("#placeForm #content").val(place.content);
@@ -677,6 +684,8 @@ mixin datagrid()
 			$("#pillYakcat ul").empty();
 			$('#err').hide();
 			$("#placeForm #title").focus();
+			$("#placeForm #origine").val(user.login);
+			$("#placeForm #origine").prop('disabled', true);
 			yakcatArray = new Array();
 			yakcatNames = new Array();
 		});
