@@ -133,7 +133,7 @@ exports.place = function(req, res){
 				place.thumb = placeThumb.name;
 
 				// NOTE : in the query below, order is important : in DB we have lat, lng but need to insert in reverse order : lng,lat  (=> bug mongoose ???)
-				place.formatted_address = JSON.parse(req.body.placeInput);
+				place.formatted_address = JSON.parse(req.body.placeInput).title;
 				place.location = {lng:parseFloat(req.body.longitude),lat:parseFloat(req.body.latitude)};
 
 				if (!edit)
