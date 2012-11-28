@@ -7,9 +7,12 @@ var express = require('express'),
   routes = require('./routes'),
   api = require('./routes/api'),
   users = require('./routes/users'),
+  auth = require('./mylib/basicAuth'),
   db = require('./models/mongooseModel'),
   config = require('./confs.js'),
-  fs = require('fs');
+  fs = require('fs'),
+  S = require('string'),
+  crypto = require('crypto');
 
 var app = express();
 
@@ -31,7 +34,7 @@ app.configure(function(){
   }));
   app.use(function(req, res, next){
     res.locals.session = req.session.user;
-	res.locals.user = JSON.stringify(req.session.user);
+	//res.locals.user = JSON.stringify(req.session.user);
 	res.locals.redir = req.query.redir;
 	res.locals.message = req.session.message;
 	res.locals.type = req.session.type;
@@ -64,7 +67,7 @@ var db = routes.db(conf);
 
 // Routes
 
-app.get('/', routes.index);
+app.get('/', routes.requiresLogin, routes.index);
 
 
 app.get('/partials/:name', routes.partials);
@@ -77,25 +80,22 @@ app.get('/news/post', routes.news_post);
 
 app.get('/user/login', routes.user_login);
 app.get('/user/logout', routes.user_logout);
+app.post('/session',routes.session);
 
-app.get('/settings', routes.settings_profil);
-app.get('/settings/profile', routes.settings_profile);
-app.get('/settings/alerts', routes.settings_alerts);
-app.get('/settings/password', routes.settings_password);
+app.get('/settings', routes.requiresLogin, routes.settings_profil);
+app.get('/settings/profile', routes.requiresLogin, routes.settings_profile);
+app.get('/settings/alerts', routes.requiresLogin, routes.settings_alerts);
+app.get('/settings/password', routes.requiresLogin, routes.settings_password);
 
-app.get('/place/add', routes.place_add);
-app.get('/place/map', routes.place_map);
+app.get('/place/map', routes.requiresLogin, routes.place_map);
 
 
-app.post('/place',routes.place);
-app.post('/user',routes.user);
-app.post('/news',routes.news);
-app.post('/alerts',routes.alerts);
-app.post('/profile',routes.profile);
+app.post('/place', routes.requiresLogin, routes.place);
+app.post('/user', routes.requiresLogin, routes.user);
+app.post('/news', routes.requiresLogin, routes.news);
+app.post('/alerts', routes.requiresLogin, routes.alerts);
+app.post('/profile', routes.requiresLogin, routes.profile);
 // JSON API
-
-
-
 
 app.get('/api/infos', api.infos);
 app.get('/api/validinfos', api.countUnvalidatedInfos);
@@ -135,14 +135,15 @@ app.get('*', routes.index);
 //io = require('socket.io');
 //sio = io.listen(app);
 
-function requiresLogin(req,res,next){
+/*function requiresLogin(req,res,next){
 	if(req.session.user){
 		next();
 	}else{
 		req.session.message = 'Please login to access this section:';
 		res.redirect('/user/login?redir='+req.url);
 	}
-}
+}*/
+
 function requiresPosition(req,res,next){
 	delete req.session.position;
 
