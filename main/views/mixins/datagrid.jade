@@ -590,6 +590,7 @@ mixin datagrid()
 					map.setCenter(markerLocation.getPosition());
 					$("#placeForm #licence").val(place.licence);
 					$("#placeForm #origine").val(place.origin);
+					$("#placeForm #origine").prop('disabled', true);
 					$("#placeForm #outgoinglink").val(place.outGoingLink);
 					$("#placeForm #title").val(place.title);
 					$("#placeForm #content").val(place.content);
@@ -670,6 +671,8 @@ mixin datagrid()
 			$("#pillYakcat ul").empty();
 			$('#err').hide();
 			$("#placeForm #title").focus();
+			$("#placeForm #origine").val(user.login);
+			$("#placeForm #origine").prop('disabled', true);
 			yakcatArray = new Array();
 			yakcatNames = new Array();
 		});
