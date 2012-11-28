@@ -260,10 +260,6 @@ Zone.statics.findAll = function (callback) {
 }
 mongoose.model('Zone', Zone);
 
-
-
-
-
 /*YAKCAT*/
 var Yakcat = new Schema({
 	title     : { type: String, index:true}

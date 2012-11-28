@@ -19,10 +19,11 @@ mixin datagrid()
 									button.btn
 										i.icon-search
 								a.showSearchPanel(href="#") Filtrer les résultats
-									i.icon-chevron-down#iconSearchPanel
+									i.icon-chevron-right#iconSearchPanel
 							.datagrid-header-right
 								button.btn#btnAdd
 									i.icon-plus
+									span Ajouter
 						tr.headerControle.advancedSearch
 							td.searchPanel(colspan=5, style="display:none")
 								.yakCatFilter
@@ -35,24 +36,21 @@ mixin datagrid()
 										ul
 					tr.headerControle
 						td(colspan=5)
-							.btn-group
-								button.btn.btn-danger.validerPlaces Valider
-								button.btn.btn-danger.dropdown-toggle(data-toggle='dropdown')
-									span.caret
-								ul.dropdown-menu
-									li
-										a.supprimerPlaces Rejeter
-								select#filterStatus
-									option(value="2") Places en attente
-									option(value="1") Places validées
-									option(value="3") Places rejetées
-									option(value="4") Toutes les places
+							.btn-group.batchActions
+								button.btn.btn-success.btn-small.validerPlaces Valider
+								button.btn.btn-danger.btn-small.supprimerPlaces Rejeter
+							select#filterStatus
+								option(value="2") En attente
+								option(value="1") Validés
+								option(value="3") Rejetés
+								option(value="4") Tous les lieux
 							.dateSort.datagrid-header-right
-								span Ordonner par
-								select#sortPlaces
-									option(value="creationDate") Date de création
-									option(value="pubDate") Date de publication
-									option(value="lastModifDate") Date de modification
+								.input-prepend
+									span.add-on Ordonner par
+									select#sortPlaces
+										option(value="creationDate")	Date de création
+										option(value="pubDate") 		Date de publication
+										option(value="lastModifDate")	Date de modification
 				tfoot
 					tr
 						th
@@ -347,6 +345,7 @@ mixin datagrid()
 
 		// Toggle searchPanel
 		$('a.showSearchPanel').live('click', function() {
+			$("#iconSearchPanel").toggleClass("icon-chevron-down");
 			$("td.searchPanel").toggle("fast");
 		});
 
@@ -396,6 +395,20 @@ mixin datagrid()
 		});
 		// Refresh on sort selection
 		$('#filterStatus').live('change', function() {
+			var currentSelection = $('#filterStatus :selected').val();
+			if (currentSelection == 1) {
+				$('.validerPlaces').addClass('disabled');
+				$('.supprimerPlaces').removeClass('disabled');
+			}
+			else if (currentSelection == 3) {
+				$('.validerPlaces').removeClass('disabled');
+				$('.supprimerPlaces').addClass('disabled');
+			}
+			else {
+				$('.validerPlaces').removeClass('disabled');
+				$('.supprimerPlaces').removeClass('disabled');
+			}
+
 			refreshDatagridAndMenu();
 		});
 

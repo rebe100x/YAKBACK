@@ -2,8 +2,6 @@
  * Serve JSON to our AngularJS client
  */
 
-
-
 exports.infos = function (req, res) {
 	var Info = db.model('Info');
 	Info.findAll(function (err, docs){
