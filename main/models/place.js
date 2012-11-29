@@ -131,6 +131,7 @@ Place.statics.deletePlaces = function (ids, callback) {
 		, options = { multi: true };
 
 	update["lastModifDate"] = Date.now();
+
 	this.update(conditions, update, options, callback);
 }
 

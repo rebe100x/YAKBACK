@@ -364,6 +364,7 @@ mixin datagrid()
 		$('a.showSearchPanel').live('click', function() {
 			$("#iconSearchPanel").toggleClass("icon-chevron-down");
 			$("td.searchPanel").toggle("fast");
+			return false;
 		});
 
 		// Searchpanel yakcat input
@@ -499,8 +500,7 @@ mixin datagrid()
 				if (data.result == -1)
 					alert('Erreur lors de la validation');
 				else {
-					alertify.log("This is a standard log message.");
-					alertify.success('Validation de ' + data.result + ' place(s)');
+					toastr.info('Validation de ' + data.result + ' lieu(x)');
 					refreshDatagridAndMenu();
 				}
 			});
@@ -528,7 +528,7 @@ mixin datagrid()
 				if (data.result == -1)
 					alert('Erreur lors de la suppression');
 				else {
-					// alert('Suppression de ' + data.result + ' place(s)');
+					toastr.info('Suppression de ' + data.result + ' lieu(x)');
 					refreshDatagridAndMenu();
 				}
 			});
