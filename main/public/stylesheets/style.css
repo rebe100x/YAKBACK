@@ -37,6 +37,10 @@ a {
 #MyGrid input#yakCat {display: inline;}
 #MyGrid .pillbox#yakCatFilter, #MyGrid input#userFilter, #MyGrid .pillbox#userFilter {display: inline;}
 #MyGrid a.centerMap {padding: 5px;}
+#MyGrid .batchActions {padding-bottom: 9px; margin-right: 3px;}
+#MyGrid .batchActions > button {height: 30px;}
+#MyGrid tr.headerControle > td > select {width: 150px;}
+#MyGrid select#sortPlaces {width: 150px;}
 
 /* MAP
 -------------------------------------------------- */

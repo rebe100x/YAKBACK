@@ -37,8 +37,10 @@ mixin datagrid()
 					tr.headerControle
 						td(colspan=5)
 							.btn-group.batchActions
-								button.btn.btn-success.btn-small.validerPlaces Valider
-								button.btn.btn-danger.btn-small.supprimerPlaces Rejeter
+								button.btn.btn-small.validerPlaces
+									i.icon-ok-sign
+								button.btn.btn-small.supprimerPlaces
+									i.icon-ban-circle
 							select#filterStatus
 								option(value="2") En attente
 								option(value="1") Validés
