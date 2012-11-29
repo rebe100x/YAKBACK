@@ -546,6 +546,34 @@ mixin datagrid()
 			return vals;
 		});
 
+		$(".enattentePlaces").live('click', function() {
+			var vals = [];
+			var i = 0;
+
+			$(".selectYakPlace").each(function(){
+				if ($(this).prop('checked') == true)
+					vals[i++] = jQuery(this).val();
+			});
+
+			if (vals.length == 0) {
+				// alert('Aucune place selectionnee.');
+				return;
+			}
+
+			var url = '/api/places/wait/'+vals.toString();
+
+			$.get(url, function(data) {
+				if (data.result == -1)
+					alert('Erreur lors de la suppression');
+				else {
+					// alert('Suppression de ' + data.result + ' place(s)');
+					refreshDatagridAndMenu();
+				}
+			});
+
+			return vals;
+		});
+
 
 		function refreshDatagridAndMenu () {
 			// Temporary refresh method for datagrid

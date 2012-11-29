@@ -175,6 +175,18 @@ exports.deletePlaces = function (req, res) {
 	});
 };
 
+exports.waitPlaces = function (req, res) {
+	var Place = db.model('Place');
+	var ids = [];
+	ids = req.params.ids.split(',');
+
+	Place.waitPlaces(ids, function (err, numAffected){
+  	  res.json({
+  		result: numAffected
+	  });
+	});
+};
+
 exports.gridPlaces = function (req, res) {
 	var Place = db.model('Place');
     var User = db.model('User');

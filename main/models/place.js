@@ -134,6 +134,16 @@ Place.statics.deletePlaces = function (ids, callback) {
 	this.update(conditions, update, options, callback);
 }
 
+Place.statics.waitPlaces = function (ids, callback) {
+
+	var conditions = { _id: { $in: ids } }
+		, update = { status: 2 }
+		, options = { multi: true };
+
+	update["lastModifDate"] = Date.now();
+	this.update(conditions, update, options, callback);
+}
+
 Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortProperties, sortDirections, status, yakcats, users, callback) {
 
 	var conditions = {
