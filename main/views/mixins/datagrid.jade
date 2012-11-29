@@ -426,12 +426,14 @@ mixin datagrid()
 		//Autocomplete on title (search input)
 		$('input#search').typeahead({
 			source: function (typeahead, query) {
-				$.ajax({
-					url: "/api/places",
-					success: function(data) {
-						typeahead.process(data.places);
-					}
-				})
+				if (query.length > 1) {
+					$.ajax({
+						url: "/api/places",
+						success: function(data) {
+							typeahead.process(data.places);
+						}
+					})
+				}
 			},
 			property: "title"
 		});
