@@ -105,11 +105,11 @@ Place.statics.countSearch = function (searchTerm, status, yakcats, users, callba
 }
 
 Place.statics.validatePlaces = function (ids, callback) {
-
 	var conditions = { _id: { $in: ids} }
 	, update = { status: 1 }
 	, options = { multi: true };
 
+	update["lastModifDate"] = Date.now();
 	this.update(conditions, update, options, callback);
 }
 
@@ -119,6 +119,8 @@ Place.statics.rejectPlaces = function (ids, callback) {
 	, update = { status: 3 }
 	, options = { multi: true };
 
+
+	update["lastModifDate"] = Date.now();
 	this.update(conditions, update, options, callback);
 }
 
@@ -128,6 +130,7 @@ Place.statics.deletePlaces = function (ids, callback) {
 		, update = { status: 3 }
 		, options = { multi: true };
 
+	update["lastModifDate"] = Date.now();
 	this.update(conditions, update, options, callback);
 }
 
