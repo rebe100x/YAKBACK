@@ -37,9 +37,11 @@ mixin datagrid()
 					tr.headerControle
 						td(colspan=5)
 							.btn-group.batchActions
-								button.btn.btn-small.validerPlaces
+								button.btn.btn-small.validerPlaces(title="Valider les lieux")
 									i.icon-ok-sign
-								button.btn.btn-small.supprimerPlaces
+								button.btn.btn-small.disabled.enattentePlaces(title="Mettre les lieux en attente")
+									i.icon-time
+								button.btn.btn-small.supprimerPlaces(title="Supprimer les lieux")
 									i.icon-ban-circle
 							select#filterStatus
 								option(value="2") En attente
@@ -417,13 +419,21 @@ mixin datagrid()
 			if (currentSelection == 1) {
 				$('.validerPlaces').addClass('disabled');
 				$('.supprimerPlaces').removeClass('disabled');
+				$('.enattentePlaces').removeClass('disabled');
 			}
 			else if (currentSelection == 3) {
 				$('.validerPlaces').removeClass('disabled');
+				$('.enattentePlaces').removeClass('disabled');
 				$('.supprimerPlaces').addClass('disabled');
+			}
+			else if (currentSelection == 2) {
+				$('.validerPlaces').removeClass('disabled');
+				$('.enattentePlaces').addClass('disabled');
+				$('.supprimerPlaces').removeClass('disabled');
 			}
 			else {
 				$('.validerPlaces').removeClass('disabled');
+				$('.enattentePlaces').removeClass('disabled');
 				$('.supprimerPlaces').removeClass('disabled');
 			}
 
@@ -529,6 +539,34 @@ mixin datagrid()
 					alert('Erreur lors de la suppression');
 				else {
 					toastr.info('Suppression de ' + data.result + ' lieu(x)');
+					refreshDatagridAndMenu();
+				}
+			});
+
+			return vals;
+		});
+
+		$(".enattentePlaces").live('click', function() {
+			var vals = [];
+			var i = 0;
+
+			$(".selectYakPlace").each(function(){
+				if ($(this).prop('checked') == true)
+					vals[i++] = jQuery(this).val();
+			});
+
+			if (vals.length == 0) {
+				// alert('Aucune place selectionnee.');
+				return;
+			}
+
+			var url = '/api/places/wait/'+vals.toString();
+
+			$.get(url, function(data) {
+				if (data.result == -1)
+					alert('Erreur lors de la suppression');
+				else {
+					// alert('Suppression de ' + data.result + ' place(s)');
 					refreshDatagridAndMenu();
 				}
 			});
