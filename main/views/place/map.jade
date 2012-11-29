@@ -53,41 +53,12 @@ block content
 				$("#alert").fadeOut();
 			}, 3000);
 
-			/*init*/
-			if(!$.isEmptyObject(user))
-				logged = 1;
-
-			if(logged){
-				$.each(user.favplace,function(key,val){
-					$('ul#favplacelist').append("<li pointId='"+val._id+"' lat='"+val.location.lat+"' lng='"+val.location.lng+"' class='zoneLoc'><i class='icon-map-marker'></i><span> "+val.name+"</span><i class='icon-remove icon-pointer'  onclick='removefavPlace($(this));'></i></li>");
-				});
-			}else{
-				$('ul#favplacelist').append("<li lat='48.851875' lng='2.356374' class='zoneLoc'><i class='icon-map-marker'></i><span> Paris, France</span></li>");
-				$('ul#favplacelist').append("<li lat='43.610787' lng='3.876715' class='zoneLoc'><i class='icon-map-marker'></i><span> Montpellier, France</span></li>");
-				$('ul#favplacelist').append("<li lat='50.583346' lng='4.900031' class='zoneLoc'><i class='icon-map-marker'></i><span> Eghézée, Belgique</span></li>");
+			/* Detect browser */
+			$.browser.chrome = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase()); 
+			if(!$.browser.chrome){
+				alert("Cette interface est omptimisée pour Chrome.")
 			}
-
-			/*endroits favoris*/
-
-			$('ul#favplacelist').delegate("li.zoneLoc span",'click', function () {
-				var lat = parseFloat($(this).parent().attr('lat'));
-				var lng = parseFloat($(this).parent().attr('lng'));
-				moveMap(lat,lng);
-			});
-
-			/*autour de moi*/
-
-			$('#arroundme').click(function(){
-				if(logged){
-					if(user.location){
-						var latLng = new google.maps.LatLng(user.location['lat'],user.location['lng']);
-						map.setCenter(latLng);
-					}else{
-						window.location = '/settings/profile';
-					}
-				}else
-					window.location = '/user/login';
-			});
+			
 
 			// init news feed (Setting the scroll bar)
 			drawNewsFeed();
