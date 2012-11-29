@@ -751,16 +751,6 @@ mixin datagrid()
 			$("#placeForm #yakcatInput").val(JSON.stringify(yakcatArray));
 			$("#placeForm #yakcatNames").val(JSON.stringify(yakcatNames));
 
-			var options = {
-				success: function() {
-					$("#btnBack").hide();
-					$("#placeForm").hide();
-					$("#MyGrid").fadeIn();
-				}
-			}
-
-			//$(this).ajaxSubmit(options);
-
 			return true;
 		});
 
