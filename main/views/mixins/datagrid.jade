@@ -92,6 +92,7 @@ mixin datagrid()
 		var placeArray;
 		var hashtag = [];
 		var hashtagTmp = [];
+		var firstLoad = true;
 
 		var ApiDataSource = function (options) {
 			this._formatter = options.formatter;
@@ -171,7 +172,12 @@ mixin datagrid()
 					type: 'GET'
 				}).done(function (response) {
 
-					$("#search").focus();
+					if (firstLoad) {
+						$("#search").focus();
+						$('th[data-property="creationDate"]').addClass('sorted');
+						$('th[data-property="creationDate"]').append('<i class="icon-chevron-down"></i>');
+						firstLoad = false;
+					}
 
 					// Prepare data to return to Datagrid
 					var data = response.place;
@@ -491,7 +497,8 @@ mixin datagrid()
 				if (data.result == -1)
 					alert('Erreur lors de la validation');
 				else {
-					// alert('Validation de ' + data.result + ' place(s)');
+					alertify.log("This is a standard log message.");
+					alertify.success('Validation de ' + data.result + ' place(s)');
 					refreshDatagridAndMenu();
 				}
 			});
