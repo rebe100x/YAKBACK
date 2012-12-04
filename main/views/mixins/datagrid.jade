@@ -217,11 +217,6 @@ mixin datagrid()
 					sortable: true
 				},
 				{
-					property: 'zone',
-					label: 'Ville',
-					sortable: true
-				},
-				{
 					property: 'creationDate',
 					label: 'Création',
 					sortable: true
@@ -230,7 +225,6 @@ mixin datagrid()
 					$.each(items, function (index, item) {
 						item.checked = makeCheckBox(item);
 						item.title = fillContent(item);
-						item.zone = formatZone(item.zone);
 						item.origin = formatOrigin(item);
 						item.creationDate = formatDate(item.creationDate);
 					});
@@ -454,24 +448,6 @@ mixin datagrid()
 			},
 			property: "title"
 		});
-
-
-		function formatZone(zoneId) {
-			var res;
-			$.ajax({
-				url: '/api/zones/'+ zoneId,
-				dataType: 'json',
-				async: false,
-				success: function(data) {
-					if (data['zone'])
-						res = data['zone'].name;
-					else
-						res = "Zone inconnue";
-				}
-			});
-
-			return res;
-		}
 
 		$("#validation").change(function() {
 			$.getJSON('/api/places/'+ $(this).val(),function(data) {
