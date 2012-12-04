@@ -639,7 +639,7 @@ mixin datagrid()
 			yakcatArray = new Array();
 			yakcatNames = new Array();
 
-			$("#placeForm legend").html("Editer une place");
+			$("#placeForm legend").html("Editer un lieu");
 			$("#placeForm #objid").val(this.id);
 
 			var url = '/api/places/'+this.id;
@@ -735,7 +735,7 @@ mixin datagrid()
 			$('#placeLabel').first().remove();
 			$("#btnBack").fadeIn();
 			$("#placeForm").fadeIn();
-			$("#placeForm legend").html("Ajouter une place");
+			$("#placeForm legend").html("Ajouter un lieu");
 			$(".catLabel").remove();
 			$("#pillYakcat ul").empty();
 			$('#err').hide();

@@ -176,21 +176,21 @@ exports.place = function(req, res){
 								if (!err)
 								{
 									if (place.status == 1)
-										formMessage.push("La place a été validée.");
+										formMessage.push("Le lieu a été validée.");
 									else if (place.status == 3)
-										formMessage.push("La place a été rejetée.");
+										formMessage.push("Le lieu a été rejetée.");
 									else
 									{
 										if (edit)
-											formMessage.push("La place a été modifiée et est en attente de validation.");
+											formMessage.push("Le lieu a été modifiée et est en attente de validation.");
 										else
-											formMessage.push("La place a été ajoutée et est en attente de validation.");
+											formMessage.push("Le lieu a été ajoutée et est en attente de validation.");
 									}
 									console.log('Success!');
 								}
 								else
 								{
-									formMessage.push("Une erreur est survenue lors de l'ajout de la place (Doublon...etc).");
+									formMessage.push("Une erreur est survenue lors de l'ajout du lieu (Doublon...etc).");
 									console.log(err);
 								}
 								req.session.message = formMessage;
@@ -208,8 +208,8 @@ exports.place = function(req, res){
 			}
 			else
 			{
-				formMessage.push("Erreur dans l'image uploadée: La place n'est pas sauvegardée.");
-				console.log("Erreur dans l'image uploadée: La place n'est pas sauvegardée.");
+				formMessage.push("Erreur dans l'image uploadée: Le lieu n'est pas sauvegardée.");
+				console.log("Erreur dans l'image uploadée: Le lieu n'est pas sauvegardée.");
 				req.session.message = formMessage;
 				res.redirect('place/map');
 			}
@@ -218,11 +218,11 @@ exports.place = function(req, res){
 	else
 	{
 		if(!req.session.user)
-			formMessage.push("Veuillez vous identifier pour ajouter une place");
+			formMessage.push("Veuillez vous identifier pour ajouter un lieu");
 		if(!req.body.title)
-			formMessage.push("Erreur: définissez le titre de la place");
+			formMessage.push("Erreur: définissez le titre du lieu");
 		if(!req.body.placeInput)
-			formMessage.push("Erreur: définissez une géolocalisation de la place");
+			formMessage.push("Erreur: définissez une géolocalisation du lieu");
 		req.session.message = formMessage;
 		res.redirect('place/map');
 	}

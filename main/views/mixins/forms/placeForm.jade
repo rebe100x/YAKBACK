@@ -10,7 +10,7 @@ mixin placeForm()
 		input#update(type="hidden",data-provide="typeahead", name="update", value='0')
 		input#objid(type="hidden",data-provide="typeahead", name="objid", value='0')
 
-		legend Ajouter une place
+		legend Ajouter un lieu
 		div.control-group.error
 				div.controls
 					label.alert#err(type="text", id="err", name="err", style='display:none') Les champs en rouge sont obligatoires.
@@ -21,7 +21,7 @@ mixin placeForm()
 		div.control-group#contentGroup
 			div.controls
 				label Description
-				textarea.hashtagMaker(type='text', id='content', name='content', placeholder="Quelques détails sur la place à ajouter, avec la possibilité d'ajouter des #hashtags.", rows='3')
+				textarea.hashtagMaker(type='text', id='content', name='content', placeholder="Quelques détails sur le lieu à ajouter, avec la possibilité d'ajouter des #hashtags.", rows='3')
 		div.control-group#licenceGroup
 			div.controls
 				.col
