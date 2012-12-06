@@ -87,7 +87,7 @@ app.get('/settings/profile', routes.requiresLogin, routes.settings_profile);
 app.get('/settings/alerts', routes.requiresLogin, routes.settings_alerts);
 app.get('/settings/password', routes.requiresLogin, routes.settings_password);
 
-app.get('/place/map', routes.requiresLogin, routes.place_map);
+app.get('/place/list', routes.requiresLogin, routes.place_map);
 
 
 app.post('/place', routes.requiresLogin, routes.place);

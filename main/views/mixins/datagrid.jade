@@ -635,6 +635,7 @@ mixin datagrid()
 					map.setCenter(markerLocation.getPosition());
 					$("#placeForm #licence").val(place.licence);
 					$("#placeForm #origine").val(place.origin);
+					$("#placeForm #hiddenOrigin").val(place.origin);
 					$("#placeForm #origine").prop('disabled', true);
 					$("#placeForm #outgoinglink").val(place.outGoingLink);
 					$("#placeForm #title").val(place.title);
@@ -663,7 +664,7 @@ mixin datagrid()
 					$("#placeForm #place").val('');
 
 					// loading the thumb
-					var imag = "<img class='img-rounded' " + "src='public/uploads/" + place.thumb +"' style='width:100px'/>";
+					var imag = "<img class='img-rounded' " + "src=\'/uploads/pictures/512_0/" + place.thumb +"\' style='width:100px'/>";
 					$("#placeForm #picturePreview").html(imag);
 
 					$("#placeForm #freetag").val(place.freeTag.join(","));
@@ -716,6 +717,7 @@ mixin datagrid()
 			$("#pillYakcat ul").empty();
 			$('#err').hide();
 			$("#placeForm #title").focus();
+			$("#placeForm #hiddenOrigin").val(user.login);
 			$("#placeForm #origine").val(user.login);
 			$("#placeForm #origine").prop('disabled', true);
 			yakcatArray = new Array();
