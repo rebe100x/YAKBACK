@@ -10,7 +10,7 @@ exports.db = function(conf){
 };
 
 exports.index = function(req, res){
-  	res.render('place/map');
+  	res.render('dashboard/dashboard');
 };
 
 exports.requiresLogin = function(req,res,next){
@@ -19,7 +19,7 @@ exports.requiresLogin = function(req,res,next){
 		var User = db.model('User');
 		User.findById(req.session.user,function (err, theuser){
 			if(theuser != undefined && theuser != null ){
-				
+
 				res.locals.user = theuser;
 				res.locals.user.token ='xxx';
 				res.locals.user.salt = 'xxx';
@@ -38,7 +38,7 @@ exports.requiresLogin = function(req,res,next){
 		console.log('NOT LOGGED IN');
 		req.session.message = 'Please login to access this section:';
 		res.redirect('/user/login?redir='+req.url);
-	}	
+	}
 };
 
 
@@ -241,7 +241,7 @@ exports.user_logout = function(req, res){
 exports.session = function(req, res){
 
 	var User = db.model('User');
-	
+
 	User.authenticate(req.body.login,req.body.password, function(err, user) {
 	if(!(typeof(user) == 'undefined' || user === null || user === '')){
 			req.session.user = user._id;
@@ -250,9 +250,9 @@ exports.session = function(req, res){
 			req.session.message = 'Identifiants incorrects.';
 			res.redirect('user/login?redir='+req.body.redir);
 		}
-	
+
 	});
-	
+
 };
 
 
