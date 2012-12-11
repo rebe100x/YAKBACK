@@ -223,6 +223,7 @@ mongoose.model('User', User);
 /*ZONE*/
 var Zone = new Schema({
 	name     : { type: String}
+	, num : { type: Number}
   , location       : { lat: {type: Number},lng:{type:Number} }
 }, { collection: 'zone' });
 
