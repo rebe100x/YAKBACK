@@ -18,7 +18,7 @@ mixin datagrid()
 									input#search.input-medium(type='text', placeholder='Recherche', data-provide="typeahead", autocomplete="off")
 									button.btn
 										i.icon-search
-								a.showSearchPanel(href="#") Filtrer les résultats
+								a.showSearchPanel(href="/place/list/#") Filtrer les résultats
 									i.icon-chevron-right#iconSearchPanel
 							.datagrid-header-right
 								button.btn#btnAdd
@@ -252,7 +252,7 @@ mixin datagrid()
 			if (item.outGoingLink)
 				res += '<a href=\''+ item.outGoingLink + '\' target="_blank" title="Lien externe"><i class="icon-share-alt "></i></a>';
 
-			res += '<a class="centerMap" id="' + item._id + '" href="#">';
+			res += '<a class="centerMap" id="' + item._id + '" href="/place/list/#">';
 			res += '<i class = "icon-map-marker" title="Localiser"></i>';
 			res += '</a>';
 
@@ -687,6 +687,9 @@ mixin datagrid()
 		// Add Place function
 		$("#btnAdd").click(function()
 		{
+
+			var user = !{JSON.stringify(user)};
+			console.log(user);
 			event.preventDefault();
 			listenerHandle = google.maps.event.addListener(map, 'click', function(event) {
 				getformattedAddress(event.latLng);

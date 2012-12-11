@@ -2,12 +2,12 @@ mixin menu(active)
 	div.navbar.navbar-fixed-top
 		div.navbar-inner
 			.container-fluid
-				a.btn.btn-navbar(data-toggle="collapse",data-target=".nav-collapse") 
+				a.btn.btn-navbar(data-toggle="collapse",data-target=".nav-collapse")
 					span.icon-bar
 					span.icon-bar
 					span.icon-bar
 					a.brand(href="") YAKWALA
-					
+
 					div.btn-group.pull-right
 						- if (locals.user)
 							a.btn.dropdown-toggle(href="#",data-toggle="dropdown")
@@ -23,29 +23,29 @@ mixin menu(active)
 								li
 									a(href="/user/logout") Quitter
 						- else
-							span 
+							span
 								a.btn(href="/user/login") Login
-					- if (active == 'map' || active == 'post')		
+					- if (active == 'dashboard' || active == 'post')
 						div.btn-group.pull-right
 							&nbsp;&nbsp;&nbsp;
 							span
 								span.btn#zoneLocButton(title="Mes favoris")
-									i.icon-star 
+									i.icon-star
 									&nbsp;Mes endroits favoris
 							&nbsp;&nbsp;&nbsp;
-							span	
+							span
 								span.btn#arroundme(title="Autour de moi")
-									i.icon-home 
+									i.icon-home
 							&nbsp;&nbsp;&nbsp;
 
 					div.nav-collapse
 						ul.nav
-							- if (active == 'map')
+							- if (active == 'dashboard')
 								li.active
-									a(href="") Dashboard
+									a(href="/") Dashboard
 							- else
 								li
-									a(href="") Dashboard
+									a(href="/") Dashboard
 							- if(active == 'place')
 								li.active
 									a(href="/place/list") Lieux
@@ -70,7 +70,7 @@ mixin menu(active)
 								li
 									a(href="") Commentaires
 										span1#commentnumber
-							- if (active == 'yakcat')										
+							- if (active == 'yakcat')
 								li.active
 									a(href="") Catégories
 										span1#catnumber
@@ -78,7 +78,7 @@ mixin menu(active)
 								li
 									a(href="") Catégories
 										span1#catnumber
-							- if (active == 'user')										
+							- if (active == 'user')
 								li.active
 									a(href="") Utilisateurs
 										span1#usernumber

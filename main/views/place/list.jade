@@ -23,7 +23,7 @@ block content
 
 		/*INIT*/
 		var conf = !{conf};
-		var user = !{JSON.stringify(user)};
+		//var user = !{JSON.stringify(user)};
 		var logged = 0;
 
 		var curPos = {'x':0,'y':0,'z':0};
@@ -54,11 +54,12 @@ block content
 			}, 3000);
 
 			/* Detect browser */
-			$.browser.chrome = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase()); 
+			$.browser.chrome = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase());
 			if(!$.browser.chrome){
 				alert("Cette interface est omptimisée pour Chrome.")
 			}
-			
+
+
 
 			// init news feed (Setting the scroll bar)
 			drawNewsFeed();
@@ -189,7 +190,4 @@ block content
 				$.cookie("geoloc", JSON.stringify(curPos));
 				//getAndPrintInfo();
 			});
-
-
-
 		}

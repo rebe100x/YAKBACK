@@ -202,6 +202,7 @@ exports.place = function(req, res){
 								}
 								req.session.message = formMessage;
 
+
 								res.redirect('place/list');
 
 							});
