@@ -116,12 +116,14 @@ exports.place = function(req, res){
 			}
 
 			var placeThumb = new Object();
-			if(req.files.picture.size && req.files.picture.size > 0 && req.files.picture.size < 1048576*5)
-			{
-				var drawTool = require('../mylib/drawlib.js');
-				var size = [{"width":120,"height":90},{"width":512,"height":0}];
-				placeThumb = drawTool.StoreImg(req.files.picture,size,conf);
-				place.thumb = placeThumb.name;
+			if (req.files.picture) {
+				if(req.files.picture.size && req.files.picture.size > 0 && req.files.picture.size < 1048576*5)
+				{
+					var drawTool = require('../mylib/drawlib.js');
+					var size = [{"width":120,"height":90},{"width":512,"height":0}];
+					placeThumb = drawTool.StoreImg(req.files.picture,size,conf);
+					place.thumb = placeThumb.name;
+				}
 			}
 			else
 				placeThumb.err = 0;
