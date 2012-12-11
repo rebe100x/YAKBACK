@@ -174,7 +174,8 @@ exports.place = function(req, res){
 				{
 					if (!err)
 					{
-						place.zone = zone[0]._id;
+						//place.zone = zone[0]._id;
+						place.zone = zone[0].num;
 						// security against unidentified users
 						if(req.session.user)
 						{

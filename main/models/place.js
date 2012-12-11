@@ -67,7 +67,7 @@ var Place = new Schema({
 	},
 	status: { type: Number },
 	user: { type: Schema.ObjectId },
-	zone: { type: Schema.ObjectId }
+	zone: { type: Number }
 }, { collection: 'place' });
 
 Place.index({location : '2d'});
