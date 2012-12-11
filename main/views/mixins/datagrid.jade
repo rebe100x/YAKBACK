@@ -217,11 +217,6 @@ mixin datagrid()
 					sortable: true
 				},
 				{
-					property: 'zone',
-					label: 'Ville',
-					sortable: true
-				},
-				{
 					property: 'creationDate',
 					label: 'Création',
 					sortable: true
@@ -230,7 +225,6 @@ mixin datagrid()
 					$.each(items, function (index, item) {
 						item.checked = makeCheckBox(item);
 						item.title = fillContent(item);
-						item.zone = formatZone(item.zone);
 						item.origin = formatOrigin(item);
 						item.creationDate = formatDate(item.creationDate);
 					});
@@ -455,24 +449,6 @@ mixin datagrid()
 			property: "title"
 		});
 
-
-		function formatZone(zoneId) {
-			var res;
-			$.ajax({
-				url: '/api/zones/'+ zoneId,
-				dataType: 'json',
-				async: false,
-				success: function(data) {
-					if (data['zone'])
-						res = data['zone'].name;
-					else
-						res = "Zone inconnue";
-				}
-			});
-
-			return res;
-		}
-
 		$("#validation").change(function() {
 			$.getJSON('/api/places/'+ $(this).val(),function(data) {
 				$('div#placeContent').html("");
@@ -639,7 +615,7 @@ mixin datagrid()
 			yakcatArray = new Array();
 			yakcatNames = new Array();
 
-			$("#placeForm legend").html("Editer une place");
+			$("#placeForm legend").html("Editer un lieu");
 			$("#placeForm #objid").val(this.id);
 
 			var url = '/api/places/'+this.id;
@@ -659,6 +635,7 @@ mixin datagrid()
 					map.setCenter(markerLocation.getPosition());
 					$("#placeForm #licence").val(place.licence);
 					$("#placeForm #origine").val(place.origin);
+					$("#placeForm #hiddenOrigin").val(place.origin);
 					$("#placeForm #origine").prop('disabled', true);
 					$("#placeForm #outgoinglink").val(place.outGoingLink);
 					$("#placeForm #title").val(place.title);
@@ -687,7 +664,7 @@ mixin datagrid()
 					$("#placeForm #place").val('');
 
 					// loading the thumb
-					var imag = "<img class='img-rounded' " + "src='public/uploads/" + place.thumb +"' style='width:100px'/>";
+					var imag = "<img class='img-rounded' " + "src=\'/uploads/pictures/512_0/" + place.thumb +"\' style='width:100px'/>";
 					$("#placeForm #picturePreview").html(imag);
 
 					$("#placeForm #freetag").val(place.freeTag.join(","));
@@ -735,11 +712,12 @@ mixin datagrid()
 			$('#placeLabel').first().remove();
 			$("#btnBack").fadeIn();
 			$("#placeForm").fadeIn();
-			$("#placeForm legend").html("Ajouter une place");
+			$("#placeForm legend").html("Ajouter un lieu");
 			$(".catLabel").remove();
 			$("#pillYakcat ul").empty();
 			$('#err').hide();
 			$("#placeForm #title").focus();
+			$("#placeForm #hiddenOrigin").val(user.login);
 			$("#placeForm #origine").val(user.login);
 			$("#placeForm #origine").prop('disabled', true);
 			yakcatArray = new Array();

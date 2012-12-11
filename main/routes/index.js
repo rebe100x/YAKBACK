@@ -83,7 +83,7 @@ exports.place_add = function(req, res){
 
 exports.place_map = function(req, res){
 	delete req.session.message;
-	res.render('place/map');
+	res.render('place/list');
 };
 
 exports.place = function(req, res){
@@ -115,9 +115,17 @@ exports.place = function(req, res){
 				edit = true;
 			}
 
-			var drawTool = require('../mylib/drawlib.js');
-			var size = [{"width":120,"height":90},{"width":512,"height":0}];
-			var placeThumb = drawTool.StoreImg(req.files.picture,size,conf);
+			var placeThumb = new Object();
+			if(req.files.picture.size && req.files.picture.size > 0 && req.files.picture.size < 1048576*5)
+			{
+				var drawTool = require('../mylib/drawlib.js');
+				var size = [{"width":120,"height":90},{"width":512,"height":0}];
+				placeThumb = drawTool.StoreImg(req.files.picture,size,conf);
+				place.thumb = placeThumb.name;
+			}
+			else
+				placeThumb.err = 0;
+
 
 			if(placeThumb.err == 0)
 			{
@@ -130,7 +138,6 @@ exports.place = function(req, res){
 				}
 				place.title = req.body.title;
 				place.content = req.body.content;
-				place.thumb = placeThumb.name;
 
 				// NOTE : in the query below, order is important : in DB we have lat, lng but need to insert in reverse order : lng,lat  (=> bug mongoose ???)
 				place.formatted_address = JSON.parse(req.body.placeInput).title;
@@ -139,7 +146,7 @@ exports.place = function(req, res){
 				if (!edit)
 					place.creationDate = new Date();
 				place.lastModifDate = new Date();
-				place.origin = req.body.origine;
+				place.origin = req.body.hiddenOrigin;
 				place.outGoingLink = req.body.outgoinglink;
 
 				place.status = req.body.status;
@@ -176,26 +183,26 @@ exports.place = function(req, res){
 								if (!err)
 								{
 									if (place.status == 1)
-										formMessage.push("La place a été validée.");
+										formMessage.push("Le lieu a été validé.");
 									else if (place.status == 3)
-										formMessage.push("La place a été rejetée.");
+										formMessage.push("Le lieu a été rejeté.");
 									else
 									{
 										if (edit)
-											formMessage.push("La place a été modifiée et est en attente de validation.");
+											formMessage.push("Le lieu a été modifié et est en attente de validation.");
 										else
-											formMessage.push("La place a été ajoutée et est en attente de validation.");
+											formMessage.push("Le lieu a été ajouté et est en attente de validation.");
 									}
 									console.log('Success!');
 								}
 								else
 								{
-									formMessage.push("Une erreur est survenue lors de l'ajout de la place (Doublon...etc).");
+									formMessage.push("Une erreur est survenue lors de l'ajout du lieu (Doublon...etc).");
 									console.log(err);
 								}
 								req.session.message = formMessage;
 
-								res.redirect('place/map');
+								res.redirect('place/list');
 
 							});
 						}
@@ -208,23 +215,23 @@ exports.place = function(req, res){
 			}
 			else
 			{
-				formMessage.push("Erreur dans l'image uploadée: La place n'est pas sauvegardée.");
-				console.log("Erreur dans l'image uploadée: La place n'est pas sauvegardée.");
+				formMessage.push("Erreur dans l'image uploadée: Le lieu n'est pas sauvegardé.");
+				console.log("Erreur dans l'image uploadée: Le lieu n'est pas sauvegardé.");
 				req.session.message = formMessage;
-				res.redirect('place/map');
+				res.redirect('place/list');
 			}
 		});
 	}
 	else
 	{
 		if(!req.session.user)
-			formMessage.push("Veuillez vous identifier pour ajouter une place");
+			formMessage.push("Veuillez vous identifier pour ajouter un lieu");
 		if(!req.body.title)
-			formMessage.push("Erreur: définissez le titre de la place");
+			formMessage.push("Erreur: définissez le titre du lieu");
 		if(!req.body.placeInput)
-			formMessage.push("Erreur: définissez une géolocalisation de la place");
+			formMessage.push("Erreur: définissez une géolocalisation du lieu");
 		req.session.message = formMessage;
-		res.redirect('place/map');
+		res.redirect('place/list');
 	}
 };
 
@@ -235,7 +242,7 @@ exports.user_login = function(req, res){
 };
 exports.user_logout = function(req, res){
 	delete req.session.user;
-	res.redirect('/place/map');
+	res.redirect('/place/list');
 };
 
 exports.session = function(req, res){
@@ -245,7 +252,7 @@ exports.session = function(req, res){
 	User.authenticate(req.body.login,req.body.password, function(err, user) {
 	if(!(typeof(user) == 'undefined' || user === null || user === '')){
 			req.session.user = user._id;
-			res.redirect(req.body.redir || '/place/map');
+			res.redirect(req.body.redir || '/place/list');
 		}else{
 			req.session.message = 'Identifiants incorrects.';
 			res.redirect('user/login?redir='+req.body.redir);
@@ -264,7 +271,7 @@ exports.user = function(req, res){
 	User.Authenticate(req.body.login, req.body.password, function(err,user){
 		if(!(typeof(user) == 'undefined' || user === null || user === '')){
 			req.session.user = user;
-			res.redirect(req.body.redir || '/place/map');
+			res.redirect(req.body.redir || '/place/list');
 		}else{
 			req.session.message = 'Wrong login or password:';
 			res.redirect('user/login?redir='+req.body.redir);
@@ -276,7 +283,7 @@ exports.user = function(req, res){
 	/*User.authenticate(req.body.login, req.body.password, function(err, user){
 		if(!err){
 			req.session.user = user;
-			res.redirect(req.body.redir || '/place/map');
+			res.redirect(req.body.redir || '/place/list');
 		}else{
 			console.log(err);
 			req.session.message = err;

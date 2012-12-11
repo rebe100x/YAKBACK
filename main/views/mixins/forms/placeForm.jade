@@ -9,8 +9,9 @@ mixin placeForm()
 		input#longitude(type="hidden",data-provide="typeahead", name="longitude")
 		input#update(type="hidden",data-provide="typeahead", name="update", value='0')
 		input#objid(type="hidden",data-provide="typeahead", name="objid", value='0')
+		input#hiddenOrigin(type="hidden",data-provide="typeahead", name="hiddenOrigin", value='0')
 
-		legend Ajouter une place
+		legend Ajouter un lieu
 		div.control-group.error
 				div.controls
 					label.alert#err(type="text", id="err", name="err", style='display:none') Les champs en rouge sont obligatoires.
@@ -21,15 +22,15 @@ mixin placeForm()
 		div.control-group#contentGroup
 			div.controls
 				label Description
-				textarea.hashtagMaker(type='text', id='content', name='content', placeholder="Quelques détails sur la place à ajouter, avec la possibilité d'ajouter des #hashtags.", rows='3')
+				textarea.hashtagMaker(type='text', id='content', name='content', placeholder="Quelques détails sur le lieu à ajouter, avec la possibilité d'ajouter des #hashtags.", rows='3')
 		div.control-group#licenceGroup
 			div.controls
 				.col
 					label Licence
-					input.hashtagMaker(type='text', name='licence', id='licence', placeholder='Ex: Open Source', autocomplete="off")
+					input(type='text', name='licence', id='licence', placeholder='Ex: Open Source', autocomplete="off")
 				.col
 					label Origine
-					input.hashtagMaker(type='text', name='origine', id='origine', placeholder='Yakwala', autocomplete="on")
+					input(type='text', name='origine', id='origine', placeholder='Yakwala', autocomplete="on")
 				.col
 					label Outgoing Link
 					input(type='text', name='outgoinglink', id='outgoinglink', placeholder='outgoinglink')
@@ -86,4 +87,4 @@ mixin placeForm()
 						input#options3(type="radio", name="status", value="10")
 			div.control-group
 				div.controls
-					button.btn.btn-large.btn-inverse(type='submit', name='submit', id='submit', value='Envoyer') Envoyer
+					button.btn.btn-large.btn-inverse(type='submit', name='submit', id='submit', value='Enregistrer') Enregistrer

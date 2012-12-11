@@ -175,7 +175,7 @@ Place.statics.findGridPlaces = function (pageIndex, pageSize, searchTerm, sortPr
 
 	return this.find(
 		conditions,
-		'title content outGoingLink zone origin status formatted_address yakCat freeTag creationDate',
+		'title content outGoingLink origin status formatted_address yakCat freeTag creationDate',
 		{
 			skip:
 			(pageIndex -1)*pageSize,
