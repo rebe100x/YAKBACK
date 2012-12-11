@@ -176,9 +176,9 @@ exports.place = function(req, res){
 								if (!err)
 								{
 									if (place.status == 1)
-										formMessage.push("Le lieu a été validée.");
+										formMessage.push("Le lieu a été validé.");
 									else if (place.status == 3)
-										formMessage.push("Le lieu a été rejetée.");
+										formMessage.push("Le lieu a été rejeté.");
 									else
 									{
 										if (edit)
@@ -208,8 +208,8 @@ exports.place = function(req, res){
 			}
 			else
 			{
-				formMessage.push("Erreur dans l'image uploadée: Le lieu n'est pas sauvegardée.");
-				console.log("Erreur dans l'image uploadée: Le lieu n'est pas sauvegardée.");
+				formMessage.push("Erreur dans l'image uploadée: Le lieu n'est pas sauvegardé.");
+				console.log("Erreur dans l'image uploadée: Le lieu n'est pas sauvegardé.");
 				req.session.message = formMessage;
 				res.redirect('place/map');
 			}

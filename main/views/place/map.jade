@@ -15,6 +15,9 @@ block content
 			div.span4
 				div#mymap
 			div.span8
+				div#alert-nav.alert.alert-info
+					button.close(type="button", data-dismiss="alert") x
+					#msg
 				div
 					mixin datagrid()
 
@@ -56,7 +59,10 @@ block content
 			/* Detect browser */
 			$.browser.chrome = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase()); 
 			if(!$.browser.chrome){
-				alert("Cette interface est omptimisée pour Chrome.")
+				$("#alert-nav #msg").html("Cette interface est omptimisée pour Chrome.");
+			}
+			else {
+				$("#alert-nav").hide();
 			}
 			
 
