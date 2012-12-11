@@ -4,7 +4,7 @@ exports.confs = {
 		"port":3001,
 		"dbname":"yakwala",
 		"env":"DEV",
-		"uploadsDir":__dirname+"\\public\\uploads\\",
+		"uploadsDir":__dirname+"/public/uploads/",
 	
 	},
 	"preprod" : {

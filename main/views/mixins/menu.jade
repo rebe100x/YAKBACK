@@ -48,11 +48,11 @@ mixin menu(active)
 									a(href="") Dashboard
 							- if(active == 'place')
 								li.active
-									a(href="/place/map") Lieux
+									a(href="/place/list") Lieux
 										span1#placenumber
 							- else
 								li
-									a(href="/place/map") Lieux
+									a(href="/place/list") Lieux
 										span1#placenumber
 							- if (active == 'info')
 								li.active
